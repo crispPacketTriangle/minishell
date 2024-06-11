@@ -23,12 +23,12 @@ int	main()
 		return (1);
 	}
 
-	// char **env = environ;
- //    while (*env) 
-	// {
- //        printf("%s\n", *env);
- //        env++;
- //    }
+	char **env = environ;
+    while (*env) 
+	{
+        printf("%s\n", *env);
+        env++;
+    }
 
 	char exmp[] = "cat input.txt | tr ' ' '\n' | sort | uniq -c | sort -nr > word_count.txt";
 	
