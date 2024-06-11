@@ -6,6 +6,7 @@ int	main()
 {
 	char			*input;
 	struct sigaction sa;
+	t_data			data;
 
 	// * set the memory allocated for sigaction struct to 0
 	memset(&sa, 0, sizeof(sa));
@@ -35,16 +36,16 @@ int	main()
 	char exmp3[] = "grep -Eo '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}' emails.txt | sort | uniq > unique_emails.txt";
 	char exmp4[] = "top -b -n 1 | grep \"Cpu(s)\" | awk '{print $2 + $4 \"% CPU\"}' > cpu_usage.txt";
 	char exmp5[] = "cat /var/log/syslog /var/log/auth.log | grep -i \"error\" | sort | uniq > combined_errors.txt";
-	tokenise(exmp);
-	tokenise(exmp2);
-	tokenise(exmp3);
-	tokenise(exmp4);
-	tokenise(exmp5);
-	print_tokens(ft_split(exmp, -1));
-	print_tokens(ft_split(exmp2, -1));
-	print_tokens(ft_split(exmp3, -1));
-	print_tokens(ft_split(exmp4, -1));
-	print_tokens(ft_split(exmp5, -1));
+	tokenise(exmp, &data);
+	tokenise(exmp2, &data);
+	tokenise(exmp3, &data);
+	tokenise(exmp4, &data);
+	tokenise(exmp5, &data);
+	// print_tokens(ft_split(exmp, -1));
+	// print_tokens(ft_split(exmp2, -1));
+	// print_tokens(ft_split(exmp3, -1));
+	// print_tokens(ft_split(exmp4, -1));
+	// print_tokens(ft_split(exmp5, -1));
 
 	// while (1)
 	// {
@@ -54,18 +55,18 @@ int	main()
 
 	rl_initialize();
 	rl_readline_name = "minishell";
-	printf("mini shell activated \\o-o/ \n");
+	printf("mini shell activated \\o_o/ \n");
 
 		input = readline(">>>");
 		if (input)
 		{
-			tokenise(input);
+			tokenise(input, &data);
 			print_tokens(ft_split(input, -1));
 			// rl_replace_line("all chinese history is good and the government is perfect", 1);
 			// rl_redisplay();
 			// sleep(1);
 			// printf("Input added to history.\n");
-			// add_history(input);
+			add_history(input);
 			free(input);
 		}
 	append_history(3, "history");

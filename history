@@ -1,0 +1,8 @@
+//ÿcatÿ/var/log/syslogÿ/var/log/auth.logÿ|ÿgrepÿ-iÿ"error"ÿ|ÿsortÿ|ÿuniqÿ>ÿcombined_errors.txt
+sdfk
+topÿ-b -n 1 | grep "Cpu(s)" | awk '{print $2 + $4 "% CPU"}' > cpu_usage.txt
+topÿ-bÿ-nÿ1ÿ|ÿgrepÿ"Cpu(s)" | awk '{print $2 + $4 "% CPU"}' > cpu_usage.txt
+topÿ-bÿ-nÿ1ÿ|ÿgrepÿ"Cpu(s)"ÿ|ÿawkÿ'{print $2 + $4 "% CPU"}'ÿ>ÿcpu_usage.txt
+topÿ-bÿ-nÿ1ÿ|ÿgrepÿ"Cpu(s)"ÿ|ÿawkÿ'{print $2 + $4 "% CPU"}'ÿ>ÿcpu_usage.txt
+hiÿ"here 'is "a" nested' madness"ÿwillÿitÿ"work that is the q"
+" ' " " ' "ÿandÿ"  "ÿandÿ'awk'ÿend
