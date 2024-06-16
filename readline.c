@@ -55,7 +55,7 @@ int	main()
 
 	rl_initialize();
 	rl_readline_name = "minishell";
-	printf("mini shell activated \\o_o/ \n");
+	printf("unbash \\o_o/ \n");
 
 		input = readline(">>>");
 		if (input)

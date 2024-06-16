@@ -34,3 +34,8 @@ command "one 'two "three 'four "five 'six ' " ' " ' "
 cat input.txt | tr ' ' '\n' | sort | uniq -c | sort -nr > word_count.txt
 catÿinput.txtÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿword_count.txt
 commandÿ"one 'two "three 'four "five 'six ' " ' " ' "
+commandÿargsÿcommandÿ"one 'two "three 'four "five 'six ' nested " qt ' marks" ok' damn"
+d
+dÿfÿfÿ" sl fks fl "ÿkÿs
+oneÿ"two 'three'"ÿfourÿfive
+dsÿ|ÿfsdfÿ|ÿdsfÿ|ÿ"DSKFJ DDD f"ÿg
