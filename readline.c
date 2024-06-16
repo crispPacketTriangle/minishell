@@ -23,24 +23,24 @@ int	main()
 		return (1);
 	}
 
-	char **env = environ;
-    while (*env) 
-	{
-        printf("%s\n", *env);
-        env++;
-    }
+	// char **env = environ;
+ //    while (*env) 
+	// {
+ //        printf("%s\n", *env);
+ //        env++;
+ //    }
 
-	char exmp[] = "cat input.txt | tr ' ' '\n' | sort | uniq -c | sort -nr > word_count.txt";
-	
-	char exmp2[] = "cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 10 > top_ips.txt";
-	char exmp3[] = "grep -Eo '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}' emails.txt | sort | uniq > unique_emails.txt";
-	char exmp4[] = "top -b -n 1 | grep \"Cpu(s)\" | awk '{print $2 + $4 \"% CPU\"}' > cpu_usage.txt";
-	char exmp5[] = "cat /var/log/syslog /var/log/auth.log | grep -i \"error\" | sort | uniq > combined_errors.txt";
-	tokenise(exmp, &data);
-	tokenise(exmp2, &data);
-	tokenise(exmp3, &data);
-	tokenise(exmp4, &data);
-	tokenise(exmp5, &data);
+	// char exmp[] = "cat input.txt | tr ' ' '\n' | sort | uniq -c | sort -nr > word_count.txt";
+	// 
+	// char exmp2[] = "cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 10 > top_ips.txt";
+	// char exmp3[] = "grep -Eo '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}' emails.txt | sort | uniq > unique_emails.txt";
+	// char exmp4[] = "top -b -n 1 | grep \"Cpu(s)\" | awk '{print $2 + $4 \"% CPU\"}' > cpu_usage.txt";
+	// char exmp5[] = "cat /var/log/syslog /var/log/auth.log | grep -i \"error\" | sort | uniq > combined_errors.txt";
+	// tokenise(exmp, &data);
+	// tokenise(exmp2, &data);
+	// tokenise(exmp3, &data);
+	// tokenise(exmp4, &data);
+	// tokenise(exmp5, &data);
 	// print_tokens(ft_split(exmp, -1));
 	// print_tokens(ft_split(exmp2, -1));
 	// print_tokens(ft_split(exmp3, -1));

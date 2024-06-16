@@ -17,26 +17,18 @@ void	handle_sigint(int sig)
 int	tokenise(char *input, t_data *data)
 {
 	int	i;
-	int	s_tog;
-	int	d_tog;
 
 	i = 0;
-	s_tog = 1;
-	d_tog = 1;
-	init_tog(input, data);
+	data->tog = 1;
+	data->nqts = 0;
+	data->lst = 'c';
 	while (input[i])
 	{
-		if (input[i] == '\'')
-		{
-			data->n += s_tog;
-			s_tog *= -1;
-		}
-		if (input[i] == '\"')
-		{
-			data->n += d_tog;
-			d_tog *= -1;
-		}
-		if (data->n == 0)
+		if (input[i] == '|')
+			data->np++;
+		if (input[i] == '\'' || input[i] == '\"')
+			mid(input[i], data);
+		if (data->nqts == 0)
 		{
 			if (input[i] == ' ')
 				input[i] = -1;
@@ -44,6 +36,14 @@ int	tokenise(char *input, t_data *data)
 		i++;
 	}
 	return (0);
+}
+
+void	mid(char c, t_data *data)
+{
+	if (c == data->lst)
+		data->tog *= - 1;
+	data->lst = c;
+	data->nqts += data->tog;
 }
 
 void	print_tokens(char **line)
@@ -61,6 +61,7 @@ void	print_tokens(char **line)
 
 void	init_tog(char *input, t_data *data)
 {
-	data->n = 0;
+	data->ns = 0;
+	data->nd = 0;
 }
 
