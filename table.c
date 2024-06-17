@@ -2,13 +2,6 @@
 
 // dictionary to store local user defined variables
 
-typedef struct t_var_tb
-{
-	char			*key;
-	char			*var;
-	struct t_var_tb	*next;
-}	t_var_tb;
-
 t_var_tb	*create_node(char *key, char *var)
 {
 	t_var_tb	*node;
@@ -38,20 +31,20 @@ int	add_var(t_var_tb **head, t_var_tb *node)
 	return (0);
 }
 
-int	iter_table(t_var_tb *node, void (f)(void *))
+int	iter_table(t_var_tb *node, void (f)(void *, t_data *), t_data *data)
 {
 	if (!node)
 		return (1);
 	while (node->next != NULL)
 	{
-		f(node);
+		f(node, data);
 		node = node->next;
 	}
-	f(node);
+	f(node, data);
 	return (0);
 }
 
-void	print_node(void *node)
+void	print_node(void *node, t_data *data)
 {
 	t_var_tb	*tnode;
 	tnode = (t_var_tb *)node;
@@ -85,32 +78,6 @@ void	wrt_to_str(char *src, char *dst)
 		i++;
 	}
 	dst[i] = '\0';
-}
-
-int	main()
-{
-	t_var_tb	*head;
-	t_var_tb	*node1;
-	char		*key1;
-	char		*key2;
-	char		*var1;
-	char		*var2;
-
-	key1 = malloc(11 * sizeof(char));
-	wrt_to_str("NO_FKS_GVN", key1);
-	key2 = malloc(11 * sizeof(char));
-	wrt_to_str("NO_SCREENS", key2);
-	var1 = malloc(33 * sizeof(char));
-	wrt_to_str("a state of unruffled contentment", var1);
-	var2 = malloc(6 * sizeof(char));
-	wrt_to_str("sleep", var2);
-	
-	head = create_node(key1, var1);
-	node1 = create_node(key2, var2);
-	add_var(&head, node1);
-
-	iter_table(head, &print_node);
-	free_table(&head);
 }
 
 

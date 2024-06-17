@@ -15,14 +15,14 @@ void	handle_sigint(int sig)
 
 // should not count as evironment variable if enclosed by single qt mks
 // so should have a state machine for single qt mks
-int	expand_env(char *input, t_data *data)
+char	*expand_env(char *input, t_data *data)
 {
 	int		i;
 	int		step;
 
 	init_qts(data);
 	// first count n $ in str
-	data->keys = malloc ((count_dollars(input, data) + 1) * sizeof(char *));
+	data->keys = malloc ((count_dollars(input, data) + 1) * sizeof(t_key_val *));
 	i = 0;
 	while (input[i])
 	{
@@ -48,25 +48,99 @@ int	expand_env(char *input, t_data *data)
 	}
 	data->keys[data->key_iter] = NULL;
 	print_keys(data);
-	return (0);
+	iter_table(data->vars->head, &cal_lvals, data);
+	return(expand(input, data));
 }
 
+char	*expand(char *input, t_data *data)
+{
+	int		i;
+	int		j;
+	int		t;
+	char	*tmpstr;
+	int		len;
+
+	i = 0;
+	t = 0;
+	data->key_iter = 0;
+	data->lst = 'c';
+	data->nqts = 0;
+	data->tog = 1;
+	data->sqts = 0;
+	data->dqts = 0;
+	len = (ft_strlen(input) - data->lvars) + data->lvals;
+	printf("len: %d\n", len);
+	tmpstr = malloc((len + 1) * sizeof(char));
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+			mid(input[i], data);
+		if (input[i] == '$' && data->sqts == 0)
+		{
+			i++;
+			while (input[i] && ft_isalnum(input[i]))
+				i++;
+			j = 0;
+			// printf("c: %c\n", data->keys[data->key_iter]->val[j]);
+			while(data->keys[data->key_iter]->val[j])
+			{
+				tmpstr[t] = data->keys[data->key_iter]->val[j];
+				t++;
+				j++;
+			}
+			data->key_iter++;
+		}
+		if (input[i])
+		{
+			tmpstr[t] = input[i];
+			i++;
+			t++;
+		}
+	}
+	tmpstr[t] = '\0';
+	printf("temp: %s\n", tmpstr);
+	return (tmpstr);
+}
+
+// parses out environment variable names as keys
 void	store_key(int step, int i, char *input, t_data *data)
 {
 	int	j;
-
-	data->keys[data->key_iter] = malloc((step + 1) * sizeof(char));
+	
+	data->keys[data->key_iter] = malloc(sizeof(t_key_val));
+	data->keys[data->key_iter]->key = malloc((step + 1) * sizeof(char));
 	i -= step;
 	j = 0;
 	while (j < step)
 	{
-		data->keys[data->key_iter][j] = input[i];
+		data->keys[data->key_iter]->key[j] = input[i];
 		i++;
 		j++;
 	}
-	data->keys[data->key_iter][j] = '\0';
+	data->keys[data->key_iter]->key[j] = '\0';
+	data->lvars += (step + 1);
 	data->key_iter++;
 }
+
+void	cal_lvals(void *d, t_data *data)
+{
+	int	i;
+	t_var_tb	*kv; 
+	kv = (t_var_tb *)d;
+
+	i = 0;
+	while (data->keys[i])
+	{
+		if (ft_strncmp(data->keys[i]->key, kv->key, ft_strlen(data->keys[i]->key + 1)) == 0)
+		{
+			data->lvals += ft_strlen(kv->var);
+			data->keys[i]->val = kv->var;
+		}
+		i++;
+	}
+	printf("lvals: %d\n", data->lvals);
+}
+
 
 void	print_keys(t_data *data)
 {
@@ -75,11 +149,12 @@ void	print_keys(t_data *data)
 	i = 0;
 	while (data->keys[i])
 	{
-		printf("key: %s\n", data->keys[i]);
+		printf("key: %s\n", data->keys[i]->key);
 		i++;
 	}
 }
 
+// count environment variables (ignore $? and $ inside single qts)
 int	count_dollars(char *input, t_data *data)
 {
 	int	i;
@@ -132,6 +207,7 @@ int	tokenise(char *input, t_data *data)
 	return (0);
 }
 
+// check if inside qts. update single and double qts variables
 void	mid(char c, t_data *data)
 {
 	if (c == data->lst)
@@ -151,6 +227,8 @@ void	init_qts(t_data *data)
 	data->sqts = 0;
 	data->dqts = 0;
 	data->lst = 'c';
+	data->lvars = 0;
+	data->lvals = 0;
 	data->key_iter = 0; 
 }
 

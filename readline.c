@@ -5,8 +5,13 @@
 int	main()
 {
 	char			*input;
+	char			*expin;
 	struct sigaction sa;
 	t_data			data;
+	t_test_env		testvars;
+
+	data.vars = &testvars;
+	test_envvars(&data);
 
 	// * set the memory allocated for sigaction struct to 0
 	memset(&sa, 0, sizeof(sa));
@@ -60,17 +65,38 @@ int	main()
 		input = readline(">>>");
 		if (input)
 		{
-			tokenise(input, &data);
-			expand_env(input, &data);
+			expin = expand_env(input, &data);
+			free(input);
+			tokenise(expin, &data);
 			printf("########################\n");
-			print_tokens(ft_split(input, -1));
+			print_tokens(ft_split(expin, -1));
 			// rl_replace_line("all chinese history is good and the government is perfect", 1);
 			// rl_redisplay();
 			// sleep(1);
 			// printf("Input added to history.\n");
-			add_history(input);
-			free(input);
+			add_history(expin);
+			free(expin);
 		}
 	append_history(3, "history");
+}
+
+int	test_envvars(t_data *data)
+{
+	data->vars->key1 = malloc(11 * sizeof(char));
+	wrt_to_str("one", data->vars->key1);
+	data->vars->key2 = malloc(11 * sizeof(char));
+	wrt_to_str("two", data->vars->key2);
+	data->vars->var1 = malloc(33 * sizeof(char));
+	wrt_to_str("unruffled", data->vars->var1);
+	data->vars->var2 = malloc(6 * sizeof(char));
+	wrt_to_str("sleep", data->vars->var2);
+	
+	data->vars->head = create_node(data->vars->key1, data->vars->var1);
+	data->vars->node1 = create_node(data->vars->key2, data->vars->var2);
+	add_var(&data->vars->head, data->vars->node1);
+
+	iter_table(data->vars->head, &print_node, data);
+	//free_table(&data->vars->head);
+	return (0);
 }
 
