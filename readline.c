@@ -61,6 +61,8 @@ int	main()
 		if (input)
 		{
 			tokenise(input, &data);
+			expand_env(input, &data);
+			printf("########################\n");
 			print_tokens(ft_split(input, -1));
 			// rl_replace_line("all chinese history is good and the government is perfect", 1);
 			// rl_redisplay();
