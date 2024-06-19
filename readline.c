@@ -16,6 +16,7 @@ int	main()
 	data.vars = &testvars;
 	test_envvars(&data);
 
+//	return (0);
 	// * set the memory allocated for sigaction struct to 0
 	memset(&sa, 0, sizeof(sa));
 	// sets function call for signal 
@@ -85,21 +86,30 @@ int	main()
 
 int	test_envvars(t_data *data)
 {
-	data->vars->key1 = malloc(11 * sizeof(char));
-	wrt_to_str("one", data->vars->key1);
-	data->vars->key2 = malloc(11 * sizeof(char));
-	wrt_to_str("two", data->vars->key2);
-	data->vars->var1 = malloc(33 * sizeof(char));
-	wrt_to_str("unruffled", data->vars->var1);
-	data->vars->var2 = malloc(6 * sizeof(char));
-	wrt_to_str("sleep", data->vars->var2);
-	
-	data->vars->head = create_node(data->vars->key1, data->vars->var1);
-	data->vars->node1 = create_node(data->vars->key2, data->vars->var2);
-	add_var(&data->vars->head, data->vars->node1);
+	// data->vars->key1 = malloc(11 * sizeof(char));
+	// wrt_to_str("one", data->vars->key1);
+	// data->vars->key2 = malloc(11 * sizeof(char));
+	// wrt_to_str("two", data->vars->key2);
+	// data->vars->var1 = malloc(33 * sizeof(char));
+	// wrt_to_str("unruffled", data->vars->var1);
+	// data->vars->var2 = malloc(6 * sizeof(char));
+	// wrt_to_str("sleep", data->vars->var2);
+	// 
+	// data->vars->head = create_node(data->vars->key1, data->vars->var1);
+	// data->vars->node1 = create_node(data->vars->key2, data->vars->var2);
+	// add_var(&data->vars->head, data->vars->node1);
+	//
+	// iter_table(data->vars->head, &print_node, data);
+	// //free_table(&data->vars->head);
 
-	iter_table(data->vars->head, &print_node, data);
-	//free_table(&data->vars->head);
+	init_arr(data, VAR_BUFF);
+	data->uev[poly_r_hash("one", VAR_BUFF)] = create_node("one", "unruffled");
+	data->uev[poly_r_hash("two", VAR_BUFF)] = create_node("two", "sleep");
+	data->uev[poly_r_hash("three", VAR_BUFF)] = create_node("three", "melatonine");
+	
+	printf("%s\n", data->uev[poly_r_hash("three", VAR_BUFF)]->key);
+	printf("%s\n", data->uev[poly_r_hash("three", VAR_BUFF)]->var);
+
 	return (0);
 }
 

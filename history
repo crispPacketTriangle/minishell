@@ -105,3 +105,19 @@ unruffledÿÿ'$nothandledbyshell'ÿ""ÿÿfff
 sleep
 unruffledÿÿ'$nothandledbyshell'ÿ""ÿÿfff
 unruffledÿÿ'$nothandledbyshell'ÿ"sleep"ÿÿfff
+DIR="/path/to/directory"ÿ;ÿEXT='txt'ÿ;ÿTOP_N=10ÿ;ÿfindÿ""ÿ-typeÿfÿ-nameÿ"*."ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ"_N"
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ""
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ""
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ""ÿ|ÿawkÿ'{printf "File: %s has %d lines\n", $2, $1}'
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ""ÿ|ÿawkÿ'{printf "File: %s has %d lines\n", $2, $1}'
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿwcÿ-lÿ|ÿsortÿ-nrÿ|ÿheadÿ-nÿ""ÿ|ÿawkÿ'{printf "File: %s has %d lines\n", $2, $1}'
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿduÿ-hÿ|ÿsortÿ-hrÿ|ÿheadÿ-nÿ10ÿ|ÿawkÿ'{print $2 ": " $1}'ÿ|ÿwhileÿreadÿ-rÿline;ÿdoÿfile=sleep(echoÿ""ÿ|ÿcutÿ-d:ÿ-f1);ÿsize=sleep(echoÿ""ÿ|ÿcutÿ-d:ÿ-f2);ÿechoÿ"Processing  of size ";ÿtailÿ-nÿ10ÿ"";ÿdoneÿ|ÿteeÿprocessed_files.logÿ|ÿgrepÿ"ERROR"ÿ>ÿerrors_only.log
+findÿ"unruffled"ÿ-typeÿfÿ-nameÿ"*.sleep"ÿ-print0ÿ|ÿxargsÿ-0ÿlsÿ-lÿ|ÿawkÿ'{print $5, $9}'ÿ|ÿsortÿ-nÿ|ÿteeÿsorted_files.txtÿ|ÿwhileÿreadÿ-rÿsizeÿfile;ÿdoÿechoÿ"Processing file:  with size: ";ÿcatÿ""ÿ|ÿgrepÿ-iÿ"error"ÿ>ÿ"processed_";ÿdoneÿ|ÿwcÿ-lÿ>ÿtotal_lines.txt
+fklsdlfk
+hoÿunruffled
+awkÿ-F:ÿ'{print $1, $3}'ÿ/etc/passwdÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Extracted data: unruffled sleep melatonine - ";ÿdone
+grepÿ"pattern"ÿ/path/to/fileÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
+grepÿ"unruffled"ÿ/path/to/fileÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing:  sleep melatonine - ";ÿsome_commandÿ"";ÿdone
+catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
+catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
+catÿunruffled.txtÿ|ÿgrepÿ"sleep"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10ÿ>ÿmelatonine

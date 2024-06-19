@@ -4,6 +4,10 @@
 # define _XOPEN_SOURCE 700
 # define EXIT_STATUS 1
 
+# ifndef VAR_BUFF
+	# define VAR_BUFF 100
+# endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -59,6 +63,7 @@ typedef struct	t_data
 	t_key_val	**keys;		// temp environment variable keys
 	t_args		**args;
 	t_test_env	*vars;
+	t_var_tb	**uev;
 }	t_data;
 
 void		handle_sigint(int sig);
@@ -77,12 +82,16 @@ void		print_keys(t_data *data);
 
 t_var_tb	*create_node(char *key, char *var);
 int			add_var(t_var_tb **head, t_var_tb *node);
-int			iter_table(t_var_tb *node, void (f)(void *, t_data *), t_data *data);
+int			iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *), t_data *data,  t_key_val*keys);
 void		print_node(void *node, t_data *data);
 void		free_table(t_var_tb **node);
-void		wrt_to_str(char *src, char *dst);
+int			wrt_to_str(char *src, char **dst);
 int			test_envvars(t_data *data);
-void		cal_lvals(void *d, t_data *data);
+void		cal_lvals(void *d, t_key_val *key, t_data *data);
 char		*expand(char *input, t_data *data);
+
+int			init_arr(t_data *data, int n);
+int			poly_r_hash(char *key, int n);
+int			append_envv(t_data *data);
 
 #endif

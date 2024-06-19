@@ -1,13 +1,5 @@
 #include "minishell.h"
 
-// how are input strings from readline formatted? is everything taken as literals? so " "" " is " \" \" "
-
-// cat input.txt | tr ' ' '\n' | sort | uniq -c | sort -nr > word_count.txt
-// cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 10 > top_ips.txt
-// grep -Eo '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}' emails.txt | sort | uniq > unique_emails.txt
-// top -b -n 1 | grep "Cpu(s)" | awk '{print $2 + $4 "% CPU"}' > cpu_usage.txt
-// cat /var/log/syslog /var/log/auth.log | grep -i "error" | sort | uniq > combined_errors.txt
-
 void	handle_sigint(int sig)
 {
 	printf("sig: %d\n", sig);
@@ -50,7 +42,9 @@ char	*expand_env(char *input, t_data *data)
 	}
 	data->keys[data->key_iter] = NULL;
 	print_keys(data);
-	iter_table(data->vars->head, &cal_lvals, data);
+	append_envv(data);
+	//iter_table(data->vars->head, &cal_lvals, data); // all that needs to change is this function
+													// and the init table function for testing keys
 	return(expand(input, data));
 }
 
@@ -127,25 +121,35 @@ void	store_key(int step, int i, char *input, t_data *data)
 	data->key_iter++;
 }
 
-// calculate length of values and sum them to kv->var
-// also add the values to the keys parsed from the input string
-void	cal_lvals(void *d, t_data *data)
+int	append_envv(t_data *data)
 {
 	int	i;
-	t_var_tb	*kv; 
-	kv = (t_var_tb *)d;
+	int idx;
 
 	i = 0;
 	while (data->keys[i])
 	{
-		if (ft_strncmp(data->keys[i]->key, kv->key, ft_strlen(data->keys[i]->key + 1)) == 0)
+		idx = poly_r_hash(data->keys[i]->key, VAR_BUFF);
+		if (data->uev[idx])
 		{
-			data->lvals += ft_strlen(kv->var);
-			data->keys[i]->val = kv->var;
+			iter_table(data->uev[idx], &cal_lvals, data, data->keys[i]);
 		}
 		i++;
 	}
-	// printf("lvals: %d\n", data->lvals);
+	return (0);
+}
+
+// calculate length of values and sum them to kv->var
+// also add the values to the keys parsed from the input string
+void	cal_lvals(void *d, t_key_val *keys, t_data *data)
+{
+	t_var_tb	*kv; 
+	kv = (t_var_tb *)d;
+	if (ft_strncmp(keys->key, kv->key, ft_strlen(keys->key) + 1) == 0)
+	{
+		data->lvals += ft_strlen(kv->var);
+		keys->val = kv->var;
+	}
 }
 
 
@@ -156,7 +160,7 @@ void	print_keys(t_data *data)
 	i = 0;
 	while (data->keys[i])
 	{
-		// printf("key: %s\n", data->keys[i]->key);
+		printf("key: %s\n", data->keys[i]->key);
 		i++;
 	}
 }
