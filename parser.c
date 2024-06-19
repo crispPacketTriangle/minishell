@@ -41,10 +41,7 @@ char	*expand_env(char *input, t_data *data)
 		i++;
 	}
 	data->keys[data->key_iter] = NULL;
-	print_keys(data);
 	append_envv(data);
-	//iter_table(data->vars->head, &cal_lvals, data); // all that needs to change is this function
-													// and the init table function for testing keys
 	return(expand(input, data));
 }
 
@@ -96,7 +93,6 @@ char	*expand(char *input, t_data *data)
 		}
 	}
 	tmpstr[t] = '\0';
-	// printf("temp: %s\n", tmpstr);
 	return (tmpstr);
 }
 
