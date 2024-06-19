@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// cc readline.c parser.c -L libft -lreadline -lft
+// cc readline.c parser.c table.c -L libft -lreadline -lft
 
 int	main()
 {
@@ -9,6 +9,9 @@ int	main()
 	struct sigaction sa;
 	t_data			data;
 	t_test_env		testvars;
+
+	// interesting, arrays can be initialised like this
+	int	arr[3] = {-1};
 
 	data.vars = &testvars;
 	test_envvars(&data);

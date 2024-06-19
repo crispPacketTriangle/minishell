@@ -13,15 +13,17 @@ void	handle_sigint(int sig)
 	printf("sig: %d\n", sig);
 }
 
-// should not count as evironment variable if enclosed by single qt mks
-// so should have a state machine for single qt mks
+// a key_val struct is created for each $var in the input string
+// the keys are added and then used to look up and add the value from
+// the  user defined env var dictionary (or if not found the system env
+// vars.  If the env var does not exist an empty string is added to the 
+// value
 char	*expand_env(char *input, t_data *data)
 {
 	int		i;
 	int		step;
 
 	init_qts(data);
-	// first count n $ in str
 	data->keys = malloc ((count_dollars(input, data) + 1) * sizeof(t_key_val *));
 	i = 0;
 	while (input[i])
@@ -52,6 +54,7 @@ char	*expand_env(char *input, t_data *data)
 	return(expand(input, data));
 }
 
+// create new string with expanded $vars and return it
 char	*expand(char *input, t_data *data)
 {
 	int		i;
@@ -69,7 +72,6 @@ char	*expand(char *input, t_data *data)
 	data->sqts = 0;
 	data->dqts = 0;
 	len = (ft_strlen(input) - data->lvars) + data->lvals;
-	printf("len: %d\n", len);
 	tmpstr = malloc((len + 1) * sizeof(char));
 	while (input[i])
 	{
@@ -80,13 +82,15 @@ char	*expand(char *input, t_data *data)
 			i++;
 			while (input[i] && ft_isalnum(input[i]))
 				i++;
-			j = 0;
-			// printf("c: %c\n", data->keys[data->key_iter]->val[j]);
-			while(data->keys[data->key_iter]->val[j])
+			if (data->keys[data->key_iter]->val)
 			{
-				tmpstr[t] = data->keys[data->key_iter]->val[j];
-				t++;
-				j++;
+				j = 0;
+				while(data->keys[data->key_iter]->val[j])
+				{
+					tmpstr[t] = data->keys[data->key_iter]->val[j];
+					t++;
+					j++;
+				}
 			}
 			data->key_iter++;
 		}
@@ -98,7 +102,7 @@ char	*expand(char *input, t_data *data)
 		}
 	}
 	tmpstr[t] = '\0';
-	printf("temp: %s\n", tmpstr);
+	// printf("temp: %s\n", tmpstr);
 	return (tmpstr);
 }
 
@@ -109,6 +113,7 @@ void	store_key(int step, int i, char *input, t_data *data)
 	
 	data->keys[data->key_iter] = malloc(sizeof(t_key_val));
 	data->keys[data->key_iter]->key = malloc((step + 1) * sizeof(char));
+	data->keys[data->key_iter]->val = NULL;
 	i -= step;
 	j = 0;
 	while (j < step)
@@ -122,6 +127,8 @@ void	store_key(int step, int i, char *input, t_data *data)
 	data->key_iter++;
 }
 
+// calculate length of values and sum them to kv->var
+// also add the values to the keys parsed from the input string
 void	cal_lvals(void *d, t_data *data)
 {
 	int	i;
@@ -138,7 +145,7 @@ void	cal_lvals(void *d, t_data *data)
 		}
 		i++;
 	}
-	printf("lvals: %d\n", data->lvals);
+	// printf("lvals: %d\n", data->lvals);
 }
 
 
@@ -149,7 +156,7 @@ void	print_keys(t_data *data)
 	i = 0;
 	while (data->keys[i])
 	{
-		printf("key: %s\n", data->keys[i]->key);
+		// printf("key: %s\n", data->keys[i]->key);
 		i++;
 	}
 }
@@ -171,7 +178,7 @@ int	count_dollars(char *input, t_data *data)
 			n++;
 		i++;
 	}
-	printf("n: %d\n", n);
+	// printf("n: %d\n", n);
 	return (n);
 }
 
@@ -180,6 +187,8 @@ int	return_exit_status()
 	return (0);
 }
 
+// not implemented. For branching, or dealing with scenarios where
+// $ does not denote env var
 int	exit_status(char c)
 {
 	return(0);

@@ -88,3 +88,20 @@ catÿinput.txtÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿword_count.txt
 
 //ÿcatÿinput.txtÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿunruffled
 catÿinput.txtÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿsleep
+catÿinput.txtÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿword_count.txt
+catÿunruffledÿ|ÿtrÿ' 'ÿ'\n'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nrÿ>ÿsleep
+grepÿ-Eoÿ'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}'ÿunruffledÿ|ÿsortÿ|ÿuniqÿ>ÿsleep
+grepÿ-Eoÿ'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}'ÿunruffledÿ|ÿsortÿ|ÿuniqÿ>ÿsleep
+grepÿ-Eoÿ'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}'ÿunruffledÿ|ÿsortÿ|ÿuniqÿ>ÿsleep
+unruffledÿfffÿ"sleep"ÿfffÿ'$nittheeswan'
+findÿ/path/to/logsÿ-typeÿfÿ-nameÿ"*.log"ÿ|ÿxargsÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $1, $2, $3, $0}'ÿ|ÿsortÿ-kÿ1,2ÿ|ÿuniqÿ>ÿ/path/to/output/errors_sorted.txt
+findÿ/path/to/logsÿ-typeÿfÿ-nameÿ"*.log"ÿ|ÿxargsÿgrepÿ"unruffled"ÿ|ÿawkÿ'{print $1, $2, $3, $0}'ÿ|ÿsortÿ-kÿ1,2ÿ|ÿuniqÿ>ÿ/path/to/output/sleep
+thisÿisÿaÿstringÿ"to parse"ÿdamnÿ'notavar'ÿunruffledÿ"sleep"ÿfff
+thisÿisÿaÿstringÿ"to parse"ÿ'$one'ÿ"sleep"ÿfff
+ÿÿ'$thisvardoesnotcount'ÿ"sleep"ÿÿ" '"'some nested qt mks just for fun'"' "
+
+dffÿ
+unruffledÿÿ'$nothandledbyshell'ÿ""ÿÿfff
+sleep
+unruffledÿÿ'$nothandledbyshell'ÿ""ÿÿfff
+unruffledÿÿ'$nothandledbyshell'ÿ"sleep"ÿÿfff
