@@ -121,3 +121,8 @@ grepÿ"unruffled"ÿ/path/to/fileÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;
 catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
 catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
 catÿunruffled.txtÿ|ÿgrepÿ"sleep"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10ÿ>ÿmelatonine
+
+
+lsÿ-l
+lsÿ-l
+teeÿ>(catÿ-n)

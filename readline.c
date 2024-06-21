@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// cc readline.c parser.c table.c -L libft -lreadline -lft
+// cc readline.c lexer.c table.c -L libft -lreadline -lft
 
 int	main()
 {
