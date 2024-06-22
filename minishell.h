@@ -56,6 +56,7 @@ typedef struct	t_data
 	int			sqts;  		// numbrt of single qt marks
 	int			dqts;   	// number of double qt marks
 	char		lst;    	// previous character
+	int			paren;		// parens opened closed
 	int			np;     	// number of pipes
 	int			lvars;   	// length of variables
 	int			lvals;		// length of values
@@ -68,10 +69,13 @@ typedef struct	t_data
 
 void		handle_sigint(int sig);
 int			tokenise(char *input, t_data *data);
+int			m_set(char c, char *set);
 void		print_tokens(char **line);
 void		init_tog(char *input, t_data *data);
-void		init_qts(t_data *data);
+void		init_qts(t_data *data, int p);
+void		init_len(t_data *data);
 int			tog_on(t_data *data);
+void		parens(char c, t_data *data);
 void		mid(char c, t_data *data);
 int			exit_status(char c);
 int			count_dollars(char *input, t_data *data);
@@ -82,7 +86,8 @@ void		print_keys(t_data *data);
 
 t_var_tb	*create_node(char *key, char *var);
 int			add_var(t_var_tb **head, t_var_tb *node);
-int			iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *), t_data *data,  t_key_val*keys);
+int			iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *),
+				t_data *data,  t_key_val*keys);
 void		print_node(void *node, t_data *data);
 void		free_table(t_var_tb **node);
 int			wrt_to_str(char *src, char **dst);

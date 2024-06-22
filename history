@@ -121,3 +121,21 @@ grepÿ"unruffled"ÿ/path/to/fileÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;
 catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
 catÿ/path/to/input_fileÿ|ÿsortÿ|ÿuniqÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿwhileÿIFS=ÿreadÿ-rÿline;ÿdoÿechoÿ"Processing: unruffled sleep melatonine - ";ÿsome_commandÿ"";ÿdone
 catÿunruffled.txtÿ|ÿgrepÿ"sleep"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10ÿ>ÿmelatonine
+catÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10
+catÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10
+
+catÿunruffled.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10
+unruffledÿ'$two'ÿmelatonineÿ"unruffled"ÿ
+catÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10ÿcatÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ|ÿheadÿ-nÿ10
+" kdslkj 'sdsd ' fffffff!"
+echoÿunruffledÿ|ÿtrÿ'[:lower:]'ÿ'[:upper:]'ÿ|ÿrevÿ|ÿteeÿ>(catÿ-n)ÿ|ÿgrepÿ-oÿ'E.*'ÿ|ÿsedÿ's/.$//'ÿ|ÿawkÿ'{print "Processed output: "$0}'ÿ|ÿxargsÿ-Iÿ{}ÿechoÿ"{}"ÿ|ÿcutÿ-dÿ' 'ÿ-fÿ2-ÿ|ÿsortÿ|ÿuniqÿ|ÿheadÿ-nÿ1ÿ>ÿ/tmp/result.txtÿ&&ÿcatÿ/tmp/result.txt
+teeÿ>(catÿ-n)
+exportÿone="example"ÿ&&ÿechoÿunruffledÿ|ÿtrÿ'[:lower:]'ÿ'[:upper:]'ÿ|ÿrevÿ|ÿteeÿ>(catÿ-n)
+exportÿone="example"ÿ&&ÿechoÿunruffledÿ|ÿtrÿ'[:lower:]'ÿ'[:upper:]'ÿ|ÿrevÿ|ÿgrepÿ-oÿ'E.*'ÿ|ÿsedÿ's/.$//'ÿ|ÿawkÿ'{print "Processed output: "$0}'ÿ|ÿxargsÿ-Iÿ{}ÿechoÿ"{}"ÿ|ÿcutÿ-dÿ' 'ÿ-fÿ2-ÿ|ÿsortÿ|ÿuniqÿ|ÿheadÿ-nÿ1ÿ>ÿ/tmp/result.txtÿ&&ÿcatÿ/tmp/result.txt
+lsÿ|ÿbashÿ-cÿ'file_list=$(cat); file_count=$(echo "$file_list" | wc -l); echo "There are $file_count files:"; echo "$file_list"'
+lsÿ|ÿteeÿ>(file_list=(cat); file_count=(echo "_list" | wc -l); echo "Thereÿareÿ_countÿfiles:"; echo "_list") > /dev/null
+lsÿ|ÿteeÿ>(file_list=(cat);ÿfile_count=(echoÿ"_list"ÿ|ÿwcÿ-l);ÿechoÿ"There are _count files:";ÿechoÿ"_list")ÿ>ÿ/dev/null
+lsÿ|ÿteeÿ>(file_list=(cat); file_count=(echo "_list" | wc -l); echo "There are _count files:"; echo "_list")ÿ>ÿ/dev/null
+
+lsÿ|ÿteeÿ>(file_list=(cat); file_count=(echo "_list" | wc -l); echo "There are _count files:"; echo "_list")ÿ>ÿ/dev/null
+catÿfile.txtÿ|ÿgrepÿ"pattern"ÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿteeÿoutput.txtÿ|ÿwhileÿreadÿline;ÿdoÿcount=(echo  | awk '{print $1*2}');ÿechoÿ"Double count: ";ÿdoneÿ|ÿsedÿ's/^/Processed: /'ÿ&&ÿ(echo "Value of two is sleep")

@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+// a non existing variable should return an empty string not nothing at
+// all
+
 void	handle_sigint(int sig)
 {
 	printf("sig: %d\n", sig);
@@ -15,12 +18,12 @@ char	*expand_env(char *input, t_data *data)
 	int		i;
 	int		step;
 
-	init_qts(data);
+	init_qts(data, 0);
 	data->keys = malloc ((count_dollars(input, data) + 1) * sizeof(t_key_val *));
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if (m_set(input[i], "\'\""))
 			mid(input[i], data);
 		if (input[i] == '$' && data->sqts == 0)
 		{
@@ -56,17 +59,12 @@ char	*expand(char *input, t_data *data)
 
 	i = 0;
 	t = 0;
-	data->key_iter = 0;
-	data->lst = 'c';
-	data->nqts = 0;
-	data->tog = 1;
-	data->sqts = 0;
-	data->dqts = 0;
+	init_qts(data, 1);
 	len = (ft_strlen(input) - data->lvars) + data->lvals;
 	tmpstr = malloc((len + 1) * sizeof(char));
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if (m_set(input[i], "\'\""))
 			mid(input[i], data);
 		if (input[i] == '$' && data->sqts == 0)
 		{
@@ -169,10 +167,10 @@ int	count_dollars(char *input, t_data *data)
 
 	i = 0;
 	n = 0;
-	init_qts(data);
+	init_qts(data, 1);
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if (m_set(input[i], "\'\""))
 			mid(input[i], data);
 		if (input[i] == '$' && input[i + 1] != '?' && data->sqts == 0)
 			n++;
@@ -199,14 +197,16 @@ int	tokenise(char *input, t_data *data)
 	int	i;
 
 	i = 0;
-	init_qts(data);
+	init_qts(data, 1);
 	while (input[i])
 	{
 		if (input[i] == '|')
 			data->np++;
-		if (input[i] == '\'' || input[i] == '\"')
+		if (m_set(input[i], "\'\""))
 			mid(input[i], data);
-		if (data->nqts == 0)
+		if (m_set(input[i], "()"))
+			parens(input[i], data);
+		if (data->nqts == 0 && data->paren == 0)
 		{
 			if (input[i] == ' ')
 				input[i] = -1;
@@ -229,16 +229,31 @@ void	mid(char c, t_data *data)
 	data->nqts += data->tog;
 }
 
-void	init_qts(t_data *data)
+void	parens(char c, t_data *data)
+{
+	if (c == '(')
+		data->paren++;
+	if (c == ')')
+		data->paren--;
+}
+
+void	init_qts(t_data *data, int p)
 {
 	data->tog = 1;
 	data->nqts = 0;
 	data->sqts = 0;
 	data->dqts = 0;
+	data->paren = 0;
 	data->lst = 'c';
+	if (p == 0)
+		init_len(data);
+	data->key_iter = 0; 
+}
+
+void	init_len(t_data *data)
+{
 	data->lvars = 0;
 	data->lvals = 0;
-	data->key_iter = 0; 
 }
 
 void	print_tokens(char **line)
@@ -251,6 +266,20 @@ void	print_tokens(char **line)
 		printf("%s\n", line[i]);
 		i++;
 	}
+}
+
+int	m_set(char c, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i])
+	{
+		if (c == set[i])
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 // void	init_tog(char *input, t_data *data)
