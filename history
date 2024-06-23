@@ -139,3 +139,60 @@ lsÿ|ÿteeÿ>(file_list=(cat); file_count=(echo "_list" | wc -l); echo "There are _
 
 lsÿ|ÿteeÿ>(file_list=(cat); file_count=(echo "_list" | wc -l); echo "There are _count files:"; echo "_list")ÿ>ÿ/dev/null
 catÿfile.txtÿ|ÿgrepÿ"pattern"ÿ|ÿawkÿ'{print $1, $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿteeÿoutput.txtÿ|ÿwhileÿreadÿline;ÿdoÿcount=(echo  | awk '{print $1*2}');ÿechoÿ"Double count: ";ÿdoneÿ|ÿsedÿ's/^/Processed: /'ÿ&&ÿ(echo "Value of two is sleep")
+unruffled
+//ÿuserÿdefinedÿvariablesÿkeyÿvalueÿpaira
+"'"'"'"'hi'"'"'"'"
+"one 'two "three 'four "five 'six "seven 'eight 'seven "six 'five "four 'thre "two 'one "
+catÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿsedÿ's/^\(.*\)$/\1,1/'ÿ|ÿawkÿ-Fÿ','ÿ'{print $1}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nr
+catÿlogfile.txtÿ|ÿgrepÿ"ERROR"ÿ|ÿsedÿ's/^\(.*\)$/\1,1/'ÿ|ÿawkÿ-Fÿ','ÿ'{print $1}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-nr
+cat logfile.txt | grep "ERROR" | sed 's/^\(.*\)$/\1,1/' | awk -F ',' '{print $1}' | sort | uniq -c | sort -nr
+cat logfile.txt | grep "ERROR" | sed 's/^\(.*\)$/\1,1/' | awk -F ',' '{print $1}' | sort | uniq -c | (sort -nr)
+cat logfile.txt | grep $( dabadoo "ERROR") | sed 's/^\(.*\)$/\1,1/' | awk -F ',' '{print $1}' | sort | uniq -c | sort -nr
+$one
+$one
+$one
+$one
+$one
+fff $one
+$one
+$one
+cat $one | grep "ERROR" | sed 's/^\(.*\)$/\1,1/' | awk -F ',' '{print $1}' | sort | uniq -c | sort -nr
+cat $one | grep "ERROR" | sed 's/^\(.*\)$/\1,1/' | awk -F '$one' '{print $1}' | sort | uniq -c | sort -nr
+
+cat ($three) | grep "$two" | sed 's/^\(.*\)$/\1,1/' | awk -F ',' '{print $1}' | $three | uniq -c | sort -nr
+dslkjfds
+$one
+$one
+$some
+$one
+$one $two
+$one
+one
+$one
+$one " $two" $three $notavar
+$three " two " $one $notavar
+three " two " $one $notavar
+$three " two " $one $notavar
+$three $two $one $notavar
+$three $two $one $notavar
+$three $two $one $notavar
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three#
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $thre
+$three $two $one $notavar $hohoho $one $two $three
+$three $two $one $notavar $hohoho $one $two $three

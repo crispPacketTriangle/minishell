@@ -61,10 +61,12 @@ typedef struct	t_data
 	int			lvars;   	// length of variables
 	int			lvals;		// length of values
 	int			key_iter;	// iterator for temp env var keys char **keys 
-	t_key_val	**keys;		// temp environment variable keys
+	t_key_val	**envv;		// environment variables key value pairs
+	t_key_val	**keys;
 	t_args		**args;
-	t_test_env	*vars;
-	t_var_tb	**uev;
+	char		**tok;
+	char		*expand;
+	t_var_tb	**uev;		// user defined variables key value pairs
 }	t_data;
 
 void		handle_sigint(int sig);
@@ -82,21 +84,25 @@ int			count_dollars(char *input, t_data *data);
 char		*expand_env(char *input, t_data *data);
 void		store_key(int step, int i, char *input, t_data *data);
 void		print_keys(t_data *data);
-
+int			load_envv(void);
 
 t_var_tb	*create_node(char *key, char *var);
 int			add_var(t_var_tb **head, t_var_tb *node);
-int			iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *),
-				t_data *data,  t_key_val*keys);
+
+int			iter_table(t_var_tb *node, void (f)(void *,
+							t_data *, char *), t_data *data, char *key);
 void		print_node(void *node, t_data *data);
 void		free_table(t_var_tb **node);
 int			wrt_to_str(char *src, char **dst);
 int			test_envvars(t_data *data);
-void		cal_lvals(void *d, t_key_val *key, t_data *data);
+void		cal_lvals(void *d, char *key, t_data *data);
 char		*expand(char *input, t_data *data);
 
 int			init_arr(t_data *data, int n);
 int			poly_r_hash(char *key, int n);
 int			append_envv(t_data *data);
+int			is_var(t_data *data, char *str, char c);
+void		expand_var(void *d, t_data *data, char *key);
+int			expand_envv(t_data *data, char *str);
 
 #endif

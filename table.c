@@ -33,16 +33,16 @@ int	add_var(t_var_tb **head, t_var_tb *node)
 	return (0);
 }
 
-int	iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *), t_data *data, t_key_val *keys)
+int	iter_table(t_var_tb *node, void (f)(void *, t_data *, char *), t_data *data, char *key)
 {
 	if (!node)
 		return (1);
 	while (node->next != NULL)
 	{
-		f(node, keys, data);
+		f(node, data, key);
 		node = node->next;
 	}
-	f(node, keys, data);
+	f(node, data, key);
 	return (0);
 }
 
