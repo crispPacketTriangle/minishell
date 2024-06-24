@@ -2,6 +2,8 @@
 
 // cc readline.c parser.c table.c hash.c load_envv.c pipes.c -L libft -lreadline -lft
 
+//
+
 int	main(int argc, char **argv, char **env)
 {
 	char			*input;
@@ -35,7 +37,6 @@ int	main(int argc, char **argv, char **env)
 	//readintobuff(2);
 	chain_pipes(4);
 
-	return(0);
 	//load_envv();
 
 	rl_initialize();
@@ -81,8 +82,8 @@ int	test_envvars(t_data *data)
 	data->uev[poly_r_hash("two", VAR_BUFF)] = create_node("two", "sleep");
 	data->uev[poly_r_hash("three", VAR_BUFF)] = create_node("three", "melatonine");
 	
-	printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->key);
-	printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->var);
+	// printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->key);
+	// printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->var);
 
 	return (0);
 }
@@ -90,6 +91,7 @@ int	test_envvars(t_data *data)
 t_args	*init_test()
 {
 	int		i;
+	int		j;
 	t_args	*args;
 
 	args = malloc(3 * sizeof(t_args));
@@ -113,87 +115,81 @@ t_args	*init_test()
 	args[2].arg[2] = NULL;
 
 	i = 0;
-    while (i < 3)
+	while (i < 3)
 	{
-        printf("cmd: %s\n", args[i].cmd);
-        printf("args:");
-        for (int j = 0; args[i].arg[j] != NULL; j++)
-            printf(" %s", args[i].arg[j]);
-        printf("\n");
+		printf("cmd: %s\n", args[i].cmd);
+		printf("args:");
+		j = 0;
+		while (args[i].arg[j] != NULL)
+		{
+			printf(" %s", args[i].arg[j]);
+			j++;
+		}
+		printf("\n");
 		i++;
-    }
+	}
 	return (args);
 }
 
 int chain_pipes(int n)
 {
-    int		i; 
+	int		i; 
 	int		j;
-    t_pp 	pp;
-    t_args	*args;
+	t_pp	pp;
+	t_args	*args;
 
-    args = init_test();
-    
-    pp.buff = malloc(n * sizeof(char *));
-    pp.ends = malloc(((n - 1) * 2) * sizeof(int));
-    pp.pid = malloc(n * sizeof(pid_t));
-
+	args = init_test();
+	pp.buff = malloc(n * sizeof(char *));
+	pp.ends = malloc(((n - 1) * 2) * sizeof(int));
+	pp.pid = malloc(n * sizeof(pid_t));
 	i = 0;
 	while (i < n - 1)
 	{
 		pipe(pp.ends + i * 2);
 		i++;
 	}
-
-    i = 0;
+	i = 0;
 	while (i < n)
 	{
-        pp.pid[i] = fork();
-        if (pp.pid[i] == 0)
+		pp.pid[i] = fork();
+		if (pp.pid[i] == 0)
 		{
-            if (i != 0)
-                dup2(pp.ends[(i - 1) * 2], STDIN_FILENO);
-            if (i != n - 1)
-                dup2(pp.ends[(i * 2) + 1], STDOUT_FILENO);
+			if (i != 0)
+				dup2(pp.ends[(i - 1) * 2], STDIN_FILENO);
+			if (i != n - 1)
+				dup2(pp.ends[(i * 2) + 1], STDOUT_FILENO);
 			j = 0;
 			while (j < (n - 1) * 2)
 			{
-                close(pp.ends[j]);
+				close(pp.ends[j]);
 				j++;
-            }
-            execve(args[i].cmd, args[i].arg, NULL);
-            exit(1);
-        }
+			}
+			execve(args[i].cmd, args[i].arg, NULL);
+			exit(1);
+		}
 		i++;
-    }
-
+	}
 	i = 0;
 	while (i < (n - 1) * 2)
 	{
-    	if (i != (n - 2) * 2)
-        	close(pp.ends[i]);
-    	i++;
+		if (i != (n - 2) * 2)
+			close(pp.ends[i]);
+		i++;
 	}
-
-    pp.buff[0] = malloc(BUFF_SZ * sizeof(char));
-    pp.bytes_r = read(pp.ends[(n - 2) * 2], pp.buff[0], BUFF_SZ - 1);
-    pp.buff[0][pp.bytes_r] = '\0';
-
-    close(pp.ends[(n - 2) * 2]);
-
+	pp.buff[0] = malloc(BUFF_SZ * sizeof(char));
+	pp.bytes_r = read(pp.ends[(n - 2) * 2], pp.buff[0], BUFF_SZ - 1);
+	pp.buff[0][pp.bytes_r] = '\0';
+	close(pp.ends[(n - 2) * 2]);
 	i = 0;
 	while (i < n)
-	{		
-        wait(NULL);
+	{	
+		wait(NULL);
 		i++;
-    }
-
-    printf("buffer: \n%s\n", pp.buff[0]);
-
-    free(pp.buff[0]);
-    free(pp.buff);
-    free(pp.ends);
-    free(pp.pid);
-
-    return 0;
+	}
+	printf("buffer: \n%s", pp.buff[0]);
+	free(pp.buff[0]);
+	free(pp.buff);
+	free(pp.ends);
+	free(pp.pid);
+	return 0;
 }
