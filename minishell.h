@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
 #include <readline/readline.h>
@@ -19,6 +21,17 @@
 #include "libft/libft.h"
 
 extern char **environ;
+
+# define BUFF_SZ 4096
+
+typedef struct	t_pp
+{
+	int		ends[2];
+	char	buff[BUFF_SZ];
+	ssize_t	bytes_r;
+	pid_t	pid1;
+	pid_t	pid2;
+}	t_pp;
 
 typedef struct	t_args
 {
@@ -104,5 +117,8 @@ int			append_envv(t_data *data);
 int			is_var(t_data *data, char *str, char c);
 void		expand_var(void *d, t_data *data, char *key);
 int			expand_envv(t_data *data, char *str);
+
+
+int			readintobuff();
 
 #endif

@@ -2,7 +2,7 @@
 
 // cc readline.c parser.c table.c hash.c load_envv.c pipes.c -L libft -lreadline -lft
 
-int	main()
+int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	char			*expin;
@@ -32,18 +32,34 @@ int	main()
 		return (1);
 	}
 
-	// char **env = environ;
- //    while (*env) 
-	// {
- //        printf("%s\n", *env);
- //        env++;
- //    }
 
-	// while (1)
+
+	// if (pipe(pp.ends) == -1)
+	// 	return (1);
+	// pp.pid1 = fork();
+	// if (pp.pid1 == 0)
 	// {
-	// 	printf("zzz\n");
-	// 	sleep(1);
+	// 	close(pp.ends[0]);
+	// 	if (dup2(pp.ends[1], STDOUT_FILENO) == -1)
+	// 		exit(1);
+	// 
+	// close(pp.ends[1]);
+	//
+	// char	*args[1];
+	// args[0] = "ls";
+	// //execve("usr/bin/ls", args, env);
+	// execlp("ls", "ls", NULL);
 	// }
+	// else
+	// {
+	// 	close(pp.ends[1]);
+	// 	pp.bytes_r = read(pp.ends[0], pp.buff, BUFF_SZ -1);
+	// 	pp.buff[pp.bytes_r] = '\0';
+	// 	close(pp.ends[0]);
+	// 	wait(NULL);
+	// 	printf("buffer: \n%s\n", pp.buff);
+	// }
+	readintobuff();
 
 	//load_envv();
 
@@ -96,3 +112,34 @@ int	test_envvars(t_data *data)
 	return (0);
 }
 
+int	readintobuff()
+{	
+	t_pp			pp;
+
+	if (pipe(pp.ends) == -1)
+		return (1);
+	pp.pid1 = fork();
+	if (pp.pid1 == 0)
+	{
+		close(pp.ends[0]);
+		if (dup2(pp.ends[1], STDOUT_FILENO) == -1)
+			exit(1);
+	
+	close(pp.ends[1]);
+
+	char	*args[1];
+	args[0] = "ls";
+	//execve("usr/bin/ls", args, env);
+	execlp("ls", "ls", NULL);
+	}
+	else
+	{
+		close(pp.ends[1]);
+		pp.bytes_r = read(pp.ends[0], pp.buff, BUFF_SZ -1);
+		pp.buff[pp.bytes_r] = '\0';
+		close(pp.ends[0]);
+		wait(NULL);
+		printf("buffer: \n%s\n", pp.buff);
+	}
+	return (0);
+}
