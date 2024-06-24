@@ -203,3 +203,19 @@ nice
 boop $three '$nothisone' "  $one someothertext "
 " $one"
 " $three "
+" $one " expanding vars in double qts broken
+ok
+sdfd
+nope
+dff
+dd
+sdfsdf
+why
+s
+sdsad
+sad
+sdfds
+ok
+eh
+now
+well $one I am confused

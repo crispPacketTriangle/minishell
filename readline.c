@@ -32,35 +32,10 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 
+	//readintobuff(2);
+	chain_pipes(4);
 
-
-	// if (pipe(pp.ends) == -1)
-	// 	return (1);
-	// pp.pid1 = fork();
-	// if (pp.pid1 == 0)
-	// {
-	// 	close(pp.ends[0]);
-	// 	if (dup2(pp.ends[1], STDOUT_FILENO) == -1)
-	// 		exit(1);
-	// 
-	// close(pp.ends[1]);
-	//
-	// char	*args[1];
-	// args[0] = "ls";
-	// //execve("usr/bin/ls", args, env);
-	// execlp("ls", "ls", NULL);
-	// }
-	// else
-	// {
-	// 	close(pp.ends[1]);
-	// 	pp.bytes_r = read(pp.ends[0], pp.buff, BUFF_SZ -1);
-	// 	pp.buff[pp.bytes_r] = '\0';
-	// 	close(pp.ends[0]);
-	// 	wait(NULL);
-	// 	printf("buffer: \n%s\n", pp.buff);
-	// }
-	readintobuff();
-
+	return(0);
 	//load_envv();
 
 	rl_initialize();
@@ -112,34 +87,113 @@ int	test_envvars(t_data *data)
 	return (0);
 }
 
-int	readintobuff()
-{	
-	t_pp			pp;
+t_args	*init_test()
+{
+	int		i;
+	t_args	*args;
 
-	if (pipe(pp.ends) == -1)
-		return (1);
-	pp.pid1 = fork();
-	if (pp.pid1 == 0)
-	{
-		close(pp.ends[0]);
-		if (dup2(pp.ends[1], STDOUT_FILENO) == -1)
-			exit(1);
+	args = malloc(3 * sizeof(t_args));
 	
-	close(pp.ends[1]);
+	wrt_to_str("/usr/bin/ls", &args[0].cmd);
+	args[0].arg = malloc(3 * sizeof(char *));
+	wrt_to_str("ls", &args[0].arg[0]);
+	wrt_to_str("-l", &args[0].arg[1]);
+	args[0].arg[2] = NULL;
 
-	char	*args[1];
-	args[0] = "ls";
-	//execve("usr/bin/ls", args, env);
-	execlp("ls", "ls", NULL);
-	}
-	else
+	wrt_to_str("/usr/bin/sort", &args[1].cmd);
+	args[1].arg = malloc(3 * sizeof(char *));
+	wrt_to_str("sort", &args[1].arg[0]);
+	wrt_to_str("-r", &args[1].arg[1]);
+	args[1].arg[2] = NULL;
+	
+	wrt_to_str("/usr/bin/grep", &args[2].cmd);
+	args[2].arg = malloc(3 * sizeof(char *));
+	wrt_to_str("grep", &args[2].arg[0]);
+	wrt_to_str("h", &args[2].arg[1]);
+	args[2].arg[2] = NULL;
+
+	i = 0;
+    while (i < 3)
 	{
-		close(pp.ends[1]);
-		pp.bytes_r = read(pp.ends[0], pp.buff, BUFF_SZ -1);
-		pp.buff[pp.bytes_r] = '\0';
-		close(pp.ends[0]);
-		wait(NULL);
-		printf("buffer: \n%s\n", pp.buff);
+        printf("cmd: %s\n", args[i].cmd);
+        printf("args:");
+        for (int j = 0; args[i].arg[j] != NULL; j++)
+            printf(" %s", args[i].arg[j]);
+        printf("\n");
+		i++;
+    }
+	return (args);
+}
+
+int chain_pipes(int n)
+{
+    int		i; 
+	int		j;
+    t_pp 	pp;
+    t_args	*args;
+
+    args = init_test();
+    
+    pp.buff = malloc(n * sizeof(char *));
+    pp.ends = malloc(((n - 1) * 2) * sizeof(int));
+    pp.pid = malloc(n * sizeof(pid_t));
+
+	i = 0;
+	while (i < n - 1)
+	{
+		pipe(pp.ends + i * 2);
+		i++;
 	}
-	return (0);
+
+    i = 0;
+	while (i < n)
+	{
+        pp.pid[i] = fork();
+        if (pp.pid[i] == 0)
+		{
+            if (i != 0)
+                dup2(pp.ends[(i - 1) * 2], STDIN_FILENO);
+            if (i != n - 1)
+                dup2(pp.ends[(i * 2) + 1], STDOUT_FILENO);
+			j = 0;
+			while (j < (n - 1) * 2)
+			{
+                close(pp.ends[j]);
+				j++;
+            }
+            execve(args[i].cmd, args[i].arg, NULL);
+            exit(1);
+        }
+		i++;
+    }
+
+	i = 0;
+	while (i < (n - 1) * 2)
+	{
+    	if (i != (n - 2) * 2)
+        	close(pp.ends[i]);
+    	i++;
+	}
+
+    pp.buff[0] = malloc(BUFF_SZ * sizeof(char));
+    pp.bytes_r = read(pp.ends[(n - 2) * 2], pp.buff[0], BUFF_SZ - 1);
+    pp.buff[0][pp.bytes_r] = '\0';
+
+    close(pp.ends[(n - 2) * 2]);
+
+	i = 0;
+	while (i < n)
+	{		
+        wait(NULL);
+		i++;
+    }
+
+    printf("buffer: \n%s\n", pp.buff[0]);
+
+    free(pp.buff[0]);
+    free(pp.buff);
+    free(pp.ends);
+    free(pp.pid);
+
+    return 0;
 }
