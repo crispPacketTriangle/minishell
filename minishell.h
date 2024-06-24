@@ -26,11 +26,10 @@ extern char **environ;
 
 typedef struct	t_pp
 {
-	int		ends[2];
-	char	buff[BUFF_SZ];
+	char	**buff;
 	ssize_t	bytes_r;
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	*pid;
+	int		*ends;
 }	t_pp;
 
 typedef struct	t_args
@@ -119,6 +118,7 @@ void		expand_var(void *d, t_data *data, char *key);
 int			expand_envv(t_data *data, char *str);
 
 
-int			readintobuff();
+int			readintobuff(int n);
+int			chain_pipes(int n);
 
 #endif
