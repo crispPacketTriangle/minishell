@@ -3,12 +3,11 @@
 
 # define _XOPEN_SOURCE 700
 # define EXIT_STATUS 1
+# define INVALID_START ";|&)}]"
+# define STACK_SIZE 2048
 
 # ifndef VAR_BUFF
 #  define VAR_BUFF 100
-
-#  define INVALID_START ";|&)}]"
-
 # endif
 
 # include "libft/libft.h"
@@ -16,6 +15,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -70,6 +70,23 @@ typedef struct t_data
 	t_var_tb **uev;
 } t_data;
 
+typedef struct t_stack
+{
+	char stack[STACK_SIZE];
+	int top;
+	bool full;
+} t_stack;
+
+typedef struct t_parsedata
+{
+	bool sqt_toggle; // single quote toggle (for alternation)
+	int sqts;        // current parsed single quote count
+	int dqts;        // current parsed double quote count
+	char *last;      // current token
+	char *current;   // last token
+	t_stack parens;  // parens stack
+} t_pdata;
+
 void	handle_sigint(int sig);
 int	tokenise(char *input, t_data *data);
 void	print_tokens(char **line);
@@ -98,11 +115,17 @@ int	init_arr(t_data *data, int n);
 int	poly_r_hash(char *key, int n);
 int	append_envv(t_data *data);
 
-void	check_start(char **tokens);
+void	check_start(t_pdata *pdata);
 int	parse_tokens(char **tokens);
 char	*get_word(char *str);
-void	syntax_error(char *str, int n);
+void	syntax_error(t_pdata *pdata, int n);
+void	quote_error(t_pdata *pdata, int n);
 void	malloc_error(int e);
 int	get_len(char *str);
+void	p_push(t_stack *s, char c);
+void	p_pop(t_stack *s);
+bool	p_match(char open, char close);
+void	stack_error(t_pdata *pdata, int n);
+void	parens_error(t_pdata *pdata, int n);
 
 #endif

@@ -126,3 +126,7 @@ catÿunruffled.txtÿ|ÿgrepÿ"sleep"ÿ|ÿawkÿ'{print $2}'ÿ|ÿsortÿ|ÿuniqÿ-cÿ|ÿsortÿ-rnÿ
 lsÿ-l
 lsÿ-l
 teeÿ>(catÿ-n)
+echo
+aÿbÿcÿdello
+aÿbÿ"c dello"
+abÿ"c hello
