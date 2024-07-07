@@ -117,8 +117,9 @@ int			is_var(t_data *data, char *str, char c);
 void		expand_var(void *d, t_data *data, char *key);
 int			expand_envv(t_data *data, char *str);
 
-
 int			readintobuff(int n);
 int			chain_pipes(int n);
+
+void		cd(const char *path);
 
 #endif
