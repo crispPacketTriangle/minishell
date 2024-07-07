@@ -6,10 +6,10 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char			*input;
-	char			*expin;
-	struct sigaction sa;
-	t_data			data;
+	char				*input;
+	char				*expin;
+	struct sigaction	sa;
+	t_data				data;
 	//t_test_env		testvars;
 
 	// interesting, arrays can be initialised like this
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 	}
 
 	//readintobuff(2);
-	chain_pipes(4);
+	chain_pipes(3);
 
 	//load_envv();
 
@@ -73,6 +73,8 @@ int	main(int argc, char **argv, char **env)
 			print_tokens(data.tok);
 		}
 	append_history(3, "history");
+
+	cd("subfolder");
 }
 
 int	test_envvars(t_data *data)
@@ -131,6 +133,14 @@ t_args	*init_test()
 	return (args);
 }
 
+// in terms of order of execution
+// lex and parse input
+// pass variable substitution argument to subshell
+// save output to a buffer
+// when running main pipeline, substitute buffer
+// so we will leave the last process as directing
+// output to stdout and redirect the output of the
+// process in main to buffer
 int chain_pipes(int n)
 {
 	int		i; 
@@ -176,9 +186,9 @@ int chain_pipes(int n)
 			close(pp.ends[i]);
 		i++;
 	}
-	pp.buff[0] = malloc(BUFF_SZ * sizeof(char));
-	pp.bytes_r = read(pp.ends[(n - 2) * 2], pp.buff[0], BUFF_SZ - 1);
-	pp.buff[0][pp.bytes_r] = '\0';
+	// pp.buff[0] = malloc(BUFF_SZ * sizeof(char));
+	// pp.bytes_r = read(pp.ends[(n - 2) * 2], pp.buff[0], BUFF_SZ - 1);
+	// pp.buff[0][pp.bytes_r] = '\0';
 	close(pp.ends[(n - 2) * 2]);
 	i = 0;
 	while (i < n)
@@ -186,10 +196,38 @@ int chain_pipes(int n)
 		wait(NULL);
 		i++;
 	}
-	printf("buffer: \n%s", pp.buff[0]);
-	free(pp.buff[0]);
-	free(pp.buff);
+	// printf("buffer: \n%s", pp.buff[0]);
+	// free(pp.buff[0]);
+	// free(pp.buff);
 	free(pp.ends);
 	free(pp.pid);
 	return 0;
 }
+
+void	cd(const char *path)
+{
+	char	*cwd;
+	size_t	size = 1024;
+
+	cwd = malloc(size * sizeof(char));
+	// errors
+
+	getcwd(cwd, size);
+	// errors
+	
+	printf("dir: %s\n", cwd);
+	
+	free(cwd);
+
+	chdir(path);
+	// errors
+	
+	getcwd(cwd, size);
+	// errors
+
+	printf("dir: %s\n", cwd);
+	
+	free(cwd);
+}
+
+

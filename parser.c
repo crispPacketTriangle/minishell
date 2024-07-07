@@ -122,9 +122,7 @@ int	expand_envv(t_data *data, char *str)
 		str++;
 		idx = poly_r_hash(str, VAR_BUFF);
 		if (data->uev[idx])
-		{
 			iter_table(data->uev[idx], &expand_var, data, str);
-		}
 		// input should be a pointer in the data struct
 	}
 	// should handle $ in string but within dqts
@@ -172,7 +170,11 @@ void	expand_var(void *d, t_data *data, char *str)
 		len = ft_strlen(kv->var);
 		str = malloc((len + 1) * sizeof(char));
 		ft_strlcpy(str, kv->var, len + 1);
+		return ;
 	}
+	// returning the pointer in every case (could this have led to
+	// the garbage values?)
+	str--;
 }
 
 
