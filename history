@@ -251,3 +251,27 @@ $one $two $three
 $one $two $three
 hi
 "fjksdljflks
+wheyhey
+cool
+wait | there was supposed to | be "two paths printed 'no?' " 
+now?
+hey
+"one 'two "three " ' "
+oof
+hm
+m
+f
+j
+hex
+why
+now
+once
+gggg
+find /var/log -type f -name "*.log" | xargs grep -i "error" | awk '{print $1, $2}' | sort | uniq -c | sort -nr
+find /var/log -type f -name "*.log" | xargs grep -i "error" | awk '{print $1, $2}' | sort | uniq -c | sort -nr
+pwd
+pwd
+test
+cd /home/cpt/42/shell
+pwd
+ps aux | grep -v grep | grep -v "ps aux" | awk '{print $1, $2, $3, $4}' | sort -k3,3nr | head -n 10
