@@ -18,12 +18,15 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/time.h>
+#include <errno.h>
+#include <limits.h>
 #include "libft/libft.h"
 
 extern char **environ;
 
 # define BUFF_SZ 4096
 
+// pipe chain variables
 typedef struct	t_pp
 {
 	char	**buff;
@@ -32,35 +35,42 @@ typedef struct	t_pp
 	int		*ends;
 }	t_pp;
 
+// process variables
 typedef struct	t_args
 {
 	char	*cmd;
 	char	**arg;
 }	t_args;
 
-typedef struct	t_var_tb
-{
-	char			*key;
-	char			*var;
-	struct t_var_tb	*next;
-}	t_var_tb;
-
+// key value dictionary entry
 typedef struct	t_key_val
 {
 	char			*key;
 	char			*val;
 }	t_key_val;
 
-typedef struct	t_test_env
+// user defined environment variables
+// key value dictionary entry as node
+// in linked list for separate chaning
+// hashing implementation
+typedef struct	t_var_tb
 {
-	t_var_tb	*head;
-	t_var_tb	*node1;
-	char		*key1;
-	char		*key2;
-	char		*var1;
-	char		*var2;
-}	t_test_env;
+	char			*key;
+	char			*var;
+	struct t_var_tb	*next;
+}	t_var_tb;
+//
+// typedef struct	t_test_env
+// {
+// 	t_var_tb	*head;
+// 	t_var_tb	*node1;
+// 	char		*key1;
+// 	char		*key2;
+// 	char		*var1;
+// 	char		*var2;
+// }	t_test_env;
 
+// mega structure
 typedef struct	t_data
 {
 	int			tog;    	// toggle opening or closing qt marks (*= -1) 
@@ -72,10 +82,11 @@ typedef struct	t_data
 	int			np;     	// number of pipes
 	int			lvars;   	// length of variables
 	int			lvals;		// length of values
-	int			key_iter;	// iterator for temp env var keys char **keys 
+	int			key_iter;	// iterator for temp env var keys char **keys
+	char		*pdir;		// previous directory
 	t_key_val	**envv;		// environment variables key value pairs
 	t_key_val	**keys;
-	t_args		**args;
+	t_args		*args;		// cmd arg groupings in order of execution
 	char		**tok;
 	char		*expand;
 	t_var_tb	**uev;		// user defined variables key value pairs
@@ -120,6 +131,16 @@ int			expand_envv(t_data *data, char *str);
 int			readintobuff(int n);
 int			chain_pipes(int n);
 
-void		cd(const char *path);
+int			cd(const char *path);
+char		*parent_dir(char *path);
+char		*prev_dir(t_data *data);
+
+int			errsub(int macro);
+int			perrsub();
+
+int			dev_placeholders(char *input, t_data *data);
+
+void		test_cd_cmd_args(t_data *data);
+void		init_cd_test(t_data *data);
 
 #endif

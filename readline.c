@@ -34,30 +34,28 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 
-	//readintobuff(2);
 	chain_pipes(3);
 
-	//load_envv();
 
 	rl_initialize();
 	rl_readline_name = "minishell";
 	printf("unbash \\o_o/ \n");
 
+
+	init_cd_test(&data);
+	while (1)
+	{
 		input = readline(">>>");
 		if (input)
 		{
 			add_history(input);
-			//expin = expand_env(input, &data);
-			//free(input);
 			tokenise(input, &data);
-			printf("########################\n");
 			data.tok = ft_split(input, -1);
+			if (dev_placeholders(input, &data) != 0)
+				continue ;
+
+			printf("########################\n");
 			print_tokens(data.tok);
-			// rl_replace_line("all chinese history is good and the government is perfect", 1);
-			// rl_redisplay();
-			// sleep(1);
-			// printf("Input added to history.\n");
-			//free(expin);
 			int i = 0;
 			while (data.tok[i])
 			{
@@ -72,9 +70,12 @@ int	main(int argc, char **argv, char **env)
 			printf("#########################\n");
 			print_tokens(data.tok);
 		}
-	append_history(3, "history");
+		free(input);
+		append_history(3, "history");
+	}
 
-	cd("subfolder");
+	printf("path: %d\n", PATH_MAX);
+	printf("name: %d\n", NAME_MAX);
 }
 
 int	test_envvars(t_data *data)
@@ -141,6 +142,9 @@ t_args	*init_test()
 // so we will leave the last process as directing
 // output to stdout and redirect the output of the
 // process in main to buffer
+// the last pipe must be defined and passed to chain pipes
+//   along with n (number of pipies) and possilby other
+//   set-up variables that the parser defines
 int chain_pipes(int n)
 {
 	int		i; 
@@ -204,30 +208,124 @@ int chain_pipes(int n)
 	return 0;
 }
 
-void	cd(const char *path)
+// if .
+// if ..
+// if -
+// if /path
+// if path
+// the chdir function works with both an absolute and a relative path
+// if implementing .. or - it would require keeping a library of visited paths
+// in the first instance and etiting the current path to remove one level
+// in the second
+// 
+// cd . seems redundant but it has the effect of setting the last directory
+// to the current which might have some utility
+//
+// to determine if a file is symbolic link
+// stat
+// lstat
+// fstat
+// should use errno
+//
+// keep previous directory in memory
+// when moving to parent directory edit cwd
+// going back a directoy with - prints directoy to console
+int	cd(const char *path)
 {
 	char	*cwd;
-	size_t	size = 1024;
 
-	cwd = malloc(size * sizeof(char));
-	// errors
-
-	getcwd(cwd, size);
-	// errors
-	
-	printf("dir: %s\n", cwd);
-	
+	cwd = malloc(PATH_MAX * sizeof(char));
+	if (!cwd)
+		return (perrsub());
+	if (getcwd(cwd, PATH_MAX) == NULL)
+	{
+		free(cwd);
+		return (perrsub());
+	}
+	//printf("dir: %s\n", cwd);
 	free(cwd);
-
-	chdir(path);
-	// errors
-	
-	getcwd(cwd, size);
-	// errors
-
-	printf("dir: %s\n", cwd);
-	
+	if (chdir(path) != 0)
+		return (perrsub());
+	cwd = malloc(PATH_MAX * sizeof(char));
+	if (getcwd(cwd, PATH_MAX) == NULL)
+	{
+		free(cwd);
+		return (perrsub());
+	}
+	//printf("dir: %s\n", cwd);	
 	free(cwd);
+	return (0);
 }
 
+char	*parent_dir(char *path)
+{
+	int	i;
+
+	i = ft_strlen(path);
+	i--;
+	while (i > 0)
+	{
+		if (path[i] == '/')
+		{
+			path[i] = '\0';
+			return (path);
+		}
+	}
+	return (path);
+}
+
+char	*prev_dir(t_data *data)
+{
+	return (data->pdir);
+}
+
+// functions to handle errors that we define or else standard errors
+// must write the correct error to stderr and return the error value
+// from the process
+int	errsub(int macro)
+{
+	return(macro);
+}
+
+int	perrsub()
+{
+	return (errno);
+}
+
+// eventually all parsed input will be in the form of an array
+// of t_args in the order of executions
+void	test_cd_cmd_args(t_data *data)
+{
+	data->args[0].cmd = data->tok[0];
+	data->args[0].arg[0] = data->tok[1]; 
+}
+
+void	init_cd_test(t_data *data)
+{
+	data->args = malloc(sizeof(t_args));
+	data->args[0].arg = malloc(sizeof(char *));
+}
+
+int	dev_placeholders(char *input, t_data *data)
+{
+	char	*cwd;
+
+	if (ft_strncmp(input, "exit", 4) == 0)
+		exit(1);
+	if (ft_strncmp(input, "pwd", 3) == 0)
+	{			
+		cwd = malloc(PATH_MAX * sizeof(char));
+		getcwd(cwd, PATH_MAX);
+		printf("dir: %s\n", cwd);	
+		free(cwd);
+		return (1);
+	}
+	if (ft_strncmp(input, "cd", 2) == 0)
+	{
+		test_cd_cmd_args(data);
+		cd(data->args[0].arg[0]);
+		return (1);
+	}
+	return (0);
+}
 
