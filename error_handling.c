@@ -6,11 +6,10 @@
 /*   By: linux <linux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:29:16 by linux             #+#    #+#             */
-/*   Updated: 2024/07/07 22:02:40 by linux            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:23:50 by linux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
 void	free_data(t_pdata *pdata)

@@ -79,12 +79,12 @@ typedef struct t_stack
 
 typedef struct t_parsedata
 {
-	bool sqt_toggle; // single quote toggle (for alternation)
-	int sqts;        // current parsed single quote count
-	int dqts;        // current parsed double quote count
-	char *last;      // current token
-	char *current;   // last token
-	t_stack parens;  // parens stack
+	int sqt_toggle; // single quote toggle (for alternation)
+	int sqts;       // current parsed single quote count
+	int dqts;       // current parsed double quote count
+	char *last;     // current token
+	char *current;  // last token
+	t_stack parens; // parens stack
 } t_pdata;
 
 void	handle_sigint(int sig);
@@ -117,15 +117,21 @@ int	append_envv(t_data *data);
 
 void	check_start(t_pdata *pdata);
 int	parse_tokens(char **tokens);
+int	get_len(char *str);
 char	*get_word(char *str);
+void	free_data(t_pdata *pdata);
 void	syntax_error(t_pdata *pdata, int n);
 void	quote_error(t_pdata *pdata, int n);
-void	malloc_error(int e);
-int	get_len(char *str);
-void	p_push(t_stack *s, char c);
-void	p_pop(t_stack *s);
-bool	p_match(char open, char close);
-void	stack_error(t_pdata *pdata, int n);
 void	parens_error(t_pdata *pdata, int n);
-
+void	stack_error(t_pdata *pdata, int n);
+void	malloc_error(int e);
+void	check_parens(t_pdata *pdata);
+void	handle_redirection(t_pdata *pdata);
+void	handle_pipes(t_pdata *pdata);
+void	handle_quotes(t_pdata *pdata);
+void	update_token(t_pdata *pdata, char *token);
+void	initialize_pdata(t_pdata *pdata);
+void	p_push(t_stack *s, char c);
+char	p_pop(t_stack *s);
+bool	p_match(char open, char close);
 #endif
