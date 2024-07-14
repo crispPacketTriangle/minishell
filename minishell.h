@@ -93,6 +93,7 @@ typedef struct	t_data
 }	t_data;
 
 void		handle_sigint(int sig);
+void		init_data(t_data *data);
 int			tokenise(char *input, t_data *data);
 int			m_set(char c, char *set);
 void		print_tokens(char **line);
@@ -131,15 +132,16 @@ int			expand_envv(t_data *data, char *str);
 int			readintobuff(int n);
 int			chain_pipes(int n);
 
-int			cd(const char *path);
-char		*parent_dir(char *path);
-char		*prev_dir(t_data *data);
-
+int			cd(char *p, t_data *data);
+char		*home_dir(char *path);
+char		*prev_dir(char *cwd, char *path, t_data *data);
+char		*mod_path(char *cwd, char *path, t_data *data);
 int			errsub(int macro);
 int			perrsub();
+char		*set_pdir(char *cwd, t_data *data);
+int 		free_cd(char *cwd);
 
 int			dev_placeholders(char *input, t_data *data);
-
 void		test_cd_cmd_args(t_data *data);
 void		init_cd_test(t_data *data);
 

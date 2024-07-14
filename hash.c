@@ -34,7 +34,7 @@ int	poly_r_hash(char *key, int n)
 		pow = (pow * base) % mod;
 		i++;
 	}
-	printf("idx: %d\n", (int)index % n);
+	//printf("idx: %d\n", (int)index % n);
 	return ((int)index % n);
 }
 
