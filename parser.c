@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: linux <linux@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: linux <linux@student.42.fr>                +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/06/21 15:50:35 by linux             #+#    #+#             */
 /*   Updated: 2024/07/14 18:46:50 by linux            ###   ########.fr       */
 /*                                                                            */
@@ -13,14 +16,14 @@
 #include "minishell.h"
 
 // Compile and test with:
-// cc -Wall -Wextra -Werror parser.c error_handling.c string_handling.c
-// -L libft -lft -o parse
-// $./parse
+// cc -g -Wall -Wextra -Werror parser.c error_handling.c parens_stack.c
+// string_handling.c -L libft -lft -o pppp
+// $./pppp
 
 void	check_parens(t_pdata *pdata)
 {
-	int	i;
-	int	s;
+	int i;
+	int s;
 
 	i = 0;
 	while (pdata->current[i])
@@ -82,26 +85,59 @@ void	handle_pipes(t_pdata *pdata)
 
 void	handle_quotes(t_pdata *pdata)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (pdata->current[i])
 	{
 		if ('\'' == pdata->current[i])
 		{
-			if (pdata->sqts && pdata->sqt_toggle > 0)
-				pdata->sqts--;
-			else
+			if (pdata->sqts == 0 && pdata->sqt_toggle <= 0)
+			{
 				pdata->sqts++;
-			pdata->sqt_toggle = !pdata->sqt_toggle;
+				pdata->sqt_toggle = 1;
+			}
+			else if (pdata->sqts && pdata->sqt_toggle == 0)
+			{
+				pdata->sqts++;
+				pdata->sqt_toggle = 1;
+			}
+			else if (pdata->sqts && pdata->sqt_toggle > 0)
+			{
+				pdata->sqts--;
+				pdata->sqt_toggle = 0;
+				if (!pdata->sqts && !pdata->dqts)
+					pdata->sqt_toggle = -1;
+			}
+			else
+				quote_error(pdata, 3);
 		}
 		else if ('\"' == pdata->current[i])
 		{
-			if (pdata->dqts && !pdata->sqt_toggle)
-				pdata->dqts--;
-			else
+			if (pdata->dqts == 0 && pdata->sqt_toggle != 0)
+			{
 				pdata->dqts++;
-			pdata->sqt_toggle = !pdata->sqt_toggle;
+				pdata->sqt_toggle = 0;
+			}
+			else if (pdata->dqts && pdata->sqt_toggle > 0)
+			{
+				pdata->dqts++;
+				pdata->sqt_toggle = 0;
+			}
+			else if (pdata->dqts && pdata->sqt_toggle == 0)
+			{
+				pdata->dqts--;
+				pdata->sqt_toggle = 1;
+				if (!pdata->sqts && !pdata->dqts)
+					pdata->sqt_toggle = -1;
+			}
+			else
+				quote_error(pdata, 3);
+			// if (pdata->dqts && !pdata->sqt_toggle)
+			// 	pdata->dqts--;
+			// else
+			// 	pdata->dqts++;
+			// pdata->sqt_toggle = !pdata->sqt_toggle;
 		}
 		i++;
 	}
@@ -146,10 +182,12 @@ void	check_start(t_pdata *pdata)
 // the entries of quotes[3] are: toggle, single, double
 int	parse_tokens(char **tokens)
 {
-	int		i;
-	t_pdata	pdata;
+	int i;
+	t_pdata pdata;
 
-	if (!tokens || !*tokens || !**tokens || **tokens == '\0')
+	if (!tokens || !*tokens)
+		return (0);
+	else if (!**tokens || **tokens == '\0')
 		return (0);
 	i = 0;
 	initialize_pdata(&pdata);
@@ -176,118 +214,166 @@ int	parse_tokens(char **tokens)
 
 #include <stdio.h>
 
+
 int	main(void)
 {
-	int		i;
-	char	**tokens;
+	// int i;
+	int res;
+	char **tokens;
 
-	// char		*token;
-	// Good commands
-	char *good[][10] = {{"echo", "\"Hello, World!\"", NULL},
-						{"ls", "-l", "/home/user", NULL},
-						{"ls", ">", "outfile.txt", NULL},
-						{"cat", "<", "infile.txt", NULL},
-						{"grep", "\"search_term\"", "<", "infile.txt", ">",
-							"outfile.txt", NULL},
-						{"ls", "|", "grep", "\"search_term\"", NULL},
-						{"cat", "file.txt", "|", "wc", "-l", NULL},
-						{"mkdir", "new_dir", "&&", "cd", "new_dir", NULL},
-						{"touch", "file1", "&&", "echo", "\"content\"", ">",
-							"file1", NULL},
-						{"false", "||", "echo",
-							"\"This runs because the previous command failed\"",
-							NULL},
-						// {"true", "||", "echo",
-						// 	"\"This won't run because the previous command succeeded\"",
-						// 	NULL},
-						{"(", "cd", "/tmp", "&&", "ls", ")", NULL},
-						{"{", "echo", "\"Hello\";", "echo", "\"World\";", "}",
-							NULL},
-						{"echo", "\"This is a string with spaces\"", NULL},
-						{"echo", "'This is another string with spaces'", NULL},
-						{"echo",
-							"\"Mixing 'single' and \\\"double\\\" quotes\"",
-							NULL},
-						{"echo", "\"Current date: $(date)\"", NULL},
-						{"echo", "\"Files: $(ls)\"", NULL},
-						{"echo", "\"Hello, World!\"", "&&", "ls", "-l", "|",
-							"grep", "\"txt\"", NULL},
-						{"(", "echo", "\"Start\"", "&&", "ls", ")", "||",
-							"echo", "\"Failed\"", NULL},
-						{"{", "echo", "\"Block 1\";", "echo", "\"Block 2\";",
-							"}", ">", "blocks.txt", NULL},
-						{"echo", "\"$(date): File list\"", "&&", "ls", ">",
-							"filelist.txt", NULL},
-						{NULL}};
-	// token = "} echo 'hello'";
-	// token = "echo 'hello'";
-	// token = "echo \"Hello, World!\"";
-	// token = "ls -l /home/user";
+	char *good_commands[][10] = {{"echo", "\"Hello, World!\"", NULL},
+									{"ls", "-l", "/home/user", NULL},
+									{"ls", ">", "outfile.txt", NULL},
+									{"cat", "<", "infile.txt", NULL},
+									{"grep", "\"search_term\"", "<",
+										"infile.txt", ">", "outfile.txt",
+										NULL},
+									{"ls", "|", "grep", "\"search_term\"",
+										NULL},
+									{"cat", "file.txt", "|", "wc", "-l", NULL},
+									{"mkdir", "new_dir", "&&", "cd", "new_dir",
+										NULL},
+									{"touch", "file1", "&&", "echo",
+										"\"content\"", ">", "file1", NULL},
+									{"false", "||", "echo",
+										"\"This runs because the previous command failed\"",
+										NULL},
+									// // {"true", "||", "echo",
+									// 	"\"This won't run because the previous command succeeded\"",
+									// // 	NULL},
+									{"(cd /tmp && ls)", NULL},
+									{"{echo \"Hello\" echo \"World\";}", NULL},
+									{"echo", "\"This is a string with spaces\"",
+										NULL},
+									{"echo",
+										"'This is another string with spaces'",
+										NULL},
+									{"echo",
+										"\"Mixing 'single' and \\\"double\\\" quotes\"",
+										NULL},
+									{"echo", "\"Current date: $(date)\"",
+										NULL},
+									{"echo", "\"Files: $(ls)\"", NULL},
+									{"echo", "\"Hello, World!\"", "&&", "ls",
+										"-l", "|", "grep", "\"txt\"", NULL},
+									{"(echo \"Start\" && ls)", "||", "echo",
+										"\"Failed\"", NULL},
+									{"{echo \"Block 1\"; echo \"Block 2\";}",
+										">", "blocks.txt", NULL},
+									{"echo", "\"$(date): File list\"", "&&",
+										"ls", ">", "filelist.txt", NULL},
+									{NULL}};
 	// Bad commands
-	// char *bad_commands[][10] = {{"echo", "\"This is an unmatched quote",
-	//	NULL},
-	// 							{"echo", "'This is another unmatched quote",
-	// 								NULL},
-	// 							{"echo", "(unmatched", "parentheses", NULL},
-	// 							{"echo", "unmatched", "parentheses)", NULL},
-	// 							{"echo", "{unmatched", "braces", NULL},
-	// 							{"echo", "unmatched", "braces}", NULL},
-	// 							{"echo", "[unmatched", "brackets", NULL},
-	// 							{"echo", "unmatched", "brackets]", NULL},
-	// 							{"|", "echo", "\"Pipe at the beginning\"",
-	// 								NULL},
-	// 							{"echo", "\"Pipe at the end\"", "|", NULL},
-	// 							{"echo", "\"Double", "pipe\"", "||", "echo",
-	// 								"\"another command\"", NULL},
-	// 							{">", "outfile.txt", "echo",
-	// 								"\"Redirection at the beginning\"", NULL},
-	// 							{"echo", "\"Redirection at the end\"", ">",
-	// 								NULL},
-	// 							{"echo", "\"Double redirection\"", ">>", ">>",
-	// 								"outfile.txt", NULL},
-	// 							{"&&", "echo",
-	// 								"\"Logical AND at the beginning\"", NULL},
-	// 							{"echo", "\"Logical AND at the end\"", "&&",
-	// 								NULL},
-	// 							{"||", "echo",
-	// 								"\"Logical OR at the beginning\"", NULL},
-	// 							{"echo", "\"Logical OR at the end\"", "||",
-	// 								NULL},
-	// 							{"*", NULL},
-	// 							{"echo", "*", NULL},
-	// 							{"echo", "\"Unquoted * should be fine\"", "*",
-	// 								NULL},
-	// 							{"echo", "*", "|", NULL},
-	// 							{"echo", "|", "*", NULL},
-	// 							{"echo", "\"Mismatched quotes'", "&&", "ls",
-	// 								NULL},
-	// 							{"(", "echo", "\"Missing closing parenthesis\"",
-	// 								"||", "ls", NULL},
-	// 							{"echo", "\"Redirection in the middle\"", ">",
-	// 								"|", "grep", "\"error\"", NULL},
-	// 							{"echo", "\"Logical AND at end\"", "&&", NULL},
-	// 							{"echo",
-	// 								"\"Unmatched quote in command substitution $(date",
-	// 								"&&", "echo", "'Done)\"", NULL},
-	// 							{NULL}};
+	// 	char *bad_commands[][10] = {/*// {"echo",
+	// "\"This is an unmatched quote",
+	// 																				// NULL},
+	// 																				// {"echo",
+	// 																					"'This is another unmatched quote",
+	// 																				// 	NULL},
+	// 																				// {NULL}};
+	// 																				// {"echo",
+	// 																					"(unmatched",
+	// 																					"parentheses",
+	// 																					NULL},
+	// 																				// {"echo",
+	// 																					"unmatched",
+	// 																					"parentheses)",
+	// 																					NULL},
+	// 																				// {"echo",
+	// 																					"{unmatched",
+	// 																					"braces",
+	// 																						NULL},
+	// 																				// {"echo",
+	// 																					"unmatched",
+	// 																					"braces}",
+	// 																						NULL},
+	// 																				// {"echo",
+	// 																					"[unmatched",
+	// 																					"brackets",
+	// 																						NULL},
+	// 																				// {"echo",
+	// 																					"unmatched",
+	// 																					"brackets]",
+	// 																						NULL},
+	// 																				// {"|",
+	// 																				// 	"echo",
+	// 																				// 	"\"Pipe at the beginning\"",
+	// 																				// 	NULL},
+	// 																				// {"echo",
+	// 																					"\"Pipe at the end\"",
+	// 																					"|",
+	// 																						NULL},
+	// 														{"echo",
+	// 															"\"Double pipe\"",
+	// 															"||",
+	// 															"echo",
+	// 															"\"another command\"",
+	// 																NULL},
+
+	// 													{">", "outfile.txt",
+	// 														"echo",
+	// 														"\"Redirection at the beginning\"",
+	// 															NULL},
+
+	// 												{"echo",
+	// 													"\"Redirection at the end\"",
+	// 													">",
+	// 													NULL},
+
+	// 												{"echo",
+	// 													"\"Double redirection\"",
+	// 													">>",
+	// 													">>",
+	// 													"outfile.txt", NULL},
+
+	// 												{"&&", "echo",
+	// 													"\"Logical AND at the beginning\"",
+	// 														NULL},
+
+	//  {"echo", "\"Logical AND at the end\"", "&&", NULL},
+	// 						{"||", "echo", "\"Logical OR at the beginning\"",
+	// 							NULL},
+	//  {"echo", "\"Logical OR at the end\"", "||", NULL},
+
+	// 												{"echo", "*", "|", NULL},
+
+	// 											{"echo", "|", "*", NULL},
+
+	// 						{"echo", "\"Mismatched quotes'", "&&", "ls", NULL},
+	//  {"(", "echo", "\"Missing closing parenthesis\"", "||", "ls", NULL},
+
+	// 				{"echo", "\"Redirection in the middle\"", ">", "|", "grep",
+	// 					"\"error\"", NULL},
+	// 					{"echo", "\"Logical AND at end\"", "&&", NULL},
+	// 	{
+	// 		NULL
+	// 	}
+	// };
+	// 			*/
+	// 								{"echo",
+	// 									"\"Unmatched Q im cmd subst $(date\
+// 									&& echo 'Done)\"",
+	// 									NULL},
+	// 								{NULL}};
+
 	printf("Parsing good commands:\n");
-	i = 0;
-	while (good_commands[i])
+	for (int i = 0; i < (int)(sizeof(good_commands)
+			/ sizeof(good_commands[0])); i++)
 	{
 		tokens = good_commands[i];
-		parse_tokens(tokens);
-		i++;
+		res = parse_tokens(tokens);
+		if (res == 0)
+			printf("SUCCESSFUL PARSE\n");
 	}
-	// printf("Parsing bad commands:\n");
-	// i = 0;
-	// while (bad_commands[i])
+	// printf("\nParsing bad commands:\n");
+	// for (int i = 0; i < (int)(sizeof(bad_commands)
+	// 		/ sizeof(bad_commands[0])); i++)
 	// {
 	// 	tokens = bad_commands[i];
 	// 	parse_tokens(tokens);
-	// 	i++;
 	// }
-	//	tokens = &token;
-	//	parse_tokens(tokens);
-	//	printf("SUCCESSFUL PARSE\n");
+	//		// tokens = &token;
+	//		// parse_tokens(tokens);
+	//		// printf("SUCCESSFUL PARSE\n");
 	return (0);
 }

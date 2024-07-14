@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: linux <linux@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: linux <linux@student.42.fr>                +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/06/23 15:29:16 by linux             #+#    #+#             */
 /*   Updated: 2024/07/12 16:23:50 by linux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	free_data(t_pdata *pdata)
 {
@@ -22,7 +26,7 @@ void	free_data(t_pdata *pdata)
 
 void	syntax_error(t_pdata *pdata, int n)
 {
-	char	*e1;
+	char *e1;
 
 	e1 = "unbash: syntax error near unexpected token `";
 	write(2, e1, ft_strlen(e1));
@@ -35,7 +39,7 @@ void	syntax_error(t_pdata *pdata, int n)
 
 void	quote_error(t_pdata *pdata, int n)
 {
-	char	*e1;
+	char *e1;
 
 	e1 = "unbash: syntax error--unmatched quote before or near token `";
 	write(2, e1, ft_strlen(e1));
@@ -48,7 +52,7 @@ void	quote_error(t_pdata *pdata, int n)
 
 void	parens_error(t_pdata *pdata, int n)
 {
-	char	*e1;
+	char *e1;
 
 	e1 = "unbash: syntax error--unmatched backet before or near token `";
 	write(2, e1, ft_strlen(e1));
@@ -61,9 +65,9 @@ void	parens_error(t_pdata *pdata, int n)
 
 void	stack_error(t_pdata *pdata, int n)
 {
-	char	*e1;
+	char *e1;
 
-	e1 = "unbash: stack overflow or underflow near token `";
+	e1 = "unbash: parenthesis stack overflow or underflow near token `";
 	write(2, e1, ft_strlen(e1));
 	ft_putstr_fd(pdata->current, 2);
 	e1 = "'\n";

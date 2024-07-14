@@ -82,8 +82,8 @@ typedef struct t_parsedata
 	int sqt_toggle; // single quote toggle (for alternation)
 	int sqts;       // current parsed single quote count
 	int dqts;       // current parsed double quote count
-	char *last;     // current token
-	char *current;  // last token
+	char *last;     // last token
+	char *current;  // current token
 	t_stack parens; // parens stack
 } t_pdata;
 
