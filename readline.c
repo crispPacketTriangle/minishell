@@ -14,6 +14,8 @@ int	main(int argc, char **argv, char **env)
 
 	// interesting, arrays can be initialised like this
 	int	arr[3] = {-1};
+	
+	init_data(&data);
 
 	//data.vars = &testvars;
 	test_envvars(&data);
@@ -34,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 
-	chain_pipes(3);
+	//chain_pipes(3);
 
 
 	rl_initialize();
@@ -54,8 +56,8 @@ int	main(int argc, char **argv, char **env)
 			if (dev_placeholders(input, &data) != 0)
 				continue ;
 
-			printf("########################\n");
-			print_tokens(data.tok);
+			// printf("########################\n");
+			// print_tokens(data.tok);
 			int i = 0;
 			while (data.tok[i])
 			{
@@ -67,17 +69,16 @@ int	main(int argc, char **argv, char **env)
 				}
 				i++;
 			}
-			printf("#########################\n");
+			// printf("#########################\n");
 			print_tokens(data.tok);
 		}
 		free(input);
 		append_history(3, "history");
 	}
-
-	printf("path: %d\n", PATH_MAX);
-	printf("name: %d\n", NAME_MAX);
 }
 
+// todo: implement functions for user variable insertion into
+// dictionary. if conflict at index append to list
 int	test_envvars(t_data *data)
 {
 	init_arr(data, VAR_BUFF);
@@ -114,23 +115,23 @@ t_args	*init_test()
 	wrt_to_str("/usr/bin/grep", &args[2].cmd);
 	args[2].arg = malloc(3 * sizeof(char *));
 	wrt_to_str("grep", &args[2].arg[0]);
-	wrt_to_str("h", &args[2].arg[1]);
+	wrt_to_str("e", &args[2].arg[1]);
 	args[2].arg[2] = NULL;
 
-	i = 0;
-	while (i < 3)
-	{
-		printf("cmd: %s\n", args[i].cmd);
-		printf("args:");
-		j = 0;
-		while (args[i].arg[j] != NULL)
-		{
-			printf(" %s", args[i].arg[j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	// i = 0;
+	// while (i < 3)
+	// {
+	// 	printf("cmd: %s\n", args[i].cmd);
+	// 	printf("args:");
+	// 	j = 0;
+	// 	while (args[i].arg[j] != NULL)
+	// 	{
+	// 		printf(" %s", args[i].arg[j]);
+	// 		j++;
+	// 	}
+	// 	printf("\n");
+	// 	i++;
+	// }
 	return (args);
 }
 
@@ -142,7 +143,7 @@ t_args	*init_test()
 // so we will leave the last process as directing
 // output to stdout and redirect the output of the
 // process in main to buffer
-// the last pipe must be defined and passed to chain pipes
+// the last pipe must be defined and passed to chain_pipes
 //   along with n (number of pipies) and possilby other
 //   set-up variables that the parser defines
 int chain_pipes(int n)
@@ -230,52 +231,80 @@ int chain_pipes(int n)
 // keep previous directory in memory
 // when moving to parent directory edit cwd
 // going back a directoy with - prints directoy to console
-int	cd(const char *path)
+// 
+// chdir doesn't know how to interpret ~/ so should be
+// expanded to the full directory and then involves looking up env
+// vars as the current user should be appended to /home/<user>
+// HOME=/home/cpt
+int	cd(char *p, t_data *data)
 {
 	char	*cwd;
+	char	*path;
 
+	path = p;
 	cwd = malloc(PATH_MAX * sizeof(char));
 	if (!cwd)
 		return (perrsub());
 	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		free(cwd);
-		return (perrsub());
-	}
-	//printf("dir: %s\n", cwd);
-	free(cwd);
+		return (free_cd(cwd));
+	path = mod_path(cwd, path, data);
+	if (!path)
+		return (free_cd(cwd));
 	if (chdir(path) != 0)
-		return (perrsub());
-	cwd = malloc(PATH_MAX * sizeof(char));
-	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		free(cwd);
-		return (perrsub());
-	}
-	//printf("dir: %s\n", cwd);	
+		return (free_cd(cwd));
+	set_pdir(cwd, data);
 	free(cwd);
 	return (0);
 }
 
-char	*parent_dir(char *path)
+int free_cd(char *cwd)
 {
-	int	i;
+	free(cwd);
+	return (perrsub());
+}
 
-	i = ft_strlen(path);
-	i--;
-	while (i > 0)
+char	*home_dir(char *path)
+{
+	if (ft_strncmp(path, "~", 1) == 0)
 	{
-		if (path[i] == '/')
-		{
-			path[i] = '\0';
-			return (path);
-		}
+		// variable expansion
 	}
 	return (path);
 }
 
-char	*prev_dir(t_data *data)
+
+char	*prev_dir(char *cwd, char *path, t_data *data)
 {
+	if (!data->pdir)
+	{
+		data->pdir = malloc(PATH_MAX * sizeof(char));
+		if (!data->pdir)
+			return (NULL);
+		ft_strlcpy(data->pdir, cwd, ft_strlen(cwd) + 1);
+	}
+	return (data->pdir);
+}
+
+char	*mod_path(char *cwd, char *path, t_data *data)
+{
+	if (ft_strncmp(path, "-", 1) == 0)
+		return (prev_dir(cwd, path, data));
+	if (ft_strncmp(path, "~", 1) == 0)
+		return (home_dir(path));
+	return (path);
+}
+
+char	*set_pdir(char *cwd, t_data *data)
+{	
+	if (!data->pdir)
+	{
+		data->pdir = malloc(PATH_MAX * sizeof(char));
+		if (!data->pdir)
+			return (NULL);
+		ft_strlcpy(data->pdir, cwd, ft_strlen(cwd) + 1);
+	}
+	ft_memset(data->pdir, 0, PATH_MAX);
+	ft_strlcpy(data->pdir, cwd, ft_strlen(cwd) + 1);
 	return (data->pdir);
 }
 
@@ -310,22 +339,44 @@ int	dev_placeholders(char *input, t_data *data)
 {
 	char	*cwd;
 
+	if (ft_strncmp(input, "pipes", 5) == 0)
+		chain_pipes(3);
 	if (ft_strncmp(input, "exit", 4) == 0)
 		exit(1);
 	if (ft_strncmp(input, "pwd", 3) == 0)
 	{			
 		cwd = malloc(PATH_MAX * sizeof(char));
 		getcwd(cwd, PATH_MAX);
-		printf("dir: %s\n", cwd);	
+		printf("%s\n", cwd);	
 		free(cwd);
 		return (1);
 	}
 	if (ft_strncmp(input, "cd", 2) == 0)
 	{
 		test_cd_cmd_args(data);
-		cd(data->args[0].arg[0]);
+		cd(data->args[0].arg[0], data);
 		return (1);
 	}
 	return (0);
 }
 
+void	init_data(t_data *data)
+{
+	data->tog = 0;
+	data->nqts = 0;
+	data->sqts = 0;
+	data->dqts = 0;
+	data->lst = 0;
+	data->paren = 0;
+	data->np = 0;
+	data->lvars = 0;
+	data->lvals = 0;
+	data->key_iter = 0;
+	data->pdir = NULL;
+	data->envv = NULL;
+	data->keys = NULL;
+	data->args = NULL;
+	data->tok = NULL;
+	data->expand = NULL;
+	data->uev = NULL;
+}

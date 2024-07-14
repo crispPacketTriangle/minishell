@@ -275,3 +275,33 @@ test
 cd /home/cpt/42/shell
 pwd
 ps aux | grep -v grep | grep -v "ps aux" | awk '{print $1, $2, $3, $4}' | sort -k3,3nr | head -n 10
+! hi this is unbash " 'nested quotes' " $one
+! hi this is unbash " 'nested quotes' " $one
+! hi this is unbash " 'nested quotes' " $two
+! hi this is unbash " 'nested quotes' " $one
+! hi this is unbash " 'nested quotes' " $two
+! hi this is unbash " 'nested quotes' " $one
+// cc readline.c parser.c table.c hash.c load_envv.c pipes.c -L libft -lreadline -lft
+clear
+find . -type f -exec wc -l {} + | sort -n | tail -n 10 | awk '{print $2 ": " $1 " lines"}' | column -t
+cd /home/cpt/42/shell
+pwd
+$one
+pwd
+$one
+$two
+$one
+$two
+hi $one do $two
+hi $one do $two
+pwd
+pipes
+hi $one do $two
+hi $one do $two
+hi $one do $two
+hi $one do $two
+hi $one do $two
+what#
+hi $one do $two
+what#
+ok history with up and down arrows works in the shell
