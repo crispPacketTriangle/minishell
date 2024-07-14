@@ -35,6 +35,12 @@ int	main(int argc, char **argv, char **env)
 	{
 		return (1);
 	}
+	
+	// while (*environ)
+	// {
+	// 	printf("e: %s\n", *environ);
+	// 	environ++;
+	// }
 
 	//chain_pipes(3);
 
@@ -259,19 +265,59 @@ int	cd(char *p, t_data *data)
 
 int free_cd(char *cwd)
 {
+	printf("error\n");
 	free(cwd);
 	return (perrsub());
 }
 
 char	*home_dir(char *path)
 {
-	if (ft_strncmp(path, "~", 1) == 0)
+	char	*cpypath;
+	int		size;
+	int		i;
+
+	size = ft_strlen(path);
+	cpypath = malloc((size + 1) * sizeof(char));
+	ft_strlcpy(cpypath, path, size + 1);
+	i = 0;
+	while (environ[i])
 	{
-		// variable expansion
+		if (ft_strncmp(environ[i], "HOME=", 5) == 0)
+		{
+			subpath(&path, cpypath, environ[i]);
+			break ;
+		}
+		i++;
 	}
+	free(cpypath);
 	return (path);
 }
 
+char	*subpath(char **path, char *cpypath, char *env)
+{
+	int		j;
+	int		k;
+	
+	free(*path);
+	*path = malloc(PATH_MAX * sizeof(char));
+	j = 5;
+	k = 0;
+	while (env[j])
+	{
+		(*path)[k] = env[j];
+		j++;
+		k++;
+	}
+	j = 1;
+	while (cpypath[j])
+	{
+		(*path)[k] = cpypath[j];
+		j++;
+		k++;
+	}
+	(*path)[k] = '\0';
+	return (*path);
+}
 
 char	*prev_dir(char *cwd, char *path, t_data *data)
 {
@@ -289,7 +335,7 @@ char	*mod_path(char *cwd, char *path, t_data *data)
 {
 	if (ft_strncmp(path, "-", 1) == 0)
 		return (prev_dir(cwd, path, data));
-	if (ft_strncmp(path, "~", 1) == 0)
+	if (ft_strncmp(path, "~/", 2) == 0)
 		return (home_dir(path));
 	return (path);
 }

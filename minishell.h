@@ -140,6 +140,7 @@ int			errsub(int macro);
 int			perrsub();
 char		*set_pdir(char *cwd, t_data *data);
 int 		free_cd(char *cwd);
+char		*subpath(char **path, char *cpypath, char *env);
 
 int			dev_placeholders(char *input, t_data *data);
 void		test_cd_cmd_args(t_data *data);

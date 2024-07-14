@@ -305,3 +305,8 @@ what#
 hi $one do $two
 what#
 ok history with up and down arrows works in the shell
+df -h | grep '^/dev' | awk '{print $5, $6}' | sort -n | tail -n 5 | sed 's/%//g' | awk '$1 > 80 {print $2 " is above 80%"}'
+cd ~/42/shell
+pwd
+clear
+hi

@@ -31,7 +31,7 @@ int	tokenise(char *input, t_data *data)
 void	mid(char c, t_data *data)
 {
 	if (c == data->lst)
-		data->tog *= - 1;
+		data->tog *= -1;
 	data->lst = c;
 	if (c == '\'')
 		data->sqts += data->tog;
