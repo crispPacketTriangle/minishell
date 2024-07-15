@@ -118,7 +118,6 @@ int			iter_table(t_var_tb *node, void (f)(void *,
 void		print_node(void *node, t_data *data);
 void		free_table(t_var_tb **node);
 int			wrt_to_str(char *src, char **dst);
-int			test_envvars(t_data *data);
 void		cal_lvals(void *d, char *key, t_data *data);
 char		*expand(char *input, t_data *data);
 
@@ -132,18 +131,28 @@ int			expand_envv(t_data *data, char *str);
 int			readintobuff(int n);
 int			chain_pipes(int n);
 
-int			cd(char *p, t_data *data);
+int			unb_cd(t_args *args, t_data *data);
 char		*home_dir(char *path);
 char		*prev_dir(char *cwd, char *path, t_data *data);
 char		*mod_path(char *cwd, char *path, t_data *data);
-int			errsub(int macro);
-int			perrsub();
 char		*set_pdir(char *cwd, t_data *data);
 int 		free_cd(char *cwd);
 char		*subpath(char **path, char *cpypath, char *env);
 
+void		unb_echo(t_args *args);
+int			option(char *str, int *n);
+int			len_arr(char **arr);
+
+int			errsub(int macro);
+int			perrsub();
+
 int			dev_placeholders(char *input, t_data *data);
 void		test_cd_cmd_args(t_data *data);
+void		test_echo_cmd_args(t_data *data);
 void		init_cd_test(t_data *data);
+void		init_echo_test(t_data *data);
+void		test_echo_cmd_args(t_data *data);
+int			test_envvars(t_data *data);
+t_args		*init_test();
 
 #endif
