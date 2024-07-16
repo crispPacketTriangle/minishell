@@ -1,16 +1,17 @@
 #include "minishell.h"
 
-// cc readline.c parser.c table.c hash.c load_envv.c pipes.c utils.c -L libft -lreadline -lft
+// cc readline.c parser.c table.c hash.c load_envv.c pipes.c utils.c unb_vars.c -L libft -lreadline -lft
 
 int	main(int argc, char **argv, char **env)
 {
 	char				*input;
 	struct sigaction	sa;
 	t_data				data;
+	int					i;
 
 	init_data(&data);
-
 	test_envvars(&data);
+	init_en_var_table(env, &data);
 
 	// * set the memory allocated for sigaction struct to 0
 	ft_memset(&sa, 0, sizeof(sa));
@@ -25,12 +26,6 @@ int	main(int argc, char **argv, char **env)
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (1);
 	
-	// while (*environ)
-	// {
-	// 	printf("e: %s\n", *environ);
-	// 	environ++;
-	// }
-
 	rl_initialize();
 	rl_readline_name = "minishell";
 	printf("unbash \\o_o/ \n");
@@ -49,7 +44,7 @@ int	main(int argc, char **argv, char **env)
 			data.tok = ft_split(input, -1);
 			if (dev_placeholders(input, &data) != 0)
 				continue ;
-			int i = 0;
+			i = 0;
 			while (data.tok[i])
 			{
 				if (is_var(&data, data.tok[i], '$'))
@@ -64,9 +59,17 @@ int	main(int argc, char **argv, char **env)
 	}
 }
 
-void	unb_pwd()
+int	unb_pwd(void)
 {
-	
+	char	*cwd;
+
+	cwd = malloc(PATH_MAX * sizeof(char));
+	if (!cwd)
+		return (perrsub());
+	getcwd(cwd, PATH_MAX);
+	ft_printf("%s\n", cwd);	
+	free(cwd);
+	return (0);
 }
 
 // all builtins should, even if not required by the subject
@@ -139,3 +142,4 @@ void	test_echo_cmd_args(t_data *data)
 	}
 	data->args[0].arg[i - 1] = NULL;
 }
+

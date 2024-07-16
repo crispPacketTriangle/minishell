@@ -5,10 +5,10 @@
 // dictionary. if conflict at index append to list
 int	test_envvars(t_data *data)
 {
-	init_arr(data, VAR_BUFF);
-	data->uev[poly_r_hash("one", VAR_BUFF)] = create_node("one", "unruffled");
-	data->uev[poly_r_hash("two", VAR_BUFF)] = create_node("two", "sleep");
-	data->uev[poly_r_hash("three", VAR_BUFF)] = create_node("three", "melatonine");
+	init_arr(data);
+	data->uev[poly_r_hash("one")] = create_node("one", "unruffled");
+	data->uev[poly_r_hash("two")] = create_node("two", "sleep");
+	data->uev[poly_r_hash("three")] = create_node("three", "melatonine");
 	
 	// printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->key);
 	// printf("%s\n", data->uev[poly_r_hash("two", VAR_BUFF)]->var);
@@ -308,18 +308,13 @@ void	init_cd_test(t_data *data)
 
 int	dev_placeholders(char *input, t_data *data)
 {
-	char	*cwd;
-
 	if (ft_strncmp(input, "pipes", 5) == 0)
 		chain_pipes(3);
 	if (ft_strncmp(input, "exit", 4) == 0)
 		exit(1);
 	if (ft_strncmp(input, "pwd", 3) == 0)
-	{			
-		cwd = malloc(PATH_MAX * sizeof(char));
-		getcwd(cwd, PATH_MAX);
-		printf("%s\n", cwd);	
-		free(cwd);
+	{	
+		unb_pwd();
 		return (1);
 	}
 	if (ft_strncmp(input, "cd", 2) == 0)
@@ -335,6 +330,23 @@ int	dev_placeholders(char *input, t_data *data)
 		init_echo_test(data);
 		test_echo_cmd_args(data);
 		unb_echo(data->args);
+		return (1);
+	}
+	if (ft_strncmp(input, "env", 3) == 0)
+	{
+		int	i = 0;
+		while (i < VAR_BUFF)
+		{
+			print_table(data->ent[i]);
+			i++;
+		}
+		return (1);
+	}
+	if (ft_strncmp(input, "export", 6) == 0)
+	{
+		t_args	*test;
+		test = init_export_test(input, data);
+		unb_export(test, data);
 		return (1);
 	}
 	return (0);

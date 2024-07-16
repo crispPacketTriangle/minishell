@@ -353,3 +353,33 @@ ce /
 pipes
 df -h | grep '^/dev' | awk '{print $5, $6}' | sort -n | tail -n 5 | sed 's/%//g' | awk '$1 > 80 {print $2 " is above 80%"}'
 ech
+cwd
+exir
+clear
+pipes
+pipes
+env
+hi
+cd shell
+pwd
+env
+pwd
+env
+pipes
+xit
+export one
+export one
+env
+export one
+env
+eexit
+export one
+$one
+$one
+env
+clear
+
+pipes
+echo -n without a trailing new line
+echo wonderful
+parse this ' " 'a few nested quotes' " ' and (some parens) nice
