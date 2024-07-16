@@ -1,21 +1,15 @@
 #include "minishell.h"
 
-int	init_arr(t_data *data, int n)
+int	init_arr(t_data *data)
 {
-	int	i;
-	data->uev = malloc(n * sizeof(t_var_tb *));
+	data->uev = malloc(VAR_BUFF * sizeof(t_var_tb *));
 	if (!data->uev)
 		return (1);
-	i = 0;
-	while (i < n)
-	{
-		data->uev[i] = NULL;
-		i++;
-	}
+	ft_memset(data->uev, 0, VAR_BUFF);
 	return (0);
 }
 
-int	poly_r_hash(char *key, int n)
+int	poly_r_hash(char *key)
 {
 	unsigned long long	base;
 	unsigned long long	pow;
@@ -34,8 +28,7 @@ int	poly_r_hash(char *key, int n)
 		pow = (pow * base) % mod;
 		i++;
 	}
-	//printf("idx: %d\n", (int)index % n);
-	return ((int)index % n);
+	return ((int)index % VAR_BUFF);
 }
 
 // int	main()

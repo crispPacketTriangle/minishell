@@ -5,7 +5,7 @@
 # define EXIT_STATUS 1
 
 # ifndef VAR_BUFF
-	# define VAR_BUFF 100
+	# define VAR_BUFF 101
 # endif
 
 #include <stdio.h>
@@ -89,6 +89,7 @@ typedef struct	t_data
 	t_args		*args;		// cmd arg groupings in order of execution
 	char		**tok;
 	char		*expand;
+	t_var_tb	**ent;
 	t_var_tb	**uev;		// user defined variables key value pairs
 }	t_data;
 
@@ -121,8 +122,8 @@ int			wrt_to_str(char *src, char **dst);
 void		cal_lvals(void *d, char *key, t_data *data);
 char		*expand(char *input, t_data *data);
 
-int			init_arr(t_data *data, int n);
-int			poly_r_hash(char *key, int n);
+int			init_arr(t_data *data);
+int			poly_r_hash(char *key);
 int			append_envv(t_data *data);
 int			is_var(t_data *data, char *str, char c);
 void		expand_var(void *d, t_data *data, char *key);
@@ -139,6 +140,16 @@ char		*set_pdir(char *cwd, t_data *data);
 int 		free_cd(char *cwd);
 char		*subpath(char **path, char *cpypath, char *env);
 
+int			init_en_var_table(char **env, t_data *data);
+int			load_env_vars(char **env, t_data *data);
+int			extract(t_key_val *temp, char *var);
+int			print_table(t_var_tb *node);
+void		print_n(void *node);
+int			unb_export(t_args *args, t_data *data);
+t_var_tb	*find_uev(t_var_tb *node, char *key);
+
+int			unb_pwd(void);
+
 void		unb_echo(t_args *args);
 int			option(char *str, int *n);
 int			len_arr(char **arr);
@@ -154,5 +165,6 @@ void		init_echo_test(t_data *data);
 void		test_echo_cmd_args(t_data *data);
 int			test_envvars(t_data *data);
 t_args		*init_test();
+t_args		*init_export_test(char *input, t_data *data);
 
 #endif

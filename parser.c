@@ -120,7 +120,7 @@ int	expand_envv(t_data *data, char *str)
 	if (str[0] == '$')
 	{
 		str++;
-		idx = poly_r_hash(str, VAR_BUFF);
+		idx = poly_r_hash(str);
 		if (data->uev[idx])
 			iter_table(data->uev[idx], &expand_var, data, str);
 		// input should be a pointer in the data struct
