@@ -337,6 +337,7 @@ int	dev_placeholders(char *input, t_data *data)
 		int	i = 0;
 		while (i < VAR_BUFF)
 		{
+			ft_printf("%d: ", i);
 			print_table(data->ent[i]);
 			i++;
 		}
@@ -347,6 +348,13 @@ int	dev_placeholders(char *input, t_data *data)
 		t_args	*test;
 		test = init_export_test(input, data);
 		unb_export(test, data);
+		return (1);
+	}
+	if (ft_strncmp(input, "unset", 5) == 0)
+	{
+		t_args	*test;
+		test = init_export_test(input, data);
+		unb_unset(test, data);
 		return (1);
 	}
 	return (0);
