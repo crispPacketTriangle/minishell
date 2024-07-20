@@ -147,6 +147,8 @@ int			print_table(t_var_tb *node);
 void		print_n(void *node);
 int			unb_export(t_args *args, t_data *data);
 t_var_tb	*find_uev(t_var_tb *node, char *key);
+int			unb_unset(t_args *args, t_data *data);
+int			find_ent(int idx, char *key, t_data *data);
 
 int			unb_pwd(void);
 

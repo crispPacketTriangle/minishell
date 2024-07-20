@@ -383,3 +383,60 @@ pipes
 echo -n without a trailing new line
 echo wonderful
 parse this ' " 'a few nested quotes' " ' and (some parens) nice
+export one
+unset one
+pipes
+env
+$one
+$one
+env
+unset one
+########################################################################################################
+unset one
+env
+clear
+unset one
+env
+pipes
+unset one
+env
+pipes
+env
+export two
+pipes
+export two
+pipes
+pipes
+pipes
+pipes
+pipes
+env
+export three
+pipes
+export three
+pipes
+pipes
+pipes
+pipes
+pipes
+pipes
+pipes
+pipes
+env
+export one
+pipes
+export one
+pipes
+pipes
+pipes
+pipes
+pipes
+env
+unset one
+pipes
+unset one
+pipes
+pipes
+pipes
+pipes
+pipes
