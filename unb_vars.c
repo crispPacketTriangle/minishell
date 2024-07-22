@@ -71,113 +71,17 @@ int	extract(t_key_val *temp, char *var)
 	return (0);
 }
 
-int	unb_export(t_args *args, t_data *data)
-{
-	int			idx;
-	t_var_tb	*var;
-	
-	var = NULL;
-	idx = poly_r_hash(args->arg[0]);
-	if (data->uev[idx])
-		var = find_uev(data->uev[idx], args->arg[0]);
-	if (!var)
-		return (perrsub());
-	if (data->ent[idx] == 0)
-		data->ent[idx] = create_node(var->key, var->var);
-	else
-		add_var(&data->ent[idx], create_node(var->key, var->var));
-	return (0);
-}
 
-t_var_tb	*find_uev(t_var_tb *node, char *key)
-{
-	while (node)
-	{
-		if (ft_strncmp(node->key, key, ft_strlen(key)) == 0)
-				return (node);
-		node = node->next;
-	}
-	return (NULL);
-}
+// boring jobs that MUST BE DONE
 
-t_args	*init_export_test(char *input, t_data *data)
-{
-	t_args	*test;
+// change all functions to accept arg[1] since
+// arg[0] will always be the path to the command
 
-	test = malloc(sizeof(t_args));
-	test->cmd = data->tok[0];
-	test->arg = &data->tok[1];
-	return (test);
-}
+// change keyval->var to keyval->val
 
-int	unb_unset(t_args *args, t_data *data)
-{
-	int			idx;
-	
-	idx = poly_r_hash(args->arg[0]);
-	if (data->ent[idx])
-		find_ent(idx, args->arg[0], data);
-	// reuse look up function
-	// except keep track of prev node
-	// if found
-	// node->prev = node->next
-	// free(node->key)
-	// free(node->var) (change this to val I hate it)
-	return (0);
-}
-
-// for testing loop to create a bunch of variables
-// test for sandwiched vars by looping over array
-// and printing first i and then everything in list
-// try removing sandwiched values
-// or else brute force to the point where sandwiched
-// vars certainly exist in the array
-
-// can one unset systen env vars like PATH in bash?
-// probably yes
-int	find_ent(int idx, char *key, t_data *data)
-{
-	t_var_tb	*prev;
-	t_var_tb	*cur;
-	t_var_tb	*copy;
-	
-	cur = data->ent[idx];
-	prev = NULL;
-	while (cur)
-	{
-		if (ft_strncmp(cur->key, key, ft_strlen(key)) == 0)
-		{
-			if (cur->next == NULL) 			// last or only entry
-			{
-				free(cur->key);
-				free(cur->var);
-				cur = NULL;
-				if (!prev)
-					data->ent[idx] = NULL;
-				else
-					prev->next = NULL;
-			}
-			else if (prev == NULL) 	// is head
-			{
-				copy = cur->next;
-				free(cur->key);
-				free(cur->var);
-				free(cur);
-				data->ent[idx] = copy;
-			}
-			else							// is sandwiched
-			{
-				copy = cur->next;
-				free(cur->key);
-				free(cur->var);
-				free(cur);
-				prev->next = copy;  // it needs to be the og pointer
-			}
-			return (1);
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-	return (0);
-}
-
+// unb_echo    <---
+// unb_export  <--- 
+// unb_unset   <---
+// unb_cd
+//
+//
