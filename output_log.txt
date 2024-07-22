@@ -1,0 +1,36 @@
+unbash \o_o/ 
+>>>pipes
+drwxr-xr-x. 1 cpt cpt        0 Jun 30 16:29 subfolder
+-rwxr-xr-x. 1 cpt cpt    62696 Jul 22 13:22 minishell
+-rw-r--r--. 1 cpt cpt    12824 Jul 22 13:22 readline.o
+-rw-r--r--. 1 cpt cpt    10800 Jul 22 13:22 parser.o
+-rw-r--r--. 1 cpt cpt     9416 Jul 22 13:22 unb_export.o
+-rw-r--r--. 1 cpt cpt     8368 Jul 22 13:22 table.o
+-rw-r--r--. 1 cpt cpt     7984 Jul 22 13:22 unb_echo.o
+-rw-r--r--. 1 cpt cpt     7336 Jul 22 13:22 pipes.o
+-rw-r--r--. 1 cpt cpt     7272 Jul 16 19:42 parser.c
+-rw-r--r--. 1 cpt cpt     4496 Jul 21 17:36 minishell.h
+-rw-r--r--. 1 cpt cpt     4368 Jul 22 13:22 load_envv.o
+-rw-r--r--. 1 cpt cpt     2676 Jul 21 22:22 unb_export.c
+-rw-r--r--. 1 cpt cpt     1735 Jul 22 13:04 pipes.c
+-rw-r--r--. 1 cpt cpt     1648 Jul 21 19:17 readline.c
+-rw-r--r--. 1 cpt cpt     1617 Jul 16 18:33 table.c
+-rw-r--r--. 1 cpt cpt      981 Jul 22 17:36 mini_test.py
+-rw-r--r--. 1 cpt cpt      892 Jul 22 00:49 unb_echo.c
+-rw-r--r--. 1 cpt cpt      520 Jul 22 12:50 Makefile
+-rw-r--r--. 1 cpt cpt      422 Jun 22 15:57 load_envv.c
+-rw-r--r--. 1 cpt cpt        0 Jul 22 17:36 error_log.txt
+-rw-r--r--. 1 cpt cpt        0 Jul 22 17:33 error_log
+status: 0
+pipes
+>>>cd /
+>>>pwd
+/
+>>>pipes
+drwxr-xr-x.  20 root root 5620 Jul 22 03:07 dev
+drwxr-xr-x.   1 root root 5396 Jul 21 14:38 etc
+drwxr-xr-x.   1 root root    6 Jan 19  2023 home
+drwxr-xr-x.   1 root root    0 Jan 19  2023 media
+status: 0
+pipes
+>>>exit

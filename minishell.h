@@ -156,6 +156,8 @@ void		unb_echo(t_args *args);
 int			option(char *str, int *n);
 int			len_arr(char **arr);
 
+void 		clear_terminal();
+
 int			errsub(int macro);
 int			perrsub();
 
