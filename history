@@ -1,1 +1,67 @@
 ls -l /some/directory | grep '^d' | awk '{print $9}' | sort | uniq | wc -l | xargs -I{} echo "Number of unique directories: {}"
+pipes
+pipes
+anything
+anything
+builtin
+builtin
+echo hello
+wc -l hello world
+wc -l hello world
+pwd
+ls
+pwd
+ls
+ls -l
+ls
+ls -l
+ls -a | grep hello
+ls -l
+ls -a | grep hello
+ls -a | grep bash
+ls -a | grep hello
+ls -a | grep bash
+ls -a | grep unbash
+üüa parse parse
+clear
+parse this "an apostrophe fucks things up it's not ideal" 
+clear
+parse this "an apostrophe fucks things up it's not ideal" 
+oh wait no it "doesn't ah but it will fuck things up here it's true"
+parse this "an apostrophe fucks things up it's not ideal" 
+oh wait no it "doesn't ah but it will fuck things up here it's true"
+oh wait no it "doesn't ah but it will fuck things up here" it's true
+oh wait no it "doesn't ah but it will fuck things up here it's true"
+oh wait no it "doesn't ah but it will fuck things up here" it's true
+" huh' this is weird" dont see what happen' bloody hell
+oh wait no it "doesn't ah but it will fuck things up here" it's true
+" huh' this is weird" dont see what happen' bloody hell
+fuck
+" huh' this is weird" dont see what happen' bloody hell
+fuck
+ok
+fuck
+ok
+" how about ' this " " if this workes' every' thhing' is fine"
+ok
+" how about ' this " " if this workes' every' thhing' is fine"
+" how about ' this " " if this workes' every' thhing is fine"
+" how about ' this " " if this workes' every' thhing' is fine"
+" how about ' this " " if this workes' every' thhing is fine"
+" how about ' this " " if this workes' every thhing is fine"
+" how about ' this " " if this workes' every' thhing is fine"
+" how about ' this " " if this workes' every thhing is fine"
+" how about ' this " " if this workes every thhing is fine"
+" how about ' this " " if this workes' every thhing is fine"
+" how about ' this " " if this workes every thhing is fine"
+" how about '' this " " if this workes every thhing is fine"
+clear
+echo -n -n mooooooooo
+moooo
+clear
+cd sdfhjksd
+ls
+cd -
+pwd
+pipes
+" so a ' is going to mess things up" as eveything here will be in one block

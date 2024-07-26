@@ -89,6 +89,7 @@ typedef struct	t_data
 	t_args		*args;		// cmd arg groupings in order of execution
 	char		**tok;
 	char		*expand;
+	char		**d_set;
 	t_var_tb	**ent;
 	t_var_tb	**uev;		// user defined variables key value pairs
 }	t_data;

@@ -26,8 +26,8 @@ int	main(int argc, char **argv, char **env)
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (1);
 	
-	rl_initialize();
-	rl_readline_name = "minishell";
+	// rl_initialize();
+	// rl_readline_name = "minishell";
 	printf("unbash \\o_o/ \n");
 
 	// have getcwd() run before the loop
