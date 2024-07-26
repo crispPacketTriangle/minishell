@@ -28,16 +28,44 @@ int	tokenise(char *input, t_data *data)
 }
 
 // check if inside qts. update single and double qts variables
+// need another variable to store qt type
+
+// if single or double encountered set toggle, only unset when
+// same qt is encountered again
+
+// check if toggle has been set yet
+//	if not set toggle on
+//	if set toggle off if match
+//	else
+//		continue
 void	mid(char c, t_data *data)
 {
-	if (c == data->lst)
-		data->tog *= -1;
-	data->lst = c;
-	if (c == '\'')
-		data->sqts += data->tog;
-	if (c == '\"')
-		data->dqts += data->tog;
-	data->nqts += data->tog;
+	if (data->lst == 'c')
+	{
+		if (c == '\'')
+			data->sqts = 1;
+		else
+			data->dqts = 1;
+		data->nqts = 1;
+		data->lst = c;
+	}
+	else if (c == data->lst)
+	{
+		if (c == '\'')
+			data->sqts = 0;
+		else
+			data->dqts = 0;
+		data->nqts = 0;
+		data->lst = 'c';
+	}
+//	if (c == data->lst)
+//		data->tog *= -1;
+//	data->lst = c;
+//	if (c == '\'')
+//		data->sqts += data->tog;
+//	if (c == '\"')
+//		data->dqts += data->tog;
+//	data->nqts += data->tog;
 }
 
 void	parens(char c, t_data *data)
