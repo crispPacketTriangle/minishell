@@ -1,0 +1,74 @@
+unbash \o_o/ 
+>>>pipes
+total 256
+drwxr-xr-x 2 lworden 2023_berlin  4096 Jul 26 15:32 libft
+-rwxr-xr-x 1 lworden 2023_berlin 55640 Jul 26 19:15 minishell
+-rw-r--r-- 1 lworden 2023_berlin 11608 Jul 26 19:15 utils.o
+-rw-r--r-- 1 lworden 2023_berlin  9856 Jul 26 19:15 lexer.o
+-rw-r--r-- 1 lworden 2023_berlin  9664 Jul 26 19:15 readline.o
+-rw-r--r-- 1 lworden 2023_berlin  9168 Jul 26 19:15 unb_cd.o
+-rw-r--r-- 1 lworden 2023_berlin  9109 Jul 26 19:13 utils.c
+-rw-r--r-- 1 lworden 2023_berlin  7896 Jul 26 19:15 unb_export.o
+-rw-r--r-- 1 lworden 2023_berlin  7795 Jul 26 19:13 lexer.c
+-rw-r--r-- 1 lworden 2023_berlin  7280 Jul 26 19:15 table.o
+-rw-r--r-- 1 lworden 2023_berlin  6360 Jul 26 19:15 unb_echo.o
+-rw-r--r-- 1 lworden 2023_berlin  6064 Jul 26 19:15 unb_vars.o
+-rw-r--r-- 1 lworden 2023_berlin  5144 Jul 26 19:15 pipes.o
+-rw-r--r-- 1 lworden 2023_berlin  4608 Jul 26 19:15 hash.o
+-rw-r--r-- 1 lworden 2023_berlin  4512 Jul 26 19:13 minishell.h
+-rw-r--r-- 1 lworden 2023_berlin  3926 Jul 26 15:25 libft.h
+-rw-r--r-- 1 lworden 2023_berlin  2982 Jul 26 19:13 output_log.txt
+-rw-r--r-- 1 lworden 2023_berlin  2792 Jul 26 19:15 load_envv.o
+-rw-r--r-- 1 lworden 2023_berlin  2676 Jul 26 19:13 unb_export.c
+-rw-r--r-- 1 lworden 2023_berlin  2633 Jul 26 19:13 history
+-rw-r--r-- 1 lworden 2023_berlin  2354 Jul 26 19:13 router.c
+-rw-r--r-- 1 lworden 2023_berlin  2130 Jul 26 19:13 unb_cd.c
+-rw-r--r-- 1 lworden 2023_berlin  1735 Jul 26 19:13 pipes.c
+-rw-r--r-- 1 lworden 2023_berlin  1654 Jul 26 19:13 readline.c
+-rw-r--r-- 1 lworden 2023_berlin  1617 Jul 26 19:13 table.c
+-rw-r--r-- 1 lworden 2023_berlin  1430 Jul 26 19:13 unb_vars.c
+-rw-r--r-- 1 lworden 2023_berlin  1055 Jul 26 19:13 hash.c
+-rw-r--r-- 1 lworden 2023_berlin   981 Jul 26 19:13 mini_test.py
+-rw-r--r-- 1 lworden 2023_berlin   892 Jul 26 19:13 unb_echo.c
+-rw-r--r-- 1 lworden 2023_berlin   519 Jul 26 19:15 Makefile
+-rw-r--r-- 1 lworden 2023_berlin   422 Jul 26 19:13 load_envv.c
+-rw-r--r-- 1 lworden 2023_berlin    11 Jul 26 15:25 README.md
+-rw-r--r-- 1 lworden 2023_berlin     0 Jul 26 19:13 error_log.txt
+status: 0
+pipes
+>>>cd /
+>>>pwd
+/
+>>>pipes
+total 4194400
+lrwxrwxrwx   1 root root         10 Aug  9  2022 libx32 -> usr/libx32
+lrwxrwxrwx   1 root root          9 Aug  9  2022 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root          9 Aug  9  2022 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root          8 Aug  9  2022 sbin -> usr/sbin
+lrwxrwxrwx   1 root root          7 Aug  9  2022 lib -> usr/lib
+lrwxrwxrwx   1 root root          7 Aug  9  2022 bin -> usr/bin
+drwxrwxrwt  20 root root      12288 Jul 26 19:15 tmp
+drwxrwxrwt   3 root root       4096 Jul 26 15:08 goinfre
+drwxr-xr-x 160 root root      12288 Jul 25 09:20 etc
+drwxr-xr-x  41 root root       1300 Jul 26 15:08 run
+drwxr-xr-x  23 root root       4960 Jul 26 15:08 dev
+drwxr-xr-x  16 root root       4096 Feb  6 14:07 var
+drwxr-xr-x  14 root root       4096 May  6  2022 usr
+drwxr-xr-x   8 root root       4096 Nov 13  2023 opt
+drwxr-xr-x   6 root root       4096 Aug  9  2022 snap
+drwxr-xr-x   5 root root       4096 Jul 26 15:08 home
+drwxr-xr-x   5 root root       4096 Jul 22 13:08 boot
+drwxr-xr-x   3 root root       4096 May  4  2022 sgoinfre
+drwxr-xr-x   3 root root       4096 Apr 25 12:01 media
+drwxr-xr-x   2 root root       4096 Aug  9  2022 srv
+drwxr-xr-x   2 root root       4096 Aug  9  2022 mnt
+drwx------   9 root root       4096 Jul 26 08:43 root
+drwx------   2 root root      16384 Nov 13  2023 lost+found
+dr-xr-xr-x 505 root root          0 Jul 26 08:43 proc
+dr-xr-xr-x  13 root root          0 Jul 26 08:43 sys
+dr-xr-xr-x   2 root root       4096 Aug  9  2022 cdrom
+-rw-------   1 root root 4294967296 Nov 13  2023 swap.img
+-rw-------   1 root root          0 Nov 13  2023 osquery.flags
+status: 0
+pipes
+>>>exit

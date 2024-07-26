@@ -7,7 +7,8 @@
 # define STACK_SIZE 2048
 
 # ifndef VAR_BUFF
-	# define VAR_BUFF 101
+<<<<<<< HEAD
+#  define VAR_BUFF 100
 # endif
 
 # include "libft/libft.h"
@@ -18,10 +19,22 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 # include <string.h>
 # include <sys/time.h>
+# include <unistd.h>
+
+extern char **environ;
+
+typedef struct t_args
+=======
+	# define VAR_BUFF 101
+# endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
 #include <readline/readline.h>
@@ -46,18 +59,103 @@ typedef struct	t_pp
 
 // process variables
 typedef struct	t_args
+>>>>>>> main
 {
-	char	*cmd;
-	char	**arg;
-}	t_args;
+	char *cmd;
+	char **arg;
+} t_args;
 
+<<<<<<< HEAD
+typedef struct t_var_tb
+{
+	char *key;
+	char *var;
+	struct t_var_tb *next;
+} t_var_tb;
+
+typedef struct t_key_val
+=======
 // key value dictionary entry
 typedef struct	t_key_val
+>>>>>>> main
 {
-	char			*key;
-	char			*val;
-}	t_key_val;
+	char *key;
+	char *val;
+} t_key_val;
 
+<<<<<<< HEAD
+typedef struct t_test_env
+{
+	t_var_tb *head;
+	t_var_tb *node1;
+	char *key1;
+	char *key2;
+	char *var1;
+	char *var2;
+} t_test_env;
+
+typedef struct t_data
+{
+	int tog;          // toggle opening or closing qt marks (*= -1)
+	int nqts;         // number of qt marks
+	int sqts;         // numbrt of single qt marks
+	int dqts;         // number of double qt marks
+	char lst;         // previous character
+	int np;           // number of pipes
+	int lvars;        // length of variables
+	int lvals;        // length of values
+	int key_iter;     // iterator for temp env var keys char **keys
+	t_key_val **keys; // temp environment variable keys
+	t_args **args;
+	t_test_env *vars;
+	t_var_tb **uev;
+} t_data;
+
+typedef struct t_stack
+{
+	char stack[STACK_SIZE];
+	int top;
+	bool full;
+} t_stack;
+
+typedef struct t_parsedata
+{
+	int sqt_toggle; // single quote toggle (for alternation)
+	int sqts;       // current parsed single quote count
+	int dqts;       // current parsed double quote count
+	char *last;     // last token
+	char *current;  // current token
+	t_stack parens; // parens stack
+} t_pdata;
+
+void	handle_sigint(int sig);
+int	tokenise(char *input, t_data *data);
+void	print_tokens(char **line);
+void	init_tog(char *input, t_data *data);
+void	init_qts(t_data *data);
+int	tog_on(t_data *data);
+void	mid(char c, t_data *data);
+int	exit_status(char c);
+int	count_dollars(char *input, t_data *data);
+char	*expand_env(char *input, t_data *data);
+void	store_key(int step, int i, char *input, t_data *data);
+void	print_keys(t_data *data);
+
+t_var_tb	*create_node(char *key, char *var);
+int	add_var(t_var_tb **head, t_var_tb *node);
+int	iter_table(t_var_tb *node, void(f)(void *, t_key_val *, t_data *),
+		t_data *data, t_key_val *keys);
+void	print_node(void *node, t_data *data);
+void	free_table(t_var_tb **node);
+int	wrt_to_str(char *src, char **dst);
+int	test_envvars(t_data *data);
+void	cal_lvals(void *d, t_key_val *key, t_data *data);
+char	*expand(char *input, t_data *data);
+
+int	init_arr(t_data *data, int n);
+int	poly_r_hash(char *key, int n);
+int	append_envv(t_data *data);
+=======
 // user defined environment variables
 // key value dictionary entry as node
 // in linked list for separate chaning
@@ -103,24 +201,7 @@ typedef struct	t_data
 	t_var_tb	**uev;		// user defined variables key value pairs
 }	t_data;
 
-typedef struct t_stack
-{
-	char stack[STACK_SIZE];
-	int top;
-	bool full;
-} t_stack;
-
-typedef struct t_parsedata
-{
-	int sqt_toggle; // single quote toggle (for alternation)
-	int sqts;       // current parsed single quote count
-	int dqts;       // current parsed double quote count
-	char *last;     // last token
-	char *current;  // current token
-	t_stack parens; // parens stack
-} t_pdata;
-
-void	handle_sigint(int sig);
+void		handle_sigint(int sig);
 void		init_data(t_data *data);
 int			tokenise(char *input, t_data *data);
 int			m_set(char c, char *set);
@@ -197,6 +278,7 @@ void		test_echo_cmd_args(t_data *data);
 int			test_envvars(t_data *data);
 t_args		*init_test();
 t_args		*init_export_test(char *input, t_data *data);
+>>>>>>> main
 
 void	check_start(t_pdata *pdata);
 int	parse_tokens(char **tokens);

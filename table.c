@@ -2,7 +2,7 @@
 
 // dictionary to store local user defined variables
 
-t_var_tb	*create_node(char *key, char *var)
+t_var_tb	*create_node(char *key, char *val)
 {
 	t_var_tb	*node;
 
@@ -12,7 +12,7 @@ t_var_tb	*create_node(char *key, char *var)
 	if (!node)
 		return (NULL);
 	wrt_to_str(key, &node->key);
-	wrt_to_str(var, &node->var);
+	wrt_to_str(val, &node->var);
 	node->next = NULL;
 	return (node);
 }
@@ -33,25 +33,42 @@ int	add_var(t_var_tb **head, t_var_tb *node)
 	return (0);
 }
 
-int	iter_table(t_var_tb *node, void (f)(void *, t_key_val *, t_data *), t_data *data, t_key_val *keys)
+int	iter_table(t_var_tb *node, void (f)(void *, t_data *, char *), t_data *data, char *key)
 {
 	if (!node)
 		return (1);
 	while (node->next != NULL)
 	{
-		f(node, keys, data);
+		f(node, data, key);
 		node = node->next;
 	}
-	f(node, keys, data);
+	f(node, data, key);
 	return (0);
 }
 
-void	print_node(void *node, t_data *data)
+int	print_table(t_var_tb *node)
+{
+	while (node)
+	{
+		print_n(node);
+		node = node->next;
+	}
+	return (0);
+}
+
+void	print_n(void *node)
 {
 	t_var_tb	*tnode;
 	tnode = (t_var_tb *)node;
-	printf("%s: %s\n", tnode->key, tnode->var);
+	ft_printf("%s=%s\n", tnode->key, tnode->var);
 }
+
+// void	print_node(void *node, t_data *data)
+// {
+// 	t_var_tb	*tnode;
+// 	tnode = (t_var_tb *)node;
+// 	printf("%s: %s\n", tnode->key, tnode->var);
+// }
 
 void	free_table(t_var_tb **node)
 {
