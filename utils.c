@@ -136,7 +136,7 @@ t_args	*init_test()
 	wrt_to_str("/usr/bin/grep", &args[2].cmd);
 	args[2].arg = malloc(3 * sizeof(char *));
 	wrt_to_str("grep", &args[2].arg[0]);
-	wrt_to_str("e", &args[2].arg[1]);
+	wrt_to_str("", &args[2].arg[1]);
 	args[2].arg[2] = NULL;
 
 	// i = 0;

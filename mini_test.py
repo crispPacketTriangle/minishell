@@ -25,10 +25,10 @@ def run_tests(inputs):
 
         with open("output_log.txt", "w") as log:
             log.write(output.strip())
-        print(f"Output:\n{output.strip()}")
+        # print(f"Output:\n{output.strip()}")
         with open("error_log.txt", "w") as erlog:
             erlog.write(error.strip())
-            print(f"Errors:\n{error.strip()}")
+        # print(f"Errors:\n{error.strip()}")
 
 
 def main():
