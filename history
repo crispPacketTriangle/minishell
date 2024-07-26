@@ -96,3 +96,15 @@ no
 "$one"
 $one
 pipes
+
+
+ls�-l
+ls�-l
+tee�>(cat�-n)
+echo
+a�b�c�dello
+a�b�"c dello"
+ab�"c hello
+(hello)
+(�hello�world�)
+(hello�world)
