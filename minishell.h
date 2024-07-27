@@ -217,4 +217,10 @@ void	initialize_pdata(t_pdata *pdata);
 void	p_push(t_stack *s, char c);
 char	p_pop(t_stack *s);
 bool	p_match(char open, char close);
+
+int		run_batch_shell(t_data *data, const char *fpath)
+int		run_interactive_shell(t_data *data);
+void	get_paths(t_data *data, char **paths);
+void	handle_lines(FILE *fp, t_data *data);
+
 #endif

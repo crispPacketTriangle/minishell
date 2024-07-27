@@ -1,26 +1,26 @@
 #include "minishell.h"
 
-int	init_en_var_table(char **env, t_data *data)
+int	init_en_var_table(char **envp, t_data *data)
 {
 
 	data->ent = malloc(VAR_BUFF * sizeof(t_var_tb *));
 	if (!data->ent)
 		return (1);
 	ft_memset(data->ent, 0, VAR_BUFF);
-	load_env_vars(env, data);
+	load_env_vars(envp, data);
 	return (0);
 }
 
-int	load_env_vars(char **env, t_data *data)
+int	load_env_vars(char **envp, t_data *data)
 {
 	int			i;
 	int			idx;
 	t_key_val	temp;
 
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		extract(&temp, env[i]);
+		extract(&temp, envp[i]);
 		idx = poly_r_hash(temp.key);
 		if (data->ent[idx] == 0)
 			data->ent[idx] = create_node(temp.key, temp.val);

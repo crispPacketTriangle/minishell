@@ -3,8 +3,8 @@ FLAGS=-Wall -Werror -Wextra
 NAME=minishell
 EXT=-L libft -lreadline -lft
 LOGO=~/42/ascii/logo.sh
-SRCS=readline.c lexer.c table.c hash.c load_envv.c pipes.c utils.c unb_vars.c \
-	unb_echo.c unb_export.c unb_cd.c
+SRCS=minishell.c lexer.c table.c hash.c load_envv.c pipes.c utils.c unb_vars.c \
+	unb_echo.c unb_export.c unb_cd.c 
 OBJS= $(SRCS:.c=.o)
 LIBFT=/libft/
 
