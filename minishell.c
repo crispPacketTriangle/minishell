@@ -49,7 +49,8 @@
 
 int	run_interactive_shell(t_data *data)
 {
-	char				*input;
+	char	*input;
+	int		i;
 
 	// rl_initialize();
 	// rl_readline_name = "minishell";
@@ -65,19 +66,19 @@ int	run_interactive_shell(t_data *data)
 		if (input)
 		{
 			add_history(input);
-			tokenise(input, &data);
-			data.tok = ft_split(input, -1);
-			if (dev_placeholders(input, &data) != 0)
+			tokenise(input, data);
+			data->tok = ft_split(input, -1);
+			if (dev_placeholders(input, data) != 0)
 				continue ;
 			i = 0;
-			while (data.tok[i])
+			while (data->tok[i])
 			{
-				if (is_var(&data, data.tok[i], '$'))
-					expand_envv(&data, data.tok[i]);
+				if (is_var(data, data->tok[i], '$'))
+					expand_envv(data, data->tok[i]);
 				i++;
 			}
-			print_tokens(data.tok);
-			free(data.tok);
+			print_tokens(data->tok);
+			free(data->tok);
 		}
 		free(input);
 		append_history(3, "history");
@@ -85,28 +86,31 @@ int	run_interactive_shell(t_data *data)
 	return (0);
 }
 
-void	get_paths(t_data *data, char **paths)
+char	**get_paths(t_data *data)
 {
 	int			h_idx;
 	t_var_tb	*node;
-	char		**paths;
+	char 		**paths;
 
+	paths = NULL;
 	h_idx = poly_r_hash("PATH");
-	node = data.ent[h_idx];
-	while (node && ft_strncmp((const char *)"PATH", (const char *)node.key, 4))
-		node = node.next;
-	else
-		paths = ft_split(node.val, ':');
+	node = data->ent[h_idx];
+	while (node && ft_strncmp((const char *)"PATH", (const char *)node->key, 4))
+		node = node->next;
+	if (NULL != node)
+		paths = ft_split(node->var, ':');
+	return (paths);
 }
 
 void	handle_lines(FILE *fp, t_data *data)
 {
 	char 	*line;
 	size_t	len;
+	int		readed;
 
 	line = NULL;
 	// read and execute contents of file
-	while ((read = getline(&line, &len, fp)) != -1)
+	while ((readed = getline(&line, &len, fp)) != -1)
 	{
 		tokenise(line, data);
 		data->tok = ft_split(line, -1);
@@ -139,21 +143,27 @@ int	run_batch_shell(t_data *data, const char *fpath)
 	else if (!access(fpath, R_OK))
 		retval = EACCES;
 	// next search all directories in $PATH
-	get_paths(data, paths);
-	path = get_path(fpath, paths,"R_OK");
-	if (NULL == path)
-		retval = ENOENT;
+	paths = NULL;
+	if (!ft_strchr(fpath, (int)'/'))
+	{
+		paths = get_paths(data);
+		path = get_path(fpath, paths, "R_OK");
+		if (NULL == path)
+			retval = ENOENT;
+		free_strarr(paths);
+	}
 	if (!retval)
 	{
-		fp = fopen(fpath, 'r');
+		fp = fopen(fpath, "r");
 		if (NULL == fp)
 			retval = errno;
 		if (!retval)
-			handle_lines(fp);
+			handle_lines(fp, data);
 		tmp = fclose(fp);
 		if (tmp)
 			retval = tmp;
 	}
+	free (path);
 	return (retval);
 }
 
@@ -161,7 +171,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data				data;
 	struct sigaction	sa;
-	int					i;
 	int					retval;
 
 	init_data(&data);
@@ -182,10 +191,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	
 	if (argc == 1)
-		retval = run_interactive_shell(data);
+		retval = run_interactive_shell(&data);
 	else
-		retval = run_batch_shell(data, (const char *)argv[1]);
-
+		retval = run_batch_shell(&data, (const char *)argv[1]);
+	return (retval);
 }
 
 int	unb_pwd(void)

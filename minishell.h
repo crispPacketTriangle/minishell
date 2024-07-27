@@ -7,10 +7,9 @@
 # define STACK_SIZE 2048
 
 # ifndef VAR_BUFF
-	# define VAR_BUFF 101
+#  define VAR_BUFF 101
 # endif
 
-# include "libft/libft.h"
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -18,22 +17,22 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <string.h>
 # include <sys/time.h>
-#include <string.h>
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/time.h>
-#include <errno.h>
-#include <limits.h>
-#include "libft/libft.h"
-
-extern char **environ;
+# include <string.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/time.h>
+# include <errno.h>
+# include <limits.h>
+# include "libft/libft.h"
 
 # define BUFF_SZ 4096
+
+extern char **environ;
 
 // pipe chain variables
 typedef struct	t_pp
@@ -218,9 +217,11 @@ void	p_push(t_stack *s, char c);
 char	p_pop(t_stack *s);
 bool	p_match(char open, char close);
 
-int		run_batch_shell(t_data *data, const char *fpath)
+int		run_batch_shell(t_data *data, const char *fpath);
 int		run_interactive_shell(t_data *data);
-void	get_paths(t_data *data, char **paths);
+char	**get_paths(t_data *data);
+char	*get_path(const char *str, char **paths, const char *mode);
 void	handle_lines(FILE *fp, t_data *data);
+void	free_strarr(char **strarr);
 
 #endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "minishell.h"
 
 void	free_strarr(char **strarr)
 {
@@ -28,13 +28,13 @@ void	free_strarr(char **strarr)
 	strarr = NULL;
 }
 
-char	*make_path(char *path, char *cmd)
+char	*make_path(char *path, char *str)
 {
 	char	*path0;
 	char	*fullpath;
 
 	path0 = ft_strjoin(path, "/");
-	fullpath = ft_strjoin(path0, cmd);
+	fullpath = ft_strjoin(path0, str);
 	free(path0);
 	return (fullpath);
 }
@@ -54,16 +54,16 @@ char	*get_path(const char *str, char **paths, const char *mode)
 	int		i;
 	int		no_perm;
 	char	*path;
-	char	*mode_str;
+	int		mode_str;
 
 	i = 0;
 	if (0 == ft_strncmp(mode, (const char *)"cmd\0", 4))
-		mode_str = "X_OK";
+		mode_str = X_OK;
 	if (0 == ft_strncmp(mode, (const char *)"file", 4))
-		mode_str = "R_OK";
+		mode_str = R_OK;
 	while (paths[i])
 	{
-		path = make_path(paths[i++], str);
+		path = make_path(paths[i++], (char *)str);
 		no_perm = access(path, F_OK);
 		if (!no_perm)
 			no_perm = access(path, mode_str);
