@@ -10,26 +10,20 @@
 	# define VAR_BUFF 101
 # endif
 
-# include "libft/libft.h"
 # include <errno.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 # include <string.h>
 # include <sys/time.h>
-#include <string.h>
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/time.h>
-#include <errno.h>
-#include <limits.h>
-#include "libft/libft.h"
+# include <sys/types.h>
+# include <sys/wait.h>
+
+# include "libft/libft.h"
 
 extern char **environ;
 
