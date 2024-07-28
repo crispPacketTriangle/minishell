@@ -11,7 +11,7 @@
 
 void	sortin(t_data *data)
 {
-	char		**cpytok;
+	char	**cpytok;
 	t_args	**cpyset;
 
 	cpyset = init_p_cmd_set(data->tok, data);
@@ -42,7 +42,7 @@ void	sortin(t_data *data)
 	
 	// does this work in all circumstancs? Yes? -> the last token must be a non pipe	
 	data->p_cmd_set++;
-	*data->p_cmd_set = NULL;
+	//*data->p_cmd_set = NULL;
 
 	data->tok = cpytok;
 	data->p_cmd_set = cpyset;
@@ -80,7 +80,7 @@ void	add_p_cmd_set(t_data *data)
 }
 
 
-t_args	**init_p_cmd_set(char	**tokens, t_data *data)
+t_args	**init_p_cmd_set(char **tokens, t_data *data)
 {
 	int	i;
 	int	j;
@@ -106,7 +106,7 @@ t_args	**init_p_cmd_set(char	**tokens, t_data *data)
 		if (data->tok[i][0] == '|' || !data->tok[i + 1])
 		{
 			data->p_cmd_set[j] = malloc(sizeof(t_args));
-			data->p_cmd_set[j]->arg = malloc((n + 1) * sizeof(char *));
+			data->p_cmd_set[j]->arg = malloc((n + 2) * sizeof(char *));
 			if (!data->p_cmd_set[j]->arg)
 				return (NULL);
 			f = 0;
@@ -121,6 +121,7 @@ t_args	**init_p_cmd_set(char	**tokens, t_data *data)
 		i++;
 		n++;
 	}
+	data->p_cmd_set[j] = NULL;
 	return (data->p_cmd_set);
 }
 
@@ -179,7 +180,6 @@ int	appendfunnel(char ***token, t_data *data)
 void	appnd_red_list(t_red **node, char *dir)
 {
 	t_red	*ptr;
-	t_red	*prv;
 
 	ptr = *node;
 	while (ptr->next != NULL)
@@ -213,7 +213,6 @@ void	printcmdargs(t_data *data)
 	int	j;
 
 	i = 0;
-	j = 0;
 	while (data->p_cmd_set[i])
 	{
 		ft_printf("<");

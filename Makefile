@@ -1,5 +1,5 @@
 CC=cc -g
-FLAGS=-Wall -Werror -Wextra
+FLAGS=-Wall -Werror -Wextra -Wuninitialized
 NAME=minishell
 EXT=-L libft -lreadline -lft
 LOGO=~/42/ascii/logo.sh

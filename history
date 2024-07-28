@@ -214,3 +214,52 @@ top -b -n 1 | grep -E '^(%Cpu|KiB Mem|Tasks)' | awk '{print $1, $2, $3}' | paste
 clear
  | grep -E '^(%Cpu|KiB Mem|Tasks)' | awk '{print $1, $2, $3}' | paste - - - | column -t
 top -b < filein -n 1 | grep -E '^(%Cpu|KiB Mem|Tasks)' | awk '{print $1, $2, $3}' | paste - - - | column -t
+df -h | grep '^/dev/' | awk '{print $1, $5}' | sed 's/%//' | sort -k2 -nr | awk '$2>80 {print "Warning: " $1 " is " $2 "% full"}'
+df -h | grep '^/dev/' | awk '{print $1, $5}' | sed 's/%//' | sort -k2 -nr | awk '$2>80 {print "Warning: " $1 " is " $2 "% full"}'
+clear
+ps aux | grep -v 'grep' | grep -E '^(root|user1|user2)' | awk '{if($3>20.0) print $1, $2, $3, $11}' | sort -k3 -nr | head -n 10
+clear
+ps aux | grep -v 'grep' | grep -E '^(root|user1|user2)' | awk '{if($3>20.0) print $1, $2, $3, $11}' | sort -k3 -nr | head -n 10
+pipes
+ls
+ls
+ls -a
+-n
+-n
+ls -n
+ls -a -n -a
+ps aux | grep -v 'grep' | grep -E '^(root|user1|user2)' | awk '{if($3>20.0) print $1, $2, $3, $11}' | head -n 10
+one two three four
+one two three four
+
+one two three four
+one two three four
+$one two three four
+one two three four
+$one two three four
+why
+or five
+one two three
+one two three
+one two three four
+one two three
+one two three four
+nice
+clear
+echo -n no new line
+yay
+yay
+pwd
+pipes
+last -F | awk '{print $1, $4, $5, $6, $7, $8, $9, $10}' | uniq -c | sort -nr | head -n 5
+last -F | awk '{print $1, $4, $5, $6, $7, $8, $9, $10}' | uniq -c | sort -nr | head -n 5
+$one $two $three
+env
+clear
+cat /var/log/syslog | grep 'sshd' | awk '{print $1, $2, $3, $6}' | cut -d'[' -f2 | cut -d']' -f1 | sort | uniq -c | sort -nr | head -n 10
+clear
+cat /var/log/syslog | grep 'sshd' | awk '{print $1, $2, $3, $6}' | cut -d'[' -f2 | cut -d']' -f1 | sort | uniq -c | sort -nr | head -n 10
+tomorrow build the infrastructure to hand off to chain_pipes
+cat /var/log/syslog | grep 'sshd' | awk '{print $1, $2, $3, $6}' | cut -d'[' -f2 | cut -d']' -f1 | sort | uniq -c | sort -nr | head -n 10
+tomorrow build the infrastructure to hand off to chain_pipes
+< filein cmd | cmd arg arg arg | cmd arg < filename arg | cmd arg >> fileout
