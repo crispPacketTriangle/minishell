@@ -78,6 +78,8 @@ int	run_interactive_shell(t_data *data)
 				i++;
 			}
 			print_tokens(data->tok);
+			ft_printf("Return value of parse_tokens(): %d\n", parse_tokens(data->tok));
+			// continue program logic here (LW)
 			free(data->tok);
 		}
 		free(input);
@@ -110,6 +112,7 @@ void	handle_lines(FILE *fp, t_data *data)
 
 	line = NULL;
 	// read and execute contents of file
+	// N.B. MUST REPLACE getline() with get_next_line()!!!
 	while ((readed = getline(&line, &len, fp)) != -1)
 	{
 		tokenise(line, data);
@@ -124,6 +127,8 @@ void	handle_lines(FILE *fp, t_data *data)
 			i++;
 		}
 		print_tokens(data->tok);
+		ft_printf("Return value of parse_tokens(): %d\n", parse_tokens(data->tok));
+		// continue program logic here (LW)
 		free(data->tok);
 	}
 	free(line);

@@ -222,7 +222,7 @@ void	check_start(t_pdata *pdata)
 		syntax_error(pdata, 2);
 }
 
-// the entries of quotes[3] are: toggle, single, double
+// the entries of quotes[3] are: toggle, single, double // not any more: he he.
 int	parse_tokens(char **tokens)
 {
 	int i;
@@ -269,8 +269,8 @@ int	parse_tokens(char **tokens)
 	return (0);
 }
 
+/*
 #include <stdio.h>
-
 
 int	main(void)
 {
@@ -307,7 +307,7 @@ int	main(void)
 
 	// Bad commands
 	char *bad_commands[][10] = {
-/*								{"echo", "\"This is an unmatched quote", NULL},
+// opencomment								{"echo", "\"This is an unmatched quote", NULL},
 								{"echo", "'This is another unmatched quote", NULL},
 								{"echo", "(unmatched", "parentheses", NULL},
 								{"echo", "unmatched", "parentheses)", NULL},
@@ -331,7 +331,7 @@ int	main(void)
 								{"echo", "\"Redirection in the middle\"", ">", "|", "grep", "\"error\"", NULL},
 								{"echo", "\"Logical AND at end\"", "&&", NULL},
 //								{"echo", "\"Unmatched Q im cmd subst $(date && echo 'Done)\"", NULL},	// NOT AN ERROR CASE!
-*/								{NULL}};
+// closecomment								{NULL}};
 
 
 	printf("Parsing good commands:\n");
@@ -356,3 +356,4 @@ int	main(void)
 	}
 	return (0);
 }
+*/
