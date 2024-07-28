@@ -1,18 +1,27 @@
 #include "minishell.h"
 
-void	sortin(t_data *data)
+
+// FREE THE TWO NEW SETS HERE, TEMPORARILY, OR
+// WHEREVER DATA->TOK IS BEING FREED
 //
+// INSTEAD OF PASSING ALL THESE UGLY TRIPPLE
+// POINTERS AROUND JUST PASS IN DATA AND 
+// DO THE ARITHMETIC ON THE POINTER IN THE
+// STRUCT
+
+void	sortin(t_data *data)
 {
 	char		**cpytok;
 	t_args	**cpyset;
 
-	init_p_cmd_set(data->tok, data);
+	cpyset = init_p_cmd_set(data->tok, data);
 	data->redir = NULL;
-	cpytok = data->tok;	
+	cpytok = data->tok;
+
+	data->rtr_i = 0;
 	while (*data->tok)
 	{
 
-		printf("token: %s\n", *data->tok);
 // 	check ([{
 //		if (m_set(data->tok[i][0], "\'\"([{"))
 			// filter for ' -> remove quotes and send to args
@@ -26,45 +35,57 @@ void	sortin(t_data *data)
 
 // if not a direction send to args
 		else
-			add_p_cmd_set(data->tok, data);
+			add_p_cmd_set(data);
 
 		data->tok++;
 	}		
+	
+	// does this work in all circumstancs? Yes? -> the last token must be a non pipe	
+	data->p_cmd_set++;
+	*data->p_cmd_set = NULL;
 
-
-
-	printredlist(data->redir);
-	ft_printf("-----------------------\n");	
 	data->tok = cpytok;
 	data->p_cmd_set = cpyset;
+
+	ft_printf("-------directions------\n");
+	printredlist(data->redir);
+	ft_printf("----------args---------\n");
+	printcmdargs(data);
+	ft_printf("---------tokens---------\n");
 
 // 	check =
 //	if (ft_strchr(data->tok[i], (int)'='))
 		// set cmd to uservar
 		// set ar[0] to var name (key)
 		// set ar[1] to value
-
-
-// if bool cmd
-// 	set tok[i] to command
-// 	set bool to ar
-
-//	if ar
-//		set tok[i] to ar[j]
-//		j++;
-
 }
 
-void	add_p_cmd_set(char **data->tok, t_data *data)
+void	add_p_cmd_set(t_data *data)
 {
-	
+	if ((*data->tok)[0] == '|')
+	{	
+		(*data->p_cmd_set)->arg[data->rtr_i] = NULL;
+		data->rtr_i = 0;
+	}
+	else
+	{
+		(*data->p_cmd_set)->arg[data->rtr_i] = *data->tok;
+		data->rtr_i++;
+		// perhaps better to set all to NULL whe
+		// initialising then last and any remaining
+		// will be null
+		//if (!(data->tok + 1))
+		//	(*data->p_cmd_set)->arg[data->rtr_i] = NULL;
+	}
 }
 
-t_args	*init_p_cmd_set(char	**data->tok, t_data *data)
+
+t_args	**init_p_cmd_set(char	**tokens, t_data *data)
 {
 	int	i;
 	int	j;
 	int	n;
+	int	f;
 
 	i = 0;
 	n = 0;
@@ -72,6 +93,7 @@ t_args	*init_p_cmd_set(char	**data->tok, t_data *data)
 	{
 		if (data->tok[i][0] == '|')
 			n++;
+		i++;
 	}
 	data->p_cmd_set = malloc((n + 2) * sizeof(t_args *));
 	if (!data->p_cmd_set)
@@ -81,17 +103,25 @@ t_args	*init_p_cmd_set(char	**data->tok, t_data *data)
 	n = 0;
 	while (data->tok[i])
 	{
-		if (data->tok[i][0] == '|')
+		if (data->tok[i][0] == '|' || !data->tok[i + 1])
 		{
-			data->p_cmd_set[j] = malloc((n + 1) * sizeof(char *));
-			if (!data->p_cmd_set[j])
+			data->p_cmd_set[j] = malloc(sizeof(t_args));
+			data->p_cmd_set[j]->arg = malloc((n + 1) * sizeof(char *));
+			if (!data->p_cmd_set[j]->arg)
 				return (NULL);
+			f = 0;
+			while (f < (n + 1))
+			{
+				data->p_cmd_set[j]->arg[f] = NULL;
+				f++;
+			}
 			n = 0;
 			j++;
 		}
 		i++;
 		n++;
 	}
+	return (data->p_cmd_set);
 }
 
 
@@ -99,9 +129,6 @@ t_args	*init_p_cmd_set(char	**data->tok, t_data *data)
 
 int	add_direction(char ***token, t_data *data)
 {
-	//loop is outside so have to pass in token pointer 
-	//do pointer arithmetic
-
 	if (ft_strlen(**token) == 1)
 	{
 		if (ft_strncmp(**token, "|", 2) == 0)
@@ -127,6 +154,8 @@ int	appendpipe(char ***token, t_data *data)
 		data->redir = create_red_node(**token);
 	else
 		appnd_red_list(&data->redir, **token);
+	add_p_cmd_set(data);
+	data->p_cmd_set++;
 	return (0);
 }
 
@@ -175,6 +204,28 @@ void	printredlist(t_red *node)
 	{
 		ft_printf("%s\n", node->dir);
 		node = node->next;
+	}
+}
+
+void	printcmdargs(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (data->p_cmd_set[i])
+	{
+		ft_printf("<");
+		j = 0;
+		while (data->p_cmd_set[i]->arg[j])
+		{
+			ft_printf(".> %s <", data->p_cmd_set[i]->arg[j]);
+			j++;
+		}
+		ft_printf(".>");
+		ft_printf("\n");
+		i++;
 	}
 }
 

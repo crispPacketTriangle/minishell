@@ -78,6 +78,7 @@ typedef struct	t_red
 // mega structure
 typedef struct	t_data
 {
+	int			rtr_i;
 	int			tog;    	// toggle opening or closing qt marks (*= -1) 
 	int			nqts;   	// number of qt marks
 	int			sqts;  		// numbrt of single qt marks
@@ -94,7 +95,7 @@ typedef struct	t_data
 	t_args		*args;		// cmd arg groupings in order of execution
 	char		**tok;
 	t_red		*redir;
-	t_args	*p_cmd_set;
+	t_args	**p_cmd_set;
 	char		*expand;
 	char		**d_set;
 	t_var_tb	**ent;
@@ -216,10 +217,14 @@ void	p_push(t_stack *s, char c);
 char	p_pop(t_stack *s);
 bool	p_match(char open, char close);
 
-int		init_p_cmd_set(char	**data->tok, t_data *data);
+
+void	printredlist(t_red *node);
+void	printcmdargs(t_data *data);
+
+t_args		**init_p_cmd_set(char **tokens, t_data *data);
+void	add_p_cmd_set(t_data *data);
 void	appnd_red_list(t_red **node, char *dir);
 t_red	*create_red_node(char *dir);
-void	printredlist(t_red *node);
 void	sortin(t_data *data);
 int	add_direction(char ***token, t_data *data);
 int	appendpipe(char ***token, t_data *data);
