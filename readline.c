@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(input);
 			tokenise(input, &data);
 			data.tok = ft_split(input, -1);
+			sortin(&data);
 			if (dev_placeholders(input, &data) != 0)
 				continue ;
 			i = 0;

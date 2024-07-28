@@ -1,90 +1,180 @@
 #include "minishell.h"
 
-// define directions set
-
-// is the grammar checker asking questions like
-// is this a command? Is there any meta data to
-// help with the parsing?
-
-// a linked list makes sense here as then only one
-// pass through the tokens is required the size
-// the number of commands not being known beforehand
-
-// every time commands is called it appends a new
-// cmd arg struct
-
-char	**d_set;
-
-// should be initialised at start up
-int	init_router(t_data *data)
+void	sortin(t_data *data)
+//
 {
-	// should d_set be a fixed size array or
-	// a linked list
-	// a linked list makes sense since the
-	// data will be read sequentially and so
-	// there are no expensive look ups
-	// cannot use the cmd args struct
-	// 		require linked list of strings
-	data->d_set = malloc();
+	char		**cpytok;
+	t_args	**cpyset;
+
+	init_p_cmd_set(data->tok, data);
+	data->redir = NULL;
+	cpytok = data->tok;	
+	while (*data->tok)
+	{
+
+		printf("token: %s\n", *data->tok);
+// 	check ([{
+//		if (m_set(data->tok[i][0], "\'\"([{"))
+			// filter for ' -> remove quotes and send to args
+			// filter for ( -> remove brackets and send to args
+			// filter for { -> do we have to deal with curly braces?
+
+// 	check is direction
+
+		if (m_set((*data->tok)[0], DIRECTIONS))
+			add_direction(&data->tok, data);
+
+// if not a direction send to args
+		else
+			add_p_cmd_set(data->tok, data);
+
+		data->tok++;
+	}		
+
+
+
+	printredlist(data->redir);
+	ft_printf("-----------------------\n");	
+	data->tok = cpytok;
+	data->p_cmd_set = cpyset;
+
+// 	check =
+//	if (ft_strchr(data->tok[i], (int)'='))
+		// set cmd to uservar
+		// set ar[0] to var name (key)
+		// set ar[1] to value
+
+
+// if bool cmd
+// 	set tok[i] to command
+// 	set bool to ar
+
+//	if ar
+//		set tok[i] to ar[j]
+//		j++;
+
+}
+
+void	add_p_cmd_set(char **data->tok, t_data *data)
+{
+	
+}
+
+t_args	*init_p_cmd_set(char	**data->tok, t_data *data)
+{
+	int	i;
+	int	j;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (data->tok[i])
+	{
+		if (data->tok[i][0] == '|')
+			n++;
+	}
+	data->p_cmd_set = malloc((n + 2) * sizeof(t_args *));
+	if (!data->p_cmd_set)
+		return (NULL);
+	i = 0;
+	j = 0;
+	n = 0;
+	while (data->tok[i])
+	{
+		if (data->tok[i][0] == '|')
+		{
+			data->p_cmd_set[j] = malloc((n + 1) * sizeof(char *));
+			if (!data->p_cmd_set[j])
+				return (NULL);
+			n = 0;
+			j++;
+		}
+		i++;
+		n++;
+	}
 }
 
 
-void	sorting()
+
+
+int	add_direction(char ***token, t_data *data)
 {
-// 	check 1. & 2.
+	//loop is outside so have to pass in token pointer 
+	//do pointer arithmetic
 
-// 	if in set of direction symbols
-//		directions()
-
-//	else
-//		commands()
-
-//	while not end of args	
-//		arguments()
+	if (ft_strlen(**token) == 1)
+	{
+		if (ft_strncmp(**token, "|", 2) == 0)
+			appendpipe(token, data);
+		else if (ft_strncmp(**token, "<", 2) == 0)
+			appendfunnel(token, data);
+		else if (ft_strncmp(**token, ">", 2) == 0)
+			appendfunnel(token, data);
+	}	
+	else
+	{
+		if (ft_strncmp(**token, ">>", 3) == 0)
+			appendfunnel(token, data);
+		if (ft_strncmp(**token, "<<", 3) == 0)
+			appendfunnel(token, data);
+	}	
+	return (0);
 }
 
-// cases where the first string in a
-// grouping of n strings is not a command
-//
-// 1. when the pipeline begins < filein
-//  (we are checking every token anyway against d_set)
-// 2. when the string contains an =
-//  (and i suppose every time if contains = )
-//  (then we write manually the command createvar or so
-//  	and pass it as 2nd argument first is the command)
-//
-// so if 1.
-// 		create cmd arg struct
-// 		send next token (filepath) to args
-// 		or that is to say increment tokens 
-// 		and send to args
-// if 2.
-// 		send to user_var create function
+int	appendpipe(char ***token, t_data *data)
+{
+	if (!data->redir)
+		data->redir = create_red_node(**token);
+	else
+		appnd_red_list(&data->redir, **token);
+	return (0);
+}
 
-// commands()
-// 		appends a new struct or creates one if
-// 		none exists
-// 		adds the token to the struct->cmd member
-// 		adds token also to the arg[0] position
-// 			(we expand to absolute path later)
-// 		reads forward in tokens until it finds
-// 		the end of arguments
-// 		creats space for n + 1 args
-//
-// arguments()
-// 		adds argument to current struct->arg[i]
-//
-// directions()
-// 		appends to list of direction symbols (and if last
-// 		redirection, filepath sub to stdout) 
-// 		list passed to chain_pipes()
-//
-// 
-//
-// redirection can be anywhere in a sequence which is fine 
-// as when encountered it will be added along with the relevant
-// filepath to the directoin list and will be at the correct position
-// how should the filepath be stored
-// this only applies to the first or last sequence? since redirection
-// nullifies the function of the pipe
-//
+int	appendfunnel(char ***token, t_data *data)
+{
+	if (!data->redir)
+	{
+		data->redir = create_red_node(**token);
+		(*token)++;
+		appnd_red_list(&data->redir, **token);
+	}
+	else
+	{
+		appnd_red_list(&data->redir, **token);
+		(*token)++;
+		appnd_red_list(&data->redir, **token);
+	}
+	return (0);
+}
+
+void	appnd_red_list(t_red **node, char *dir)
+{
+	t_red	*ptr;
+	t_red	*prv;
+
+	ptr = *node;
+	while (ptr->next != NULL)
+		ptr = ptr->next;
+	ptr->next = create_red_node(dir);
+}
+
+t_red	*create_red_node(char *dir)
+{
+	t_red	*node;
+	node = malloc(sizeof(t_red));
+//	if (!node)
+//		return (persub());
+	node->dir = dir;
+	node->next = NULL;
+	return (node);
+}
+
+void	printredlist(t_red *node)
+{
+	while (node)
+	{
+		ft_printf("%s\n", node->dir);
+		node = node->next;
+	}
+}
+

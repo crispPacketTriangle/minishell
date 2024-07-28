@@ -4,7 +4,12 @@
 # define _XOPEN_SOURCE 700
 # define EXIT_STATUS 1
 # define INVALID_START ";|&)}]"
+# define DIRECTIONS "<>|"
+# define QTS "\'\""
+# define STR_LIT_START "\'("
+# define PARENS "()"
 # define STACK_SIZE 2048
+# define BUFF_SZ 4096
 
 # ifndef VAR_BUFF
 	# define VAR_BUFF 101
@@ -22,12 +27,10 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-
 # include "libft/libft.h"
 
 extern char **environ;
 
-# define BUFF_SZ 4096
 
 // pipe chain variables
 typedef struct	t_pp
@@ -41,8 +44,9 @@ typedef struct	t_pp
 // process variables
 typedef struct	t_args
 {
-	char	*cmd;
-	char	**arg;
+	char					*cmd;
+	char					**arg;
+	struct t_args	*next;
 }	t_args;
 
 // key value dictionary entry
@@ -62,16 +66,14 @@ typedef struct	t_var_tb
 	char			*var;
 	struct t_var_tb	*next;
 }	t_var_tb;
-//
-// typedef struct	t_test_env
-// {
-// 	t_var_tb	*head;
-// 	t_var_tb	*node1;
-// 	char		*key1;
-// 	char		*key2;
-// 	char		*var1;
-// 	char		*var2;
-// }	t_test_env;
+
+// holds set of directions to pass to
+// charin_pipes
+typedef struct	t_red
+{
+	char		*dir;
+	struct t_red	*next;
+}	t_red;
 
 // mega structure
 typedef struct	t_data
@@ -91,6 +93,8 @@ typedef struct	t_data
 	t_key_val	**keys;
 	t_args		*args;		// cmd arg groupings in order of execution
 	char		**tok;
+	t_red		*redir;
+	t_args	*p_cmd_set;
 	char		*expand;
 	char		**d_set;
 	t_var_tb	**ent;
@@ -211,4 +215,15 @@ void	initialize_pdata(t_pdata *pdata);
 void	p_push(t_stack *s, char c);
 char	p_pop(t_stack *s);
 bool	p_match(char open, char close);
+
+int		init_p_cmd_set(char	**data->tok, t_data *data);
+void	appnd_red_list(t_red **node, char *dir);
+t_red	*create_red_node(char *dir);
+void	printredlist(t_red *node);
+void	sortin(t_data *data);
+int	add_direction(char ***token, t_data *data);
+int	appendpipe(char ***token, t_data *data);
+int	appendfunnel(char ***token, t_data *data);
+void	sortin(t_data *data);
+
 #endif

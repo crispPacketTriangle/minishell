@@ -108,3 +108,18 @@ ab�"c hello
 (hello)
 (�hello�world�)
 (hello�world)
+dskflk \\ sdf
+dsjflk | kdsjfk > dkfskj | < jdhsfkj
+sdfhkjf | jkdhsfjkh < dsjhfkj | djkshfkjs > kjhsdfkjsd
+dsfjj | jdsfkj | jhsdfjkh < hdsjfhjs > jdhsfkjh | jshdfj
+sdhjksh | sdjfjk > skjdfjk | < fkjsdhf | >> sdkjhfksdh | << hdskjfhjsk
+one
+one
+$one
+$one
+$one
+$one $two $three
+< redir command | cmd args | cmd args >> file
+< redir command | cmd args | cmd args >> file
+< redir command | cmd args | cmd args >> file
+< redir command | cmd args | cmd args >> file
