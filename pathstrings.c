@@ -17,13 +17,19 @@ void	free_strarr(char **strarr)
 	int	i;
 
 	i = 0;
-	while (strarr[i] != NULL)
+	if (strarr)
 	{
-		free(strarr[i]);
-		strarr[i++] = NULL;
+		if (strarr[i])
+		{
+			while (strarr[i] != NULL)
+			{
+				free(strarr[i]);
+				strarr[i++] = NULL;
+			}
+			free(strarr[i]);
+			strarr[i] = NULL;
+		}
 	}
-	free(strarr[i]);
-	strarr[i] = NULL;
 	free(strarr);
 	strarr = NULL;
 }

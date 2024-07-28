@@ -88,6 +88,7 @@ char	*subpath(char **path, char *cpypath, char *env)
 
 char	*prev_dir(char *cwd, char *path, t_data *data)
 {
+	(void)path;
 	if (!data->pdir)
 	{
 		data->pdir = malloc(PATH_MAX * sizeof(char));

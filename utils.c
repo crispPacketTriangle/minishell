@@ -95,7 +95,8 @@ void	clear_terminal(void)
 
 void		handle_sigint(int sig)
 {
-	ft_printf("handle singnal %d\n");
+	(void)sig;
+	ft_printf("handle signal %d\n");
 }
 
 // todo: implement functions for user variable insertion into
@@ -115,8 +116,8 @@ int	test_envvars(t_data *data)
 
 t_args	*init_test()
 {
-	int		i;
-	int		j;
+	// int		i;
+	// int		j;
 	t_args	*args;
 
 	args = malloc(3 * sizeof(t_args));

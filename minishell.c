@@ -150,7 +150,6 @@ int	run_batch_shell(t_data *data, const char *fpath)
 		path = get_path(fpath, paths, "R_OK");
 		if (NULL == path)
 			retval = ENOENT;
-		free_strarr(paths);
 	}
 	if (!retval)
 	{

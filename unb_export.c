@@ -51,6 +51,7 @@ t_args	*init_export_test(char *input, t_data *data)
 	int		i;
 	t_args	*test;
 
+	(void)input;
 	test = malloc(sizeof(t_args));
 	test->arg = malloc((len_arr(data->tok) + 1) * sizeof(char *));
 	//errors
