@@ -93,11 +93,11 @@ void	clear_terminal(void)
 }
 
 
-void		handle_sigint(int sig)
-{
-	(void)sig;
-	ft_printf("handle signal %d\n");
-}
+// void		handle_sigint(int sig)
+// {
+// 	(void)sig;
+// 	ft_printf("handle signal %d\n");
+// }
 
 // todo: implement functions for user variable insertion into
 // dictionary. if conflict at index append to list

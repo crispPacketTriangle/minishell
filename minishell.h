@@ -5,6 +5,7 @@
 # define EXIT_STATUS 1
 # define INVALID_START ";|&)}]"
 # define STACK_SIZE 2048
+# define PROMPT "⌨️  unbash> " // 12 chars because of unicode icon
 
 # ifndef VAR_BUFF
 #  define VAR_BUFF 101
