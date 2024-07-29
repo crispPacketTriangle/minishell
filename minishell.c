@@ -12,41 +12,6 @@
 
 #include "minishell.h"
 
-// int	main(int argc, char *argv[])
-// {
-// 	int			retval;
-// 	const char	*fpath;
-// 	FILE		*fp;
-
-// 	retval = 0;
-// 	if (argc == 1)
-// 	{
-// 		retval = tokenise(char *input, t_data *data)
-// 	}
-// 	else
-// 	{
-// 		fpath = (const char *)argv[1];
-// 		// if (!file_exists((const char *)argv[1]))
-// 		if (!access(fpath, F_OK))
-// 			retval = ENOENT; // maybe handle error more verbosely
-// 		else if (!access(fpath, R_OK))
-// 			retval = EACCES;
-// 		// next search all directories in $PATH
-// 		// while (searching)
-// 		// {
-// 		// 	if (!file_found)
-// 		// 		retval = ENOENT;
-// 		// }
-// 		if (retval)
-// 			return (retval);
-// 		fp = fopen(fpath, 'r');
-// 		if (NULL == fp)
-// 			return (errno);
-// 		// read and execute contents of file
-// 		return (fclose(fp));
-// 	}
-// }
-
 int	run_interactive_shell(t_data *data)
 {
 	char	*input;
