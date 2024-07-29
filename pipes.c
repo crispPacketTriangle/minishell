@@ -11,16 +11,29 @@
 // the last pipe must be defined and passed to chain_pipes
 //   along with n (number of pipies) and possilby other
 //   set-up variables that the parser defines
-int chain_pipes(int n)
+int chain_pipes(t_data *data)
 {
 	int		i; 
 	int		j;
+	int		n;
 	t_pp	pp;
-	t_args	*args;
+	t_args	**args;
 	int		status;
+	char	**paths;
 
 	status = 0;
-	args = init_test();
+	//args = init_test();
+	args = data->p_cmd_set;
+	
+	// here set the full paths to commands
+	paths = get_paths(data);
+	//path = get_path(fpath, paths, X_OK);
+	//if (NULL == path)
+	//	retval = ENOENT;
+
+
+	n = n_process(data);
+
 	pp.buff = malloc(n * sizeof(char *));
 	pp.ends = malloc(((n - 1) * 2) * sizeof(int));
 	pp.pid = malloc(n * sizeof(pid_t));
@@ -46,7 +59,9 @@ int chain_pipes(int n)
 				close(pp.ends[j]);
 				j++;
 			}
-			execve(args[i].cmd, args[i].arg, NULL);
+			args[i]->cmd = get_path((const char *)args[i]->arg[0], paths, X_OK);
+			// check if command is builtin
+			execve(args[i]->cmd, args[i]->arg, NULL);
 			exit(1);
 		}
 		i++;
@@ -78,5 +93,19 @@ int chain_pipes(int n)
 	free(pp.ends);
 	free(pp.pid);
 	return 0;
+}
+
+int	n_process(t_data *data)
+{
+	int	n;
+
+	n = 0;
+	while (data->redir)
+	{
+		if (data->redir->dir[0] == '|')
+			n++;
+		data->redir = data->redir->next;
+	}
+	return (n + 1);
 }
 

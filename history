@@ -263,3 +263,75 @@ tomorrow build the infrastructure to hand off to chain_pipes
 cat /var/log/syslog | grep 'sshd' | awk '{print $1, $2, $3, $6}' | cut -d'[' -f2 | cut -d']' -f1 | sort | uniq -c | sort -nr | head -n 10
 tomorrow build the infrastructure to hand off to chain_pipes
 < filein cmd | cmd arg arg arg | cmd arg < filename arg | cmd arg >> fileout
+find /var/log -type f -name "*.log" -exec grep -i "error" {} + | awk '{print $1, $2, $3, $NF}' | sort | uniq -c | sort -nr | head -n 20
+find /var/log -type f -name "*.log" -exec grep -i "error" {} + | awk '{print $1, $2, $3, $NF}' | sort | uniq -c | sort -nr | head -n 20
+one two three
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+grep -r --include="*.conf" "server" /etc/nginx | sed 's/#.*//' | awk -F'[ ;]' '{print $2}' | sort | uniq | xargs -I {} grep -H {} /etc/hosts
+df -h | grep '^/dev/' | awk '{print $1, $5}' | sed 's/%//' | sort -k2 -nr | awk '$2>80 {print "Warning: " $1 " is " $2 "% full"}'
+df -h | grep '^/dev/' | awk '{print $1, $5}' | sed 's/%//' | sort -k2 -nr | awk '$2>80 {print "Warning: " $1 " is " $2 "% full"}'
+pipes
+one two three
+ksdjkl sldkjfdlk
+ksdjkl sldkjfdlk
+mf ffjf fldkj
+ksdjkl sldkjfdlk
+mf ffjf fldkj
+one two three
+ein dsklfjdslkfjsdljfsdlkfjlsdkjflsdkjflsdkjflksdjflksdjflksdj
+one two three
+clear
+echo -n kdfkjsdhfkjdhfkjhdskjhfkdjhfkjhdskjfhsdk
+jdfkdjs
+echo -n kdfkjsdhfkjdhfkjhdskjhfkdjhfkjhdskjfhsdk
+jdfkdjs
+kdsjfhsdk sjdhfkjs jkhsdfkj
+jdfkdjs
+kdsjfhsdk sjdhfkjs jkhsdfkj
+bfh fhfhf kjsdhfkjsdf ksdjhfkjs kjsdhkfjhs
+ls -a
+ls -a
+ls -a
+ls -l
+ls -a
+ls -l
+ls | cat
+ls | cat
+clear
+du -h /path/to/directory | sort -hr | head -n 5
+clear
+du -h /path/to/directory | sort -hr | head -n 5
+du -h /home/cpt/42 | sort -hr | head -n 5
+du -h /path/to/directory | sort -hr | head -n 5
+du -h /home/cpt/42 | sort -hr | head -n 5
+du -h /cpt/home/42 | sort -hr | head -n 5
+du -h /home/cpt/42 | sort -hr | head -n 5
+du -h /cpt/home/42 | sort -hr | head -n 5
+du -h /usr | sort -hr | head -n 5
+du -h /usr | sort -hr | head -n 5
+pwd
+du -h /home/lworden | sort -hr | head -n 5

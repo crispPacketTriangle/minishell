@@ -9,6 +9,8 @@
 // DO THE ARITHMETIC ON THE POINTER IN THE
 // STRUCT
 
+// HANDLE $( and = (
+
 void	sortin(t_data *data)
 {
 	char	**cpytok;
@@ -95,7 +97,7 @@ t_args	**init_p_cmd_set(char **tokens, t_data *data)
 			n++;
 		i++;
 	}
-	data->p_cmd_set = malloc((n + 2) * sizeof(t_args *));
+	data->p_cmd_set = ft_calloc(n + 2, sizeof(t_args *));
 	if (!data->p_cmd_set)
 		return (NULL);
 	i = 0;
@@ -110,7 +112,7 @@ t_args	**init_p_cmd_set(char **tokens, t_data *data)
 			if (!data->p_cmd_set[j]->arg)
 				return (NULL);
 			f = 0;
-			while (f < (n + 1))
+			while (f < (n + 2))
 			{
 				data->p_cmd_set[j]->arg[f] = NULL;
 				f++;

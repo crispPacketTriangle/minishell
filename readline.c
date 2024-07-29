@@ -52,23 +52,26 @@ int	main(int argc, char **argv, char **env)
 					expand_envv(&data, data.tok[i]);
 				i++;
 			}
+			chain_pipes(&data);
 			print_tokens(data.tok);
 			free(data.tok);
+			free(data.p_cmd_set);
+			free(data.redir);
 		}
 		free(input);
 		append_history(3, "history");
 	}
 }
 
-int	unb_pwd(void)
-{
-	char	*cwd;
-
-	cwd = malloc(PATH_MAX * sizeof(char));
-	if (!cwd)
-		return (perrsub());
-	getcwd(cwd, PATH_MAX);
-	ft_printf("%s\n", cwd);	
-	free(cwd);
-	return (0);
-}
+//int	unb_pwd(void)
+//{
+//	char	*cwd;
+//
+//	cwd = malloc(PATH_MAX * sizeof(char));
+//	if (!cwd)
+//		return (perrsub());
+//	getcwd(cwd, PATH_MAX);
+//	ft_printf("%s\n", cwd);	
+//	free(cwd);
+//	return (0);
+//}
