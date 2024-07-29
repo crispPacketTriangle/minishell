@@ -62,8 +62,14 @@ int	run_interactive_shell(t_data *data)
 	// is changed
 	while (1)
 	{
-		input = readline(">>>");
-		if (input)
+		input = readline(PROMPT);
+		if (!input)
+		{
+			// handle eof (ctrl + d)
+			write(STDOUT_FILENO, "exiting unbash\n", 15);
+			break ;
+		}
+		else
 		{
 			add_history(input);
 			tokenise(input, data);
@@ -85,6 +91,7 @@ int	run_interactive_shell(t_data *data)
 		free(input);
 		append_history(3, "history");
 	}
+	// maybe clean up anything that could still be messy here
 	return (0);
 }
 
@@ -142,6 +149,7 @@ int	run_batch_shell(t_data *data, const char *fpath)
 	int		tmp;
 	int		retval;
 
+	path = NULL;
 	retval = 0;
 	if (!access(fpath, F_OK))
 		retval = ENOENT; // maybe handle error more verbosely
@@ -171,28 +179,53 @@ int	run_batch_shell(t_data *data, const char *fpath)
 	return (retval);
 }
 
+void handle_sigint(int sig)
+{
+    (void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0); 
+	rl_redisplay();
+    // write(STDOUT_FILENO, PROMPT, 12);
+}
+
+void handle_sigquit(int sig)
+{
+    // Ignore Ctrl + backslash
+    (void)sig;
+}
+
+void	setup_signal_handler(int signum, void (*handler)(int))
+{
+	struct sigaction	sa;
+	
+	// * set the memory allocated for interrupt sigaction struct to 0
+	ft_memset(&sa, 0, sizeof(sa));
+	// sets function call for interrupt signal 
+	sa.sa_handler = handler;
+	// is setting the set of signals to 0, however this is redundant since
+	// memset achieves the same thing since the entire memory area of the struct is set to 0
+	sigemptyset(&sa.sa_mask);
+	// this is also redundant, but various flags can be set, and may need to be
+	sa.sa_flags = 0;
+	if (sigaction(signum, &sa, NULL) == -1)
+	{
+		ft_printf("unbash: error setting up signal handler: %s\n", strerror(errno));
+		exit(1); // return (1); // ?
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data				data;
-	struct sigaction	sa;
 	int					retval;
 
 	init_data(&data);
 	test_envvars(&data);
 	init_en_var_table(envp, &data);
 
-	// * set the memory allocated for sigaction struct to 0
-	ft_memset(&sa, 0, sizeof(sa));
-	// sets function call for signal 
-	sa.sa_handler = handle_sigint;
-	// is setting the set of signals to 0, however this is redundatnt since
-	// memset achieves the same thing since the entire memory area of the struct is set to 0
-	sigemptyset(&sa.sa_mask);
-	// this is also redundant, but various flags can be set, and may need to be
-	sa.sa_flags = 0;
-
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		return (1);
+    setup_signal_handler(SIGINT, handle_sigint);
+    setup_signal_handler(SIGQUIT, handle_sigquit);
 	
 	if (argc == 1)
 		retval = run_interactive_shell(&data);
