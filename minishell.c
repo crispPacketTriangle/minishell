@@ -152,7 +152,7 @@ int	run_batch_shell(t_data *data, const char *fpath)
 	if (!ft_strchr(fpath, (int)'/'))
 	{
 		paths = get_paths(data);
-		path = get_path(fpath, paths, "R_OK");
+		path = get_path(fpath, paths, R_OK);
 		if (NULL == path)
 			retval = ENOENT;
 	}

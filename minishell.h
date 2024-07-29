@@ -220,7 +220,7 @@ bool	p_match(char open, char close);
 int		run_batch_shell(t_data *data, const char *fpath);
 int		run_interactive_shell(t_data *data);
 char	**get_paths(t_data *data);
-char	*get_path(const char *str, char **paths, const char *mode);
+char	*get_path(const char *str, char **paths, int mode);
 void	handle_lines(FILE *fp, t_data *data);
 void	free_strarr(char **strarr);
 

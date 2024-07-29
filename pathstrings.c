@@ -55,24 +55,19 @@ char	**find_paths(char **envp)
 	return (ft_split(envp[i] + 5, ':'));
 }
 
-char	*get_path(const char *str, char **paths, const char *mode)
+char	*get_path(const char *str, char **paths, int mode)
 {
 	int		i;
 	int		no_perm;
 	char	*path;
-	int		mode_str;
 
 	i = 0;
-	if (0 == ft_strncmp(mode, (const char *)"cmd\0", 4))
-		mode_str = X_OK;
-	if (0 == ft_strncmp(mode, (const char *)"file", 4))
-		mode_str = R_OK;
 	while (paths[i])
 	{
 		path = make_path(paths[i++], (char *)str);
 		no_perm = access(path, F_OK);
 		if (!no_perm)
-			no_perm = access(path, mode_str);
+			no_perm = access(path, mode);
 		if (!no_perm)
 		{
 			free_strarr(paths);
