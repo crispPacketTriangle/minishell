@@ -190,6 +190,7 @@ void	expand_var(void *d, t_data *data, char *str)
 	t_var_tb	*kv;
 	int			len;
 
+	(void)*data;
 	kv = (t_var_tb *)d;
 	if (ft_strncmp(str, kv->key, ft_strlen(str) + 1) == 0)
 	{
