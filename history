@@ -335,3 +335,48 @@ du -h /usr | sort -hr | head -n 5
 du -h /usr | sort -hr | head -n 5
 pwd
 du -h /home/lworden | sort -hr | head -n 5
+ls -a
+ls -a
+ls -l | sort | cat -e
+ls -a
+ls -l | sort | cat -e
+ls -l | sort
+ls -l | sort | cat -e
+ls -l | sort
+ls -l
+ls -l | sort
+ls -l
+ls -l -a
+ls -l | sort | cat uniq
+ls -l | sort | cat uniq
+ls -l | sort | cat
+wot
+awk '{print $1, $3}' file | less
+'hdhdhdh'
+'hdhdhdh'
+awk '{ print $1, $3 }' file
+'hdhdhdh'
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 ' file
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 ' file
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 ' file
+awk '{ print $1, $3 }' file
+'{ print $1, $3 }'
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+'{ print $1, $3 }'
+'{ print $1, $3 }'
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+'{ print $1, $3 }'
+awk '{ print $1, $3 }' file
+awk '{ print $1, $3 }' file
+awk '{ print NR, $0 }' file
+awk '{ print NR, $0 }' file
+clear
+awk '{ sum += $2 } END { print sum/NR }' file

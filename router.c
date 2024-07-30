@@ -10,6 +10,8 @@
 // STRUCT
 
 // HANDLE $( and = (
+// 
+
 
 void	sortin(t_data *data)
 {
@@ -24,18 +26,19 @@ void	sortin(t_data *data)
 	while (*data->tok)
 	{
 
-// 	check ([{
-//		if (m_set(data->tok[i][0], "\'\"([{"))
+		// check ([{
+		if (m_set((*data->tok)[0], "\'\"("))
+			handle_leading(data);	
 			// filter for ' -> remove quotes and send to args
-			// filter for ( -> remove brackets and send to args
-			// filter for { -> do we have to deal with curly braces?
+			// filter for ( -> remove brackets and send to args (first
+			// 		arg minishell
+			// filter for " -> if no $ remove and send to args
 
-// 	check is direction
-
+		// check is direction
 		if (m_set((*data->tok)[0], DIRECTIONS))
 			add_direction(&data->tok, data);
 
-// if not a direction send to args
+		// if not a direction send to args
 		else
 			add_p_cmd_set(data);
 
@@ -49,17 +52,35 @@ void	sortin(t_data *data)
 	data->tok = cpytok;
 	data->p_cmd_set = cpyset;
 
-	ft_printf("-------directions------\n");
-	printredlist(data->redir);
-	ft_printf("----------args---------\n");
-	printcmdargs(data);
-	ft_printf("---------tokens---------\n");
+	// ft_printf("-------directions------\n");
+	// printredlist(data->redir);
+	// ft_printf("----------args---------\n");
+	// printcmdargs(data);
+	// ft_printf("---------tokens---------\n");
 
 // 	check =
 //	if (ft_strchr(data->tok[i], (int)'='))
 		// set cmd to uservar
 		// set ar[0] to var name (key)
 		// set ar[1] to value
+}
+
+char	*handle_leading(t_data *data)
+{
+	int		len;
+	char	*cpy;
+
+	if ((*data->tok)[0] == '\'')
+	{
+		len = ft_strlen(*data->tok);
+		cpy = malloc((len + 1) * sizeof(char));
+		ft_strlcpy(cpy, *data->tok, len + 1);
+		free(*data->tok);
+		*data->tok = malloc((len - 1) * sizeof(char));
+		*data->tok = ft_strtrim(cpy, "\'");
+		free(cpy);
+	}
+	return (*data->tok);
 }
 
 void	add_p_cmd_set(t_data *data)
@@ -81,7 +102,7 @@ void	add_p_cmd_set(t_data *data)
 	}
 }
 
-
+// not using tokens here
 t_args	**init_p_cmd_set(char **tokens, t_data *data)
 {
 	int	i;
@@ -127,9 +148,7 @@ t_args	**init_p_cmd_set(char **tokens, t_data *data)
 	return (data->p_cmd_set);
 }
 
-
-
-
+// can replace token here with *data->tok
 int	add_direction(char ***token, t_data *data)
 {
 	if (ft_strlen(**token) == 1)
@@ -151,6 +170,7 @@ int	add_direction(char ***token, t_data *data)
 	return (0);
 }
 
+// again replace token with *data->tok
 int	appendpipe(char ***token, t_data *data)
 {
 	if (!data->redir)
@@ -162,6 +182,7 @@ int	appendpipe(char ***token, t_data *data)
 	return (0);
 }
 
+// again replace token with *data->tok
 int	appendfunnel(char ***token, t_data *data)
 {
 	if (!data->redir)

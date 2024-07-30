@@ -247,7 +247,7 @@ int	add_direction(char ***token, t_data *data);
 int	appendpipe(char ***token, t_data *data);
 int	appendfunnel(char ***token, t_data *data);
 void	sortin(t_data *data);
-
+char	*handle_leading(t_data *data);
 
 int	n_process(t_data *data);
 
