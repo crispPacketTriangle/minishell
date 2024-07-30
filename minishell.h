@@ -110,6 +110,8 @@ typedef struct	t_data
 	char		**d_set;
 	t_var_tb	**ent;
 	t_var_tb	**uev;		// user defined variables key value pairs
+	char		**blt;		// list of builtin cmds to pass to p_cmd_set
+	char		**envp;
 }	t_data;
 
 
@@ -131,7 +133,8 @@ typedef struct t_parsedata
 } t_pdata;
 
 void	handle_sigint(int sig);
-void		init_data(t_data *data);
+void		init_data(t_data *data, char **envp);
+void		init_bltins(t_data *data);
 int			tokenise(char *input, t_data *data);
 int			m_set(char c, char *set);
 void		print_tokens(char **line);

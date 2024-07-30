@@ -380,3 +380,44 @@ awk '{ print NR, $0 }' file
 awk '{ print NR, $0 }' file
 clear
 awk '{ sum += $2 } END { print sum/NR }' file
+(cd ..)
+(pwd)
+(skdfjls (sdfksdjlfk)  )
+(one (two (three) ) )
+(pwd)
+(pwd)
+(some nested (more nesting))
+(some nested (more nesting))
+clear
+make re
+((pwd)) 
+( (pwd) )
+( (pwd) )
+((((i))))
+( (pwd) )
+((((i))))
+((i))
+((only the outer ones should be gone))
+(now (only the (outer) brackets should be gone))
+(now (only the (outer) brackets should be gone))
+nice
+ls -a | sort | cat
+ls
+ls
+ls -l
+ls
+ls -l
+btop
+ls -l
+btop
+uname -a
+btop
+uname -a
+top
+top
+env
+top -a
+env
+top -a
+top
+top

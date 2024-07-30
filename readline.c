@@ -9,7 +9,9 @@ int	main(int argc, char **argv, char **env)
 	t_data				data;
 	int					i;
 
-	init_data(&data);
+	init_data(&data, env);
+
+	init_bltins(&data);
 	test_envvars(&data);
 	init_en_var_table(env, &data);
 
@@ -42,7 +44,17 @@ int	main(int argc, char **argv, char **env)
 			add_history(input);
 			tokenise(input, &data);
 			data.tok = ft_split(input, -1);
+			
+			// ft_printf("----------tokens---------\n");
+			// print_tokens(data.tok);
+			// ft_printf("-------------------------\n");
+			
 			sortin(&data);
+			
+			// ft_printf("----------tokens---------\n");
+			// print_tokens(data.tok);
+			// ft_printf("-------------------------\n");
+			
 			if (dev_placeholders(input, &data) != 0)
 				continue ;
 			i = 0;
@@ -53,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 				i++;
 			}
 			chain_pipes(&data);
-			print_tokens(data.tok);
+			//print_tokens(data.tok);
 			free(data.tok);
 			free(data.p_cmd_set);
 			free(data.redir);
@@ -61,6 +73,8 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 		append_history(3, "history");
 	}
+	// free data struct beofre exit
+	// or on error
 }
 
 //int	unb_pwd(void)

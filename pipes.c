@@ -27,6 +27,11 @@ int chain_pipes(t_data *data)
 	
 	// here set the full paths to commands
 	paths = get_paths(data);
+	// <--
+	// if we wanted to be really efficient we could run
+	// this once at startup, then only again if there
+	// is a change to the path variable
+
 	//path = get_path(fpath, paths, X_OK);
 	//if (NULL == path)
 	//	retval = ENOENT;
@@ -37,6 +42,7 @@ int chain_pipes(t_data *data)
 	pp.buff = malloc(n * sizeof(char *));
 	pp.ends = malloc(((n - 1) * 2) * sizeof(int));
 	pp.pid = malloc(n * sizeof(pid_t));
+	// errors
 	i = 0;
 	while (i < n - 1)
 	{
@@ -61,7 +67,7 @@ int chain_pipes(t_data *data)
 			}
 			args[i]->cmd = get_path((const char *)args[i]->arg[0], paths, X_OK);
 			// check if command is builtin
-			execve(args[i]->cmd, args[i]->arg, NULL);
+			execve(args[i]->cmd, args[i]->arg, data->envp);
 			exit(1);
 		}
 		i++;

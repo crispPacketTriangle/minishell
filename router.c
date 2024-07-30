@@ -27,9 +27,8 @@ void	sortin(t_data *data)
 	{
 
 		// check ([{
-		if (m_set((*data->tok)[0], "\'\"("))
+		if (m_set((*data->tok)[0], "\'\"("))   // MACRO SPECIAL
 			handle_leading(data);	
-			// filter for ' -> remove quotes and send to args
 			// filter for ( -> remove brackets and send to args (first
 			// 		arg minishell
 			// filter for " -> if no $ remove and send to args
@@ -67,6 +66,8 @@ void	sortin(t_data *data)
 
 char	*handle_leading(t_data *data)
 {
+	int		i;
+	int		j;
 	int		len;
 	char	*cpy;
 
@@ -79,6 +80,33 @@ char	*handle_leading(t_data *data)
 		*data->tok = malloc((len - 1) * sizeof(char));
 		*data->tok = ft_strtrim(cpy, "\'");
 		free(cpy);
+	}
+
+	// extra space in ->arg for minishell created in init
+	// here minishell added to arg[0] index incremented
+	// and outer brackets of token removed
+	else if ((*data->tok)[0] == '(')
+	{
+		(*data->p_cmd_set)->arg[data->rtr_i] = data->blt[0];
+		data->rtr_i++;
+		len = ft_strlen(*data->tok);
+		cpy = malloc((len + 1) * sizeof(char));
+		ft_strlcpy(cpy, *data->tok, len + 1);
+		free(*data->tok);
+		*data->tok = malloc((len - 1) * sizeof(char));
+		i = 0;
+		j = 0;
+		while (cpy[i])
+		{
+			if (i > 0 && i < len - 1)
+			{
+				(*data->tok)[j] = cpy[i];
+				j++;
+			}
+			i++;
+		}
+		(*data->tok)[j] = '\0';
+		free(cpy);	
 	}
 	return (*data->tok);
 }
@@ -126,6 +154,8 @@ t_args	**init_p_cmd_set(char **tokens, t_data *data)
 	n = 0;
 	while (data->tok[i])
 	{
+		if (data->tok[i][0] == '(')
+			n++;
 		if (data->tok[i][0] == '|' || !data->tok[i + 1])
 		{
 			data->p_cmd_set[j] = malloc(sizeof(t_args));

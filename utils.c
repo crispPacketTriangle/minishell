@@ -60,7 +60,7 @@ int	dev_placeholders(char *input, t_data *data)
 	return (0);
 }
 
-void	init_data(t_data *data)
+void	init_data(t_data *data, char **envp)
 {
 	data->tog = 0;
 	data->nqts = 0;
@@ -79,6 +79,13 @@ void	init_data(t_data *data)
 	data->tok = NULL;
 	data->expand = NULL;
 	data->uev = NULL;
+	data->envp = envp;
+}
+
+void	init_bltins(t_data *data)
+{
+	data->blt = malloc(6 * sizeof(char *));
+	data->blt[0] = "minishell";
 }
 
 void	clear_terminal(void)
