@@ -71,12 +71,12 @@ int	run_interactive_shell(t_data *data)
 			if (dev_placeholders(input, data) != 0)
 				continue ;
 			i = 0;
-			while (data->tok[i])
-			{
-				if (is_var(data, data->tok[i], '$'))
-					expand_envv(data, data->tok[i]);
-				i++;
-			}
+			// while (data->tok[i])
+			// {
+			// 	if (is_var(data, data->tok[i], '$'))
+			// 		expand_envv(data, data->tok[i]);
+			// 	i++;
+			// }
 			print_tokens(data->tok);
 			ft_printf("Return value of parse_tokens(): %d\n", parse_tokens(data->tok));
 			// continue program logic here (LW)
@@ -119,13 +119,13 @@ void	handle_lines(FILE *fp, t_data *data)
 		data->tok = ft_split(line, -1);
 		if (dev_placeholders(line, data) != 0)
 			continue;
-		int i = 0;
-		while (data->tok[i])
-		{
-			if (is_var(data, data->tok[i], '$'))
-				expand_envv(data, data->tok[i]);
-			i++;
-		}
+		// int i = 0;
+		// while (data->tok[i])
+		// {
+		// 	if (is_var(data, data->tok[i], '$'))
+		// 		expand_envv(data, data->tok[i]);
+		// 	i++;
+		// }
 		print_tokens(data->tok);
 		ft_printf("Return value of parse_tokens(): %d\n", parse_tokens(data->tok));
 		// continue program logic here (LW)

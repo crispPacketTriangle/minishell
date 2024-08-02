@@ -139,12 +139,17 @@ int	m_set(char c, char *set)
 // if within " and not ' and not () write to new str free old token 
 // and point to new str
 // if within $() then is a matter of process order
+// 
+// TODO:
+// 
+// tidy up function, add variable expansion for strings
+// that contain other chars
 int	expand_envv(t_data *data, char *str)
 {
 	int		idx;
 
-	if (!is_var(data, str, '$'))
-		return (0);
+	// if (!is_var(data, str, '$'))
+	// 	return (0);
 	if (str[0] == '$')
 	{
 		str++;
@@ -161,26 +166,40 @@ int	expand_envv(t_data *data, char *str)
 	// but if non existing in shell vars check 
 }
 
-int	is_var(t_data *data, char *str, char c)
+int	is_var(char *str, char c)
 {
 	int	i;
 
-	if (m_set(str[0], STR_LIT_START))
-		return (0);
-	init_qts(data, 0);
 	i = 0;
 	while (str[i])
 	{
-		if (m_set(str[i], QTS))
-			mid(str[i], data);
-		if (m_set(str[i], PARENS))
-			parens(str[i], data);
-		if (str[i] == c && data->sqts == 0 && data->paren == 0)
+		if (str[i] == c)
 			return (1);
 		i++;
 	}
 	return (0);
 }
+
+// int	is_var(t_data *data, char *str, char c)
+// {
+// 	int	i;
+//
+// 	if (m_set(str[0], STR_LIT_START))
+// 		return (0);
+// 	init_qts(data, 0);
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (m_set(str[i], QTS))
+// 			mid(str[i], data);
+// 		if (m_set(str[i], PARENS))
+// 			parens(str[i], data);
+// 		if (str[i] == c && data->sqts == 0 && data->paren == 0)
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 
 // calculate length of values and sum them to kv->var

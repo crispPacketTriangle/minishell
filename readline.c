@@ -30,7 +30,6 @@ int	main(int argc, char **argv, char **env)
 	
 	// rl_initialize();
 	// rl_readline_name = "minishell";
-	printf("unbash \\o_o/ \n");
 
 	// have getcwd() run before the loop
 	// set the prompt to result and then
@@ -38,7 +37,7 @@ int	main(int argc, char **argv, char **env)
 	// is changed
 	while (1)
 	{
-		input = readline(">>>");
+		input = readline("\\o_o/:");
 		if (input)
 		{
 			add_history(input);
@@ -57,13 +56,13 @@ int	main(int argc, char **argv, char **env)
 			
 			if (dev_placeholders(input, &data) != 0)
 				continue ;
-			i = 0;
-			while (data.tok[i])
-			{
-				if (is_var(&data, data.tok[i], '$'))
-					expand_envv(&data, data.tok[i]);
-				i++;
-			}
+			// i = 0;
+			// while (data.tok[i])
+			// {
+			// 	if (is_var(&data, data.tok[i], '$'))
+			// 		expand_envv(&data, data.tok[i]);
+			// 	i++;
+			// }
 			chain_pipes(&data);
 			//print_tokens(data.tok);
 			free(data.tok);

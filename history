@@ -421,3 +421,186 @@ env
 top -a
 top
 top
+clear
+ss -tuln
+clear
+ss -tuln
+dmesg
+ss -tuln
+dmesg
+sudo dmesg
+dmesg
+sudo dmesg
+journalctl -xe
+journalctl -xe
+clear
+ls | sort | cat
+ls | sort | cat
+clear
+uptime | awk -F'[a-z]:' '{ print $2 }'
+clear
+uptime | awk -F'[a-z]:' '{ print $2 }'
+free -h | awk '/^Mem:/ { print "Total:", $2, "Used:", $3, "Free:", $4 }'
+free -h | awk '/^Mem:/ { print "Total:", $2, "Used:", $3, "Free:", $4 }'
+clear
+df -h | awk '$NF=="/" { print "Filesystem:", $1, "Size:", $2, "Used:", $3, "Available:", $4 }'
+df -h | awk '$NF=="/" { print "Filesystem:", $1, "Size:", $2, "Used:", $3, "Available:", $4 }'
+clear
+ps aux --sort=-%mem | awk 'NR<=6 { print $1, $2, $3, $4, $11 }'
+clear
+ps aux --sort=-%mem | awk 'NR<=6 { print $1, $2, $3, $4, $11 }'
+ip -o -4 addr show | awk '{ print $2, $4 }'
+ps aux --sort=-%mem | awk 'NR<=6 { print $1, $2, $3, $4, $11 }'
+ip -o -4 addr show | awk '{ print $2, $4 }'
+uname -a | awk '{ print "Hostname:", $2, "Kernel Version:", $3 }'
+ip -o -4 addr show | awk '{ print $2, $4 }'
+uname -a | awk '{ print "Hostname:", $2, "Kernel Version:", $3 }'
+who | awk '{ print $1, $2, $3, $4 }'
+who | awk '{ print $1, $2, $3, $4 }'
+clear
+ps aux --sort=-%cpu,-%mem | awk 'NR==1; NR>1{print $1, $2, $3, $4, $11}' | head -n 6
+pwd
+pwd | grep 13 | cat
+cat pwd | grep 13 | cat
+ls
+clear
+ls
+clear
+ls
+ls -l
+ls -l
+clear
+ls -a
+ls -a
+clear
+ls
+ls --color=auto
+clear
+cat file
+cat file
+clear
+grep $one file
+clear
+grep $one file
+nvim file
+grep $one file
+nvim file
+grep $one file
+nvim file
+grep $one file
+grep $one file
+grep $one file
+grep $one file
+grep $two file
+grep $one file
+grep $two file
+grep '$two' file
+free -h | awk '/^Mem/ {print "Total Memory:", $2, "Used Memory:", $3, "Free Memory:", $4}'
+clear
+echo $one
+grep $one file
+echo $one
+grep $one file
+ls
+grep $one file
+ls
+cat file
+cat file
+clear
+grep $two file
+clear
+grep $two file
+grep '$two' file
+grep $two file
+grep '$two' file
+grep "$two" file
+grep '$two' file
+grep "$two" file
+"$two"
+grep "$two" file
+"$two"
+'$two'
+'$two'
+'$two'
+grep '$two' file
+grep "$two" file
+grep "$two" file
+grep '$two' file
+grep "$two" file
+grep '$two' file
+grep $two file
+grep '$two' file
+grep $two file
+ls
+grep $two file
+ls
+cat file
+ls
+cat file
+grep "$two" file
+grep sleep file
+grep sleep file
+grep "$two" file
+grep sleep file
+grep "$two" file
+grep $two file
+grep "$two" file
+grep "$two" file
+grep $two file
+grep "$two" file
+grep $two file
+exi
+grep "$two" file
+clear
+grep "$two" file
+clear
+grep "$two" file
+eixt
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two extract" file
+grep "$two extract" file
+clear
+grep "$two extract" file
+clear
+grep "$two extract" file
+grep "$two" file
+grep "$two extract" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep "$two" file
+grep '$two' file
+grep "$two" file
+grep '$two' file
+grep "$two" file
+grep "$two" file
+clear
+grep "$two" file
+sdhfjk skdfkjs ksjhdfjks
+sdhfjk skdfkjs ksjhdfjks
+ls -l | sort | cat
+ls -l | sort | cat
+clear
+who |awk '{print $1 $2}'
+clear
+who |awk '{print $1 $2}'
+who |awk '{print $1, $4}'
+who |awk '{print $1 $2}'
+who |awk '{print $1, $4}'
+who | awk '{print $1, $4}'
+who | awk '{print $1, $4}'
+clear
+ifconfig | awk '/^[a-z]/ {iface=$1} /inet / {print iface, $2}'
+clear
+ifconfig | awk '/^[a-z]/ {iface=$1} /inet / {print iface, $2}'
+ls -l | awk '{print $1, $9}' | tail -n +2
+ls -l | awk '{print $1, $9}' | tail -n +2
+clear
+free -m | awk '/^Mem/ {print "Total:", $2, "MB", "Free:", $4, "MB"}'

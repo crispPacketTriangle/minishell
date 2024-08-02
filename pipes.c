@@ -16,6 +16,7 @@ int chain_pipes(t_data *data)
 	int		i; 
 	int		j;
 	int		n;
+	int		v;
 	t_pp	pp;
 	t_args	**args;
 	int		status;
@@ -65,6 +66,21 @@ int chain_pipes(t_data *data)
 				close(pp.ends[j]);
 				j++;
 			}
+			// v = 0;
+
+			trim_qts_varexp(data, data->p_cmd_set[i]->arg);
+
+			printcmdargs(data);
+			
+			// move into trim_qts_varexp, only expand if double qts
+			// while (args[i]->arg[v])
+			// {
+			// 	if (is_var(data, args[i]->arg[v], '$'))
+			// 		expand_envv(data, args[i]->arg[v]);
+			// 	v++;
+			// }
+
+			
 			args[i]->cmd = get_path((const char *)args[i]->arg[0], paths, X_OK);
 			// check if command is builtin
 			execve(args[i]->cmd, args[i]->arg, data->envp);

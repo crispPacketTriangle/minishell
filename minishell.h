@@ -165,7 +165,8 @@ char		*expand(char *input, t_data *data);
 int			init_arr(t_data *data);
 int			poly_r_hash(char *key);
 int			append_envv(t_data *data);
-int			is_var(t_data *data, char *str, char c);
+int			is_var(char *str, char c);
+//int			is_var(t_data *data, char *str, char c);
 void		expand_var(void *d, t_data *data, char *key);
 int			expand_envv(t_data *data, char *str);
 
@@ -250,7 +251,8 @@ int	add_direction(char ***token, t_data *data);
 int	appendpipe(char ***token, t_data *data);
 int	appendfunnel(char ***token, t_data *data);
 void	sortin(t_data *data);
-char	*handle_leading(t_data *data);
+char	*handle_parens(t_data *data);
+char	**trim_qts_varexp(t_data *data, char **arg);
 
 int	n_process(t_data *data);
 

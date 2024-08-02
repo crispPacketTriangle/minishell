@@ -27,8 +27,8 @@ void	sortin(t_data *data)
 	{
 
 		// check ([{
-		if (m_set((*data->tok)[0], "\'\"("))   // MACRO SPECIAL
-			handle_leading(data);	
+		if (m_set((*data->tok)[0], "("))   // MACRO SPECIAL
+			handle_parens(data);	
 			// filter for ( -> remove brackets and send to args (first
 			// 		arg minishell
 			// filter for " -> if no $ remove and send to args
@@ -64,28 +64,81 @@ void	sortin(t_data *data)
 		// set ar[1] to value
 }
 
-char	*handle_leading(t_data *data)
+char	**trim_qts_varexp(t_data *data, char **arg)
+{
+	int		i;
+	int		len;
+	char	*cpy;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i][0] == '\'')	
+		{
+			len = ft_strlen(arg[i]);
+			cpy = malloc((len + 1) * sizeof(char));
+			//error
+			ft_strlcpy(cpy, arg[i], len + 1);
+			//error
+			free(arg[i]);
+			arg[i] = malloc((len - 1) * sizeof(char));
+			//error
+			arg[i] = ft_strtrim(cpy, "\'");
+			//error
+			free(cpy);
+		}
+		else if (arg[i][0] == '\"')
+		{
+			len = ft_strlen(arg[i]);
+			cpy = malloc((len + 1) * sizeof(char));
+			//error
+			ft_strlcpy(cpy, arg[i], len + 1);
+			//error
+			free(arg[i]);
+			arg[i] = malloc((len - 1) * sizeof(char));
+			//error
+			arg[i] = ft_strtrim(cpy, "\"");
+			//error
+			ft_printf("..:%s\n", arg[i]);
+			free(cpy);
+			if (is_var(arg[i], '$'))
+				expand_envv(data, arg[i]);
+		}
+		i++;
+	}
+	return (arg);
+}
+
+char	*handle_parens(t_data *data)
 {
 	int		i;
 	int		j;
 	int		len;
 	char	*cpy;
 
-	if ((*data->tok)[0] == '\'')
-	{
-		len = ft_strlen(*data->tok);
-		cpy = malloc((len + 1) * sizeof(char));
-		ft_strlcpy(cpy, *data->tok, len + 1);
-		free(*data->tok);
-		*data->tok = malloc((len - 1) * sizeof(char));
-		*data->tok = ft_strtrim(cpy, "\'");
-		free(cpy);
-	}
+	// the following parsing should happen before passing 
+	// to execve in pipes otherwise no way to tell if 
+	// literal or non literal string
+
+	// if ((*data->tok)[0] == '\'')
+	// {
+	// 	len = ft_strlen(*data->tok);
+	// 	cpy = malloc((len + 1) * sizeof(char));
+	// 	ft_strlcpy(cpy, *data->tok, len + 1);
+	// 	free(*data->tok);
+	// 	*data->tok = malloc((len - 1) * sizeof(char));
+	// 	*data->tok = ft_strtrim(cpy, "\'");
+	// 	free(cpy);
+	// }
+	
+	// bracket removal can happen here since cmd set to
+	// minishell will always receive one argument of
+	// type literal str
 
 	// extra space in ->arg for minishell created in init
 	// here minishell added to arg[0] index incremented
 	// and outer brackets of token removed
-	else if ((*data->tok)[0] == '(')
+	if ((*data->tok)[0] == '(')
 	{
 		(*data->p_cmd_set)->arg[data->rtr_i] = data->blt[0];
 		data->rtr_i++;
